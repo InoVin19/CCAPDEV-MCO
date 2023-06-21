@@ -1,0 +1,42 @@
+nav#navBar{
+    position: sticky;
+	top: 0px;
+	z-index: 3;
+
+	display: flex;
+	align-items: center;
+	height: 60px;
+    border-bottom: 1px solid var(--bd-orange);
+    background-color: rgba(0, 0, 0, 0.1);
+
+	background: linear-gradient(to left, rgba(255, 243, 240, 0.85), rgba(255, 255, 240, 0.85), rgba(255, 255, 240, 0.85), rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85));
+}
+
+.dropdown {
+    position: relative;
+    top: 100%;
+    right: 0;
+    background-color: #f2f2f2;
+    list-style-type: none;
+    padding: 5px 0;
+    margin: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .profile {
+    position: absolute;
+  }
+  
+  .profile-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .navButton {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
