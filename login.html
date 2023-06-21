@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Page</title>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <h1>Login</h1>
+      <form @submit.prevent="loginUser">
+        <div>
+          <label>Email</label>
+          <input type="email" v-model="email" required>
+        </div>
+        <div>
+          <label>Password</label>
+          <input type="password" v-model="password" required>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

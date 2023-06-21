@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="nav.css">
+</head>
+<body>
+    <div id="app">
+        <nav id="navBar">
+            <div class="webName">
+                <span class="title">Laboratory Reservation</span>
+            </div>
+            <div class="searchbar">
+                <input type="text" placeholder="Search" v-model="searchQuery">
+            </div>
+            
+            <div class="navButton">
+                <div class="profile">
+                    <dropdown title="User" :items="userOptions"></dropdown>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="navScript.js"></script>
+</body>
+</html>
