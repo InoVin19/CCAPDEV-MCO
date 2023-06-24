@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lab Availability | Lab Reservation System</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="availability-app">
+    <nav>
+      <!-- Your navigation here -->
+    </nav>
+    <h1>Lab Availability</h1>
+    
+    <label for="date">Select Date:</label>
+    <input id="date" type="date" v-model="selectedDate" @change="updateAvailability" required>
+
+    <div v-for="lab in labs" :key="lab">
+      <h2>{{ lab }}</h2>
+      <p>Available seats: {{ availableSeats(lab) }}</p>
+    </div>
+  </div>
+
+  <script src="JS/view.js"></script>
+</body>
+</html>
