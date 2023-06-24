@@ -7,15 +7,19 @@
 <body>
   <div id="app">
     <nav>
-      <button class="profile-button" @click="toggleDropdown">{{ user.username }}</button>
+      <div class="webName">
+        <span class="title"><a href="index.html">Laboratory Reservation</a></span>
+      </div>
+      <div class="searchbar">
+        <input type="text" placeholder="Search" v-model="searchQuery">
+      </div>
+      <button class="profile-button" @click="toggleDropdown">{{user.username}}</button>
         <ul v-if="isOpen" class="dropdown">
-          <li><a href="index.html">Home</a></li>
           <li><a href="availability.html">Lab Availability</a></li>
           <li><a href="reserve.html">Reserve</a></li>
-          <li><a href="search.html">Search</a></li>
           <li><a href="profile.html">Profile</a></li>
         </ul>
-      </nav>
+    </nav>
     <h1>Profile</h1>
 
     <div v-if="user">
