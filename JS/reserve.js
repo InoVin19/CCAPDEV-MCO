@@ -1,4 +1,4 @@
-// RESERVATION JS
+// RESERVATION
 
 new Vue({
   el: '#app',
@@ -59,7 +59,7 @@ new Vue({
             this.reservations[this.selectedLab][this.selectedDate][seat] = {};
           }
           const reservationOwner = this.loggedInUser === 'admin' ? this.selectedUser : this.loggedInUser;
-          this.reservations[this.selectedLab][this.selectedDate][seat][timeSlot] = 'Reserved by ' + reservationOwner;
+          this.reservations[this.selectedLab][this.selectedDate][seat][timeSlot] = reservationOwner;
         }
         
         // Clear selected seats

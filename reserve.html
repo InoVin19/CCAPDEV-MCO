@@ -49,6 +49,10 @@
       <option v-for="user in users" :value="user">{{ user }}</option>
     </select>
 
+    <label for="anonymous">Reserve as anonymous:</label>
+    <input id="anonymous" type="checkbox" v-model="anonymousReservation">
+
+
     <table>
       <thead>
         <tr>
