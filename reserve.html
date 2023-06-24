@@ -19,17 +19,16 @@
   </style>
 </head>
 <body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="availability.html">Lab Availability</a></li>
+      <li><a href="reserve.html">Reserve</a></li>
+      <li><a href="search.html">Search</a></li>
+      <li><a href="profile.html">Profile</a></li>
+    </ul>
+  </nav>
   <div id="app">
-    <nav>
-      <button class="profile-button" @click="toggleDropdown">{{ user.username }}</button>
-        <ul v-if="isOpen" class="dropdown">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="availability.html">Lab Availability</a></li>
-          <li><a href="reserve.html">Reserve</a></li>
-          <li><a href="search.html">Search</a></li>
-          <li><a href="profile.html">Profile</a></li>
-        </ul>
-      </nav>
     <h1>Reserve Lab Slot</h1>
 
     <label for="lab">Lab:</label>
