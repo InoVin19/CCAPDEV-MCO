@@ -12,6 +12,7 @@
       </div>
       <div class="searchbar">
         <input type="text" placeholder="Search" v-model="searchQuery">
+        <p v-if="myClass">{{feedbackText}}</p> 
       </div>
       <button class="profile-button" @click="toggleDropdown">{{user.username}}</button>
         <ul v-if="isOpen" class="dropdown">

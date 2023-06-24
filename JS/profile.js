@@ -1,7 +1,10 @@
 new Vue({
     el: '#app',
     data: {
+      searchQuery:'',
+      feedbackText:'',
       isOpen: false,
+      myClass: false,
       user: null,
       editedDescription: '',
       editingDescription: false,
@@ -90,6 +93,21 @@ new Vue({
         };
 
         reader.readAsDataURL(file);
+      }
+    },
+    watch:{
+      searchQuery : function(newVal){
+        for(let i = 0; i < this.profiles.length; i++){
+
+        if(this.profiles[i].username.includes(newVal)){
+          this.myClass= true
+          this.feedbackText = this.profiles[i].username
+          i = this.profiles.length;
+        }
+        else{
+          this.feedbackText = 'nah'
+        }
+        }
       }
     }
   });
