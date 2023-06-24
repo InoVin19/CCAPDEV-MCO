@@ -83,7 +83,7 @@ new Vue({
         return true; // Admin can cancel any reservation
       } else {
         const reservation = this.reservations[this.selectedLab][this.selectedDate][seat][timeSlot];
-        return reservation === 'Reserved by ' + this.loggedInUser;
+        return reservation === this.loggedInUser;
       }
     },
     cancelReservation: function(seat, timeSlot) {
@@ -98,8 +98,7 @@ new Vue({
     },
     viewProfile: function(seat, timeSlot) {
       const reservationOwner = this.reservations[this.selectedLab][this.selectedDate][seat][timeSlot];
-      const username = reservationOwner.split(' ')[2];
-      const profileURL = this.profilePage + '?user=' + username;
+      const profileURL = this.profilePage + '?user=' + reservationOwner;
       window.location.href = profileURL;
     }
   },
