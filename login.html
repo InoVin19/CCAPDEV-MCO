@@ -3,23 +3,27 @@
 <head>
   <title>Login | Lab Reservation System</title>
   <script src="https://unpkg.com/vue@2"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="app">
-    <form @submit.prevent="submitForm">
-      <h1>Login</h1>
-
-      <label for="username">Username:</label>
-      <input id="username" v-model="username" required>
-
-      <label for="password">Password:</label>
-      <input id="password" v-model="password" type="password" required>
-
-      <button type="submit">Login</button>
-    </form>
-    <p v-if="loginError" class="error">{{ loginError }}</p>
-
-    <a href="register.html">Register</a>
+    <div class ="container">
+      <form @submit.prevent="submitForm">
+        <h1>Login</h1>
+  
+        <label class= "em" for="username">Username:</label>
+        <input id="username" v-model="username" required>
+  
+        <label class="pass" for="password">Password:</label>
+        <input id="password" v-model="password" type="password" required>
+  
+        <button type="submit">Login</button>
+      </form>
+      <p v-if="loginError" class="error">{{ loginError }}</p>
+    </div>
+    <button class = "sign">
+      <a href="register.html">Register</a>
+    </button>
   </div>
 
   <script src="JS/log.js"></script>
