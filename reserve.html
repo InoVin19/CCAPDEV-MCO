@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reserve | Lab Reservation System</title>
+  <script src="https://unpkg.com/vue@2"></script>
+  <style>
+    .reservation-details {
+      position: absolute;
+      display: none;
+      background-color: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    td.reserved:hover .reservation-details {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <nav>
+      <button class="profile-button" @click="toggleDropdown">{{ user.username }}</button>
+        <ul v-if="isOpen" class="dropdown">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="availability.html">Lab Availability</a></li>
+          <li><a href="reserve.html">Reserve</a></li>
+          <li><a href="search.html">Search</a></li>
+          <li><a href="profile.html">Profile</a></li>
+        </ul>
+      </nav>
+    <h1>Reserve Lab Slot</h1>
+
+    <label for="lab">Lab:</label>
+    <select id="lab" v-model="selectedLab" required>
+      <option value="">Select Lab</option>
+      <option v-for="lab in labs" :value="lab">{{ lab }}</option>
+    </select>
+
+    <label for="date">Date:</label>
+    <input id="date" type="date" v-model="selectedDate" required>
+
+    <label v-if="loggedInUser === 'admin'" for="user">User:</label>
+    <select v-if="loggedInUser === 'admin'" id="user" v-model="selectedUser" required>
+      <option value="">Select User</option>
+      <option v-for="user in users" :value="user">{{ user }}</option>
+    </select>
+
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th v-for="timeSlot in timeSlots" :key="timeSlot">{{ timeSlot }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="seat in seats" :key="seat">
+          <td>{{ seat }}</td>
+          <td v-for="timeSlot in timeSlots" :key="timeSlot" :class="{ reserved: isReserved(seat, timeSlot) }">
+            <label>
+              <input type="checkbox"
+                     :disabled="isReserved(seat, timeSlot)"
+                     :checked="isSelected(seat, timeSlot)"
+                     @change="selectSeat(seat, timeSlot)">
+            </label>
+            <div class="reservation-details" v-if="isReserved(seat, timeSlot)">
+              <div>Reserved by: {{ reservations[selectedLab][selectedDate][seat][timeSlot] }}</div>
+              <button v-if="canCancelReservation(seat, timeSlot)" @click="cancelReservation(seat, timeSlot)">Cancel</button>
+              <button v-if="isReserved(seat, timeSlot)" @click="viewProfile(seat, timeSlot)">View Profile</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button @click="confirmReservation">Confirm Reservation</button>
+    <button @click="resetReservations">Reset Reservations</button>
+  </div>
+
+  <script src="reserve.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile | Lab Reservation System</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+    <nav>
+      <button class="profile-button" @click="toggleDropdown">{{ user.username }}</button>
+        <ul v-if="isOpen" class="dropdown">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="availability.html">Lab Availability</a></li>
+          <li><a href="reserve.html">Reserve</a></li>
+          <li><a href="search.html">Search</a></li>
+          <li><a href="profile.html">Profile</a></li>
+        </ul>
+      </nav>
+    <h1>Profile</h1>
+
+    <div v-if="user">
+      <img :src="user.picture" :alt="user.username">
+      <p>Logged in as: {{ user.username }}</p>
+      <p v-if="!editingDescription">Description: {{ user.description }}</p>
+      <textarea v-model="editedDescription" rows="4" cols="30" v-if="editingDescription"></textarea>
+      <button v-if="!editingDescription" @click="toggleEdit">Edit Profile</button>
+      <button v-if="editingDescription" @click="saveProfile">Save Profile</button>
+      <input type="file" accept="image/*" ref="profilePictureInput" @change="changeProfilePicture" v-if="editingDescription">
+      <h2>Current Reservations</h2>
+      <ul v-if="user.reservations.length > 0">
+        <li v-for="reservation in user.reservations" :key="reservation.id">
+          {{ reservation.lab }} - {{ reservation.date }} - {{ reservation.time }}
+        </li>
+      </ul>
+      <p v-else>No reservations.</p>
+      <button @click="logOut">Logout</button>
+    </div>
+  </div>
+  <script src = "profile.js"></script>
+</body>
+</html>
