@@ -6,27 +6,34 @@
   <script src="https://unpkg.com/vue@2"></script>
 </head>
 <body>
-  <nav>
-    <div class="webName">
-      <span class="title"><a href="index.html">Laboratory Reservation</a></span>
-    </div>
-    <div class="searchbar">
-      <input type="text" placeholder="Search" v-model="searchQuery">
-    </div>
-    <button class="profile-button" @click="toggleDropdown">{{loggedInUser}}</button>
-      <ul v-if="isOpen" class="dropdown">
-        <li><a href="availability.html">Lab Availability</a></li>
-        <li><a href="reserve.html">Reserve</a></li>
-        <li><a href="profile.html">Profile</a></li>
-      </ul>
-  </nav>
-
+  <div id = "app">
+    <nav>
+        <div class="webName">
+          <span class="title"><a href="index.html">Laboratory Reservation</a></span>
+        </div>
+        <div class="searchbar">
+          <input type="text" placeholder="Search" v-model="searchQuery">
+        <div v-bind:class ="myClass">
+          <ul v-for="x, index in holdProfile">
+            <li><a :href= "holdURL[index]">{{x}}</a></li>
+          </ul>
+        </div>  
+        </div>
+      <button class="profile-button" @click="toggleDropdown">{{user.username}}</button>
+        <ul v-if="isOpen" class="dropdown">
+          <li><a href="availability.html">Lab Availability</a></li>
+          <li><a href="reserve.html">Reserve</a></li>
+          <li><a href="profile.html">Profile</a></li>
+        </ul>
+    </nav>
+  </div>
+  <script src = "JS/index.js"></script>
   <header>
     <h1>Welcome to the Lab Reservation System</h1>
     <p>Find available labs, reserve slots, and manage your reservations</p>
   </header>
   
   <!-- Here you could include a preview of available slots, etc. -->
-
+  
 </body>
 </html>

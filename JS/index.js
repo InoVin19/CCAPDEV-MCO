@@ -1,0 +1,100 @@
+new Vue({
+    el: '#app',
+    data: {
+      searchQuery:'',
+      feedbackText:'',
+      holdProfile:[],
+      holdURL:[],
+      isOpen: false,
+      myClass: 'invalid',
+      user: null,
+      profilePage: 'viewprofile.html',
+      profiles: [
+        {
+          username: 'admin',
+          picture: 'path_to_admin_picture.jpg',
+          description: 'I am the admin.',
+        },
+        {
+          username: 'student1',
+          picture: 'path_to_student1_picture.jpg',
+          description: 'I am student 1.',
+          reservations: [
+            { id: 1, lab: 'Lab 1', date: '2023-06-24', time: '10:00 AM - 11:00 AM' },
+            { id: 2, lab: 'Lab 2', date: '2023-06-25', time: '2:00 PM - 3:00 PM' }
+          ]
+        },
+        {
+          username: 'student2',
+          picture: 'path_to_student2_picture.jpg',
+          description: 'I am student 2.',
+          reservations: [
+            { id: 3, lab: 'Lab 1', date: '2023-06-24', time: '3:00 PM - 4:00 PM' },
+            { id: 4, lab: 'Lab 3', date: '2023-06-26', time: '9:00 AM - 10:00 AM' }
+          ]
+        },
+        {
+          username: 'student3',
+          picture: 'path_to_student3_picture.jpg',
+          description: 'I am student 3.',
+          reservations: [
+            { id: 5, lab: 'Lab 2', date: '2023-06-25', time: '10:00 AM - 11:00 AM' },
+            { id: 6, lab: 'Lab 3', date: '2023-06-26', time: '11:00 AM - 12:00 PM' }
+          ]
+        },
+        {
+          username: 'student4',
+          picture: 'path_to_student4_picture.jpg',
+          description: 'I am student 4.',
+          reservations: [
+            { id: 7, lab: 'Lab 1', date: '2023-06-24', time: '1:00 PM - 2:00 PM' },
+            { id: 8, lab: 'Lab 2', date: '2023-06-25', time: '4:00 PM - 5:00 PM' }
+          ]
+        },
+        {
+          username: 'student5',
+          picture: 'path_to_student5_picture.jpg',
+          description: 'I am student 5.',
+          reservations: [
+            { id: 9, lab: 'Lab 3', date: '2023-06-26', time: '2:00 PM - 3:00 PM' },
+            { id: 10, lab: 'Lab 1', date: '2023-06-24', time: '11:00 AM - 12:00 PM' }
+          ]
+        }
+      ]
+    },
+    created: function() {
+      var loggedInUser = localStorage.getItem('loggedInUser');
+      this.user = this.profiles.find(profile => profile.username === loggedInUser);
+    },
+    methods: {
+      toggleDropdown:function(){
+        this.isOpen = !this.isOpen;
+      },
+      viewProfile: function(){
+        for(let i = 0 ; i < this.holdProfile.length; i++){
+          const profileURL = this.profilePage + '?' + holdProfile[i];
+          window.location.href = profileURL;
+        }
+        
+      }
+    },
+    watch:{
+      searchQuery: function(newVal) {
+        this.holdProfile = [];
+        this.holdURL = [];
+        if (!newVal || newVal.trim() === '') {
+          this.myClass = 'invalid';
+        } else {
+          for (let i = 0; i < this.profiles.length; i++) {
+            if (this.profiles[i].username.includes(newVal)) {
+              this.myClass = 'valid';
+              this.holdProfile.push(this.profiles[i].username);
+              this.holdURL.push(this.profilePage+'?user='+this.profiles[i].username)
+            } else {
+              this.myClass = 'invalid';
+            }
+          }
+        }
+      }
+    }
+  });
