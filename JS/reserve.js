@@ -3,6 +3,7 @@
 new Vue({
   el: '#app',
   data: {
+    isOpen: false,
     labs: ['Lab 1', 'Lab 2', 'Lab 3'],
     selectedLab: '',
     selectedDate: '',
@@ -16,6 +17,9 @@ new Vue({
     profilePage: 'viewprofile.html' // Set the profile page URL
   },
   methods: {
+    toggleDropdown: function(){
+        this.isOpen = !this.isOpen
+      },
     isReserved: function(seat, timeSlot) {
       if (
         this.reservations[this.selectedLab] &&
