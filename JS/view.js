@@ -1,8 +1,14 @@
 new Vue({
     el: '#app',
     data: {
+        searchQuery:'',
+        feedbackText:'',
+        holdProfile:[],
+        holdURL:[],
         isOpen: false,
+        myClass: 'invalid',
         user: null,
+        profilePage: 'viewprofile.html',
         profiles: [
             {
                 username: 'admin',
@@ -70,4 +76,23 @@ new Vue({
             window.history.back();
         }
     },
+    watch:{
+        searchQuery: function(newVal) {
+            this.holdProfile = [];
+            this.holdURL = [];
+            if (!newVal || newVal.trim() === '') {
+              this.myClass = 'invalid';
+            } else {
+              for (let i = 0; i < this.profiles.length; i++) {
+                if (this.profiles[i].username.includes(newVal)) {
+                  this.myClass = 'valid';
+                  this.holdProfile.push(this.profiles[i].username);
+                  this.holdURL.push(this.profilePage+'?user='+this.profiles[i].username)
+                } else {
+                  this.myClass = 'invalid';
+                }
+              }
+            }
+          }
+      }
 });

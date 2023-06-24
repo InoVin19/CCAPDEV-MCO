@@ -13,8 +13,8 @@
       <div class="searchbar">
         <input type="text" placeholder="Search" v-model="searchQuery">
       <div v-bind:class ="myClass">
-        <ul v-for="x in holdProfile">
-          <li>{{feedbackText}} {{x}}</li>
+        <ul v-for="x, index in holdProfile">
+          <li><a :href= "holdURL[index]">{{x}}</a></li>
         </ul>
       </div>  
       </div>
