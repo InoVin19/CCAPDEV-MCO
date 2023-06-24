@@ -7,13 +7,18 @@
 </head>
 <body>
   <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="availability.html">Lab Availability</a></li>
-      <li><a href="reserve.html">Reserve</a></li>
-      <li><a href="search.html">Search</a></li>
-      <li><a href="profile.html">Profile</a></li>
-    </ul>
+    <div class="webName">
+      <span class="title"><a href="index.html">Laboratory Reservation</a></span>
+    </div>
+    <div class="searchbar">
+      <input type="text" placeholder="Search" v-model="searchQuery">
+    </div>
+    <button class="profile-button" @click="toggleDropdown">{{loggedInUser}}</button>
+      <ul v-if="isOpen" class="dropdown">
+        <li><a href="availability.html">Lab Availability</a></li>
+        <li><a href="reserve.html">Reserve</a></li>
+        <li><a href="profile.html">Profile</a></li>
+      </ul>
   </nav>
 
   <header>
