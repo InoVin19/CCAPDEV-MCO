@@ -1,7 +1,11 @@
 new Vue({
-    el: '#app',
+    el: '.app',
     data: {
+      searchQuery:'',
+      holdProfile:[],
+      holdURL:[],
       isOpen: false,
+      myClass: 'invalid',
       labs: ['Lab 1', 'Lab 2', 'Lab 3'],
       selectedLab: '',
       selectedDate: '',
@@ -11,7 +15,7 @@ new Vue({
       selectedSeats: [],
       loggedInUser: '', // Initialize the loggedInUser property
       selectedUser: '', // Initialize the selectedUser property
-      users: ['student1', 'student2', 'student3'], // Modify the users array with actual user names
+      users: ['student1', 'student2', 'student3', 'student4', 'student5'], // Modify the users array with actual user names
       profilePage: 'viewprofile.html', // Set the profile page URL
       anonymousReservation: false, // Initialize the anonymousReservation property
       actualReservationOwners: {} // For storing actual owners of anonymous reservations
@@ -137,6 +141,10 @@ new Vue({
         } else {
           alert('This is an anonymous reservation. Profile cannot be viewed.');
         }
+      },
+      logOut: function() {
+        localStorage.removeItem('loggedInUser');
+        window.location.href = 'login.html';
       }
     },
     created: function() {
@@ -154,5 +162,24 @@ new Vue({
     }
       // Save actual reservation owners to localStorage
       localStorage.setItem('actualReservationOwners', JSON.stringify(this.actualReservationOwners));
+    },
+    watch:{
+      searchQuery: function(newVal) {
+        this.holdProfile = [];
+        this.holdURL = [];
+        if (!newVal || newVal.trim() === '') {
+          this.myClass = 'invalid';
+        } else {
+          for (let i = 0; i < this.users.length; i++) {
+            if (this.users[i].includes(newVal)) {
+              this.myClass = 'valid';
+              this.holdProfile.push(this.users[i]);
+              this.holdURL.push(this.profilePage+'?user='+this.users[i])
+            } else {
+              this.myClass = 'invalid';
+            }
+          }
+        }
+      }
     }
   });

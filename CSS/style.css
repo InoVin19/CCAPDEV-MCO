@@ -21,7 +21,14 @@ label.em {
   display: inline-block; 
   margin-bottom: 5px;
   text-align: right;
-  margin-right: 43px; 
+  margin-right: 19px; 
+}
+
+label.emRegis{
+  display: inline-block; 
+  margin-bottom: 5px;
+  text-align: right;
+  margin-right: 45px; 
 }
 
 label.pass {
@@ -45,7 +52,8 @@ label.last {
 
 input[id="username"],
 input[id="password"],
-input[type="text"] {
+input[type="text"],
+input[id="email"] {
   display: inline-block;
   width: 65%;
   padding: 10px;

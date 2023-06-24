@@ -7,18 +7,23 @@
 </head>
 <body>
   <div id="app">
-    <form @submit.prevent="submitForm">
+    <div class="container">
+      <form @submit.prevent="submitForm">
       <h1>Register</h1>
 
-      <label for="email">Email:</label>
+      <label class="emRegis" for="email">Email:</label>
       <input id="email" v-model="email" type="email" required>
 
-      <label for="password">Password:</label>
+      <label class = "pass" for="password">Password:</label>
       <input id="password" v-model="password" type="password" required>
 
-      <button type="submit">Register</button>
+      <button class="log" type="submit">Register</button>
     </form>
     <p v-if="error" class="error">{{ error }}</p>
+    </div>
+    <button class="sign" onclick="window.location.href='login.html'">
+      Login
+    </button>
   </div>
 
   <script src="JS/register.js"></script>

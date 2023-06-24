@@ -1,4 +1,4 @@
-nav#navBar{
+.navBar{
     position: sticky;
 	top: 0px;
 	z-index: 3;
@@ -12,31 +12,57 @@ nav#navBar{
 	background: linear-gradient(to left, rgba(255, 243, 240, 0.85), rgba(255, 255, 240, 0.85), rgba(255, 255, 240, 0.85), rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85));
 }
 
+.webName {
+  flex: 1;
+}
+
+.searchbar {
+  flex: 2;
+}
+
+.dropdownProfile {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.navbar-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.profile {
+  position: relative;
+}
+
+.profile-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
 .dropdown {
-    position: relative;
-    top: 100%;
-    right: 0;
-    background-color: #f2f2f2;
-    list-style-type: none;
-    padding: 5px 0;
-    margin: 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #f2f2f2;
+  list-style-type: none;
+  padding: 5px 0;
+  margin: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
-  .profile {
-    position: absolute;
-  }
-  
-  .profile-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-  }
+.dropdown li {
+  padding: 10px;
+}
 
-  .navButton {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-  }
+.dropdown li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.dropdown li a:hover {
+  color: #000;
+}

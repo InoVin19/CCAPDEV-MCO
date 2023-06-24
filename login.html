@@ -3,7 +3,7 @@
 <head>
   <title>Login | Lab Reservation System</title>
   <script src="https://unpkg.com/vue@2"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
   <div id="app">
@@ -17,12 +17,12 @@
         <label class="pass" for="password">Password:</label>
         <input id="password" v-model="password" type="password" required>
   
-        <button type="submit">Login</button>
+        <button type="submit" class="log">Login</button>
       </form>
       <p v-if="loginError" class="error">{{ loginError }}</p>
     </div>
-    <button class = "sign">
-      <a href="register.html">Register</a>
+    <button class="sign" onclick="window.location.href='register.html'">
+      Register
     </button>
   </div>
 

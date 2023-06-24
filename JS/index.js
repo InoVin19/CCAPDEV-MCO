@@ -2,7 +2,6 @@ new Vue({
     el: '#app',
     data: {
       searchQuery:'',
-      feedbackText:'',
       holdProfile:[],
       holdURL:[],
       isOpen: false,
@@ -76,6 +75,10 @@ new Vue({
           window.location.href = profileURL;
         }
         
+      },
+      logOut: function() {
+        localStorage.removeItem('loggedInUser');
+        window.location.href = 'login.html';
       }
     },
     watch:{

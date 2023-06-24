@@ -2,12 +2,12 @@ new Vue({
     el: '#app',
     data: {
         searchQuery:'',
-        feedbackText:'',
         holdProfile:[],
         holdURL:[],
         isOpen: false,
         myClass: 'invalid',
         user: null,
+        loggedInUser:'',
         profilePage: 'viewprofile.html',
         profiles: [
             {
@@ -67,6 +67,7 @@ new Vue({
         const params = new URLSearchParams(window.location.search);
         const username = params.get('user');
         this.user = this.profiles.find(profile => profile.username === username);
+        this.loggedInUser = localStorage.getItem('loggedInUser');
     },
     methods: {
         toggleDropdown:function(){
@@ -74,6 +75,10 @@ new Vue({
         },
         goBack: function() {
             window.history.back();
+        },
+        logOut: function() {
+            localStorage.removeItem('loggedInUser');
+            window.location.href = 'login.html';
         }
     },
     watch:{

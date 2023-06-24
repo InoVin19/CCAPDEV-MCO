@@ -2,7 +2,6 @@ new Vue({
     el: '#app',
     data: {
       searchQuery:'',
-      feedbackText:'',
       holdProfile:[],
       holdURL:[],
       isOpen: false,
@@ -95,13 +94,6 @@ new Vue({
         };
 
         reader.readAsDataURL(file);
-      },
-      viewProfile: function(){
-        for(let i = 0 ; i < this.holdProfile.length; i++){
-          const profileURL = this.profilePage + '?' + holdProfile[i];
-          window.location.href = profileURL;
-        }
-        
       }
     },
     watch:{
