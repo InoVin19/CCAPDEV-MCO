@@ -43,8 +43,8 @@ label.last {
   margin-right: 12px; 
 }
 
-input[type="email"],
-input[type="password"],
+input[id="username"],
+input[id="password"],
 input[type="text"] {
   display: inline-block;
   width: 65%;
