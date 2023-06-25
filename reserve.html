@@ -5,6 +5,8 @@
 <head>
   <title>Reserve | Lab Reservation System</title>
   <link rel="stylesheet" type="text/css" href="CSS/nav.css">
+  <link rel="stylesheet" href="CSS/reserve.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
   <script src="https://unpkg.com/vue@2"></script>
   <style>
     .reservation-details {
@@ -54,8 +56,9 @@
       </div>
     
     </nav>
-    <h1>Reserve Lab Slot</h1>
 
+    <div class ="content">
+      <h1>Reserve Lab Slot</h1>
     <label for="lab">Lab:</label>
     <select id="lab" v-model="selectedLab" required>
       <option value="">Select Lab</option>
@@ -107,6 +110,7 @@
 
     <button @click="confirmReservation">Confirm Reservation</button>
     <button @click="resetReservations">Reset Reservations</button>
+  </div>
   </div>
   <script src="JS/nav.js"></script>
   <script src="JS/reserve.js"></script>
