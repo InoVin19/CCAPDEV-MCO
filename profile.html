@@ -3,6 +3,7 @@
 <head>
   <title>Profile | Lab Reservation System</title>
   <link rel="stylesheet" href="CSS/profile.css">
+  <link rel="stylesheet" href="CSS/nav.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
   <script src="https://unpkg.com/vue@2"></script>
 </head>
@@ -23,7 +24,7 @@
         </div> 
       </div>
       <div class="dropdownProfile">
-        <div class="profile">
+        <div class="profileUser">
           <button class="profile-button" @click="toggleDropdown">{{user.username}}</button>
           <ul v-if="isOpen" class="dropdown">
             <li><a href="availability.html">Lab Availability</a></li>
@@ -77,8 +78,6 @@
       </div>
     </div>
   </div>
-
-  <script src="JS/nav.js"></script>
   <script src="JS/profile.js"></script>
 </body>
 </html>
