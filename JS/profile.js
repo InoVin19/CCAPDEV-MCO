@@ -15,6 +15,8 @@ new Vue({
         username: 'admin',
         picture: 'path_to_admin_picture.jpg',
         description: 'I am the admin.',
+        reservations: [
+        ]
       },
       {
         username: 'student1',
