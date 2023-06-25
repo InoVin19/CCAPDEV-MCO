@@ -155,6 +155,11 @@ new Vue({
       datePicker.setAttribute('min', minDateString);
       datePicker.setAttribute('max', maxDateString);
     }
+
+    // Parse the lab and date from the query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    this.selectedLab = urlParams.get('lab');
+    this.selectedDate = urlParams.get('date');
   },
   watch: {
     searchQuery: function (newVal) {

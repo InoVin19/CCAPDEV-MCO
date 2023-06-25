@@ -1,49 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Lab Availability | Lab Reservation System</title>
+  <title>Availability | Lab Reservation System</title>
   <link rel="stylesheet" type="text/css" href="CSS/nav.css">
   <script src="https://unpkg.com/vue@2"></script>
 </head>
 <body>
   <div class="app">
-    <nav class = "navBar">
-      <div class="webName">
-        <span class="title"><a href="index.html">Laboratory Reservation</a></span>
-      </div>
-      <div class="searchbar">
-        <input type="text" placeholder="Search" v-model="searchQuery">
-      <div v-bind:class ="myClass">
-        <ul v-for="x, index in holdProfile" class="dropdown">
-          <li><a :href= "holdURL[index]">{{x}}</a></li>
-        </ul>
-      </div>  
-      </div>
-      <div class="dropdownProfile">
-        <div class="profile">
-          <button class="profile-button" @click="toggleDropdown">{{loggedInUser}}</button>
-        <ul v-if="isOpen" class="dropdown">
-          <li><a href="availability.html">Lab Availability</a></li>
-          <li><a href="reserve.html">Reserve</a></li>
-          <li><a href="profile.html">Profile</a></li>
-          <li @click="logOut">Logout</li>
-        </ul>
-        </div>
-        
-      </div>
-    
-  </nav>
-    <h1>Lab Availability</h1>
-    
-    <label for="date">Select Date:</label>
-    <input id="date" type="date" v-model="selectedDate" @change="updateAvailability" required>
+    <!-- Insert the navigation bar here -->
+
+    <h1>Lab Slot Availability</h1>
+
+    <button v-for="day in dates" :key="day" @click="selectedDate = day">{{ day }}</button>
 
     <div v-for="lab in labs" :key="lab">
-      <h2>lab no.</h2> <!--edited {{lab}} to make the page work-->
-      <p>Available seats: no. of seats</p> <!--edited {{availableseats(lab)}} to make the page work-->
+      <h2>{{ lab }}</h2>
+      <p>Available seats: {{ availableSeats(lab) }}</p>
+      <button @click="reserveLab(lab)">Make a Reservation for {{ lab }}</button>
     </div>
   </div>
-
-  <script src="JS/reserve.js"></script>
+  <script src="JS/nav.js"></script>
+  <script src="JS/availability.js"></script>
 </body>
 </html>
