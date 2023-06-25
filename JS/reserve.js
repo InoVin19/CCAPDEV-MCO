@@ -4,6 +4,8 @@ new Vue({
     searchQuery: '',
     holdProfile: [],
     holdURL: [],
+    holdDate:[],
+    isDate:false,
     isOpen: false,
     myClass: 'invalid',
     labs: ['Lab 1', 'Lab 2', 'Lab 3'],
@@ -15,10 +17,11 @@ new Vue({
     selectedSeats: [],
     loggedInUser: '', // Initialize the loggedInUser property
     selectedUser: '', // Initialize the selectedUser property
-    users: ['admin','student1', 'student2', 'student3', 'student4', 'student5'], // Modify the users array with actual user names
+    users: ['admin','student1', 'student2', 'student3', 'student4', 'student5', 'student6'], // Modify the users array with actual user names
     profilePage: 'viewprofile.html', // Set the profile page URL
     anonymousReservation: false, // Initialize the anonymousReservation property
-    actualReservationOwners: {} // For storing actual owners of anonymous reservations
+    actualReservationOwners: {}, // For storing actual owners of anonymous reservations
+    dates:[]
   },
   methods: {
     toggleDropdown: function () {
@@ -124,6 +127,33 @@ new Vue({
         alert('This is an anonymous reservation. Profile cannot be viewed.');
       }
     },
+    isReserved: function (lab, seat) {
+      for (let timeSlot of this.timeSlots) {
+        if (this.reservations[lab]?.[this.selectedDate]?.[seat]?.[timeSlot]) {
+          return true;
+        }
+      }
+      return false;
+    },
+    availableSeats: function (lab) {
+      let count = 0;
+      for (let seat of this.seats) {
+        if (this.availableTimeSlots(lab, seat) > 0) {
+          count++;
+        }
+      }
+      return count;
+    },
+    availableTimeSlots: function (lab, seat) {
+      let count = 0;
+      const dateReservations = this.reservations[lab]?.[this.selectedDate];
+      for (let timeSlot of this.timeSlots) {
+        if (!dateReservations?.[seat]?.[timeSlot]) {
+          count++;
+        }
+      }
+      return count;
+    },
     logOut: function () {
       localStorage.removeItem('loggedInUser');
       window.location.href = 'login.html';
@@ -156,6 +186,17 @@ new Vue({
       datePicker.setAttribute('max', maxDateString);
     }
 
+    let day = new Date();
+    for (let i = 0; i < 7; i++) {
+      let newDate = new Date();
+      newDate.setDate(day.getDate() + i);
+      this.dates.push(newDate.toISOString().split('T')[0]);
+    }
+
+    if (this.dates.length > 0) {
+      this.selectedDate = this.dates[0];
+    }
+
     // Parse the lab and date from the query parameters
     const urlParams = new URLSearchParams(window.location.search);
     this.selectedLab = urlParams.get('lab');
@@ -165,15 +206,24 @@ new Vue({
     searchQuery: function (newVal) {
       this.holdProfile = [];
       this.holdURL = [];
+      this.holdDate = [];
       if (!newVal || newVal.trim() === '') {
         this.myClass = 'invalid';
       } else {
         for (let i = 0; i < this.users.length; i++) {
-          if (this.users[i].includes(newVal)) {
-            this.myClass = 'valid';
-            this.holdProfile.push(this.users[i]);
-            this.holdURL.push(this.profilePage + '?user=' + this.users[i]);
-          } else {
+          if (this.users[i].includes(newVal) && !this.dates[i].includes(newVal)) {
+            this.myClass = 'valid'
+            this.holdProfile.push(this.users[i])
+            this.holdURL.push(this.profilePage + '?user=' + this.users[i])
+            this.isDate = false
+          } 
+          else if(this.dates[i].includes(newVal) && !this.users[i].includes(newVal)){
+            this.myClass = 'valid'
+            this.holdDate.push(this.dates[i] + '   Lab 1: ' + this.availableSeats(1) + '   Lab 2: ' + this.availableSeats(2)+'   Lab 3: ' + this.availableSeats(3))
+            this.holdURL.push('reserve.html?date=' + this.dates[i])
+            this.isDate = true
+          } 
+          else {
             this.myClass = 'invalid';
           }
         }
