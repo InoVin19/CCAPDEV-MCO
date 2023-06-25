@@ -17,7 +17,7 @@ new Vue({
     selectedSeats: [],
     loggedInUser: '', // Initialize the loggedInUser property
     selectedUser: '', // Initialize the selectedUser property
-    users: ['admin','student1', 'student2', 'student3', 'student4', 'student5', 'student6'], // Modify the users array with actual user names
+    users: ['yasmin_datario', 'vinnie_inocencio', 'anton_mendoza', 'charles_leclerc', 'john_doe'], // Modify the users array with actual user names
     profilePage: 'viewprofile.html', // Set the profile page URL
     anonymousReservation: false, // Initialize the anonymousReservation property
     actualReservationOwners: {}, // For storing actual owners of anonymous reservations
@@ -126,33 +126,6 @@ new Vue({
       } else {
         alert('This is an anonymous reservation. Profile cannot be viewed.');
       }
-    },
-    isReserved: function (lab, seat) {
-      for (let timeSlot of this.timeSlots) {
-        if (this.reservations[lab]?.[this.selectedDate]?.[seat]?.[timeSlot]) {
-          return true;
-        }
-      }
-      return false;
-    },
-    availableSeats: function (lab) {
-      let count = 0;
-      for (let seat of this.seats) {
-        if (this.availableTimeSlots(lab, seat) > 0) {
-          count++;
-        }
-      }
-      return count;
-    },
-    availableTimeSlots: function (lab, seat) {
-      let count = 0;
-      const dateReservations = this.reservations[lab]?.[this.selectedDate];
-      for (let timeSlot of this.timeSlots) {
-        if (!dateReservations?.[seat]?.[timeSlot]) {
-          count++;
-        }
-      }
-      return count;
     },
     logOut: function () {
       localStorage.removeItem('loggedInUser');

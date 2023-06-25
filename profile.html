@@ -2,7 +2,8 @@
 <html>
 <head>
   <title>Profile | Lab Reservation System</title>
-  <link rel="stylesheet" type="text/css" href="CSS/nav.css">
+  <link rel="stylesheet" href="CSS/profile.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
   <script src="https://unpkg.com/vue@2"></script>
 </head>
 <body>
@@ -13,11 +14,11 @@
       </div>
       <div class="searchbar">
         <input type="text" placeholder="Search" v-model="searchQuery" class="bar">
-        <div v-bind:class ="myClass">
-          <div class ="hatdog">
+        <div v-bind:class="myClass">
+          <div class="hatdog">
             <ul v-for="x, index in holdProfile" class="dropdownSearch">
-            <li class="drop"><a :href= "holdURL[index]">{{x}}</a></li>
-          </ul>
+              <li class="drop"><a :href="holdURL[index]">{{x}}</a></li>
+            </ul>
           </div> 
         </div> 
       </div>
@@ -33,30 +34,51 @@
         </div>
       </div>
     </nav>
-    <h1>Profile</h1>
-
-    <div v-if="user">
-      <img :src="user.picture" :alt="user.username">
-      <p>Logged in as: {{ user.username }}</p>
-      <p v-if="!editingDescription">Description: {{ user.description }}</p>
-      <textarea v-model="editedDescription" rows="4" cols="30" v-if="editingDescription"></textarea>
-      <button v-if="!editingDescription" @click="toggleEdit">Edit Profile</button>
-      <button v-if="editingDescription" @click="saveProfile">Save Profile</button>
-      <input type="file" accept="image/*" ref="profilePictureInput" @change="changeProfilePicture" v-if="editingDescription">
-      <h2>Current Reservations</h2>
-      <ul v-if="user.reservations.length > 0">
-        <li v-for="reservation in user.reservations" :key="reservation.id">
-          <div>Lab: {{ reservation.lab }}</div>
-          <div>Date: {{ reservation.date }}</div>
-          <div>Time: {{ reservation.time }}</div>
-          <div>Request Time: {{ reservation.requestTime }}</div>
-          <button @click="editReservation(reservation.id)">Edit Reservation</button>
-        </li>
-      </ul>
-      <p v-else>No reservations.</p>
-      <button @click="logOut">Logout</button>
+    <div class="profile">
+      <div class="profile-picture">
+        <img :src="user.picture" :alt="user.username" id="profile-image">
+        <input type="file" id="picture-input" style="display: none;" @change="handlePictureChange">       
+      </div>
+      <div class="profile-description">
+        <h1 class="profile-name">{{ user.username }}</h1>
+        <p class="profile-info" id="profile-info" :contentEditable="editingDescription ? 'true' : 'false'" :class="{ 'edit-mode': editingDescription }">{{ user.description }}</p>
+        <button class="edit-profile-button" @click="toggleEdit">{{ editingDescription ? 'Save Profile' : 'Edit Profile' }}</button>
+        <button class="edit-picture-button" @click="openPictureDialog">Edit Picture</button>
+      </div>
+      <div class="social-media-links">
+        <a v-if="user.socialMedia.facebook" :href="user.socialMedia.facebook" target="_blank">Facebook</a>
+        <a v-if="user.socialMedia.twitter" :href="user.socialMedia.twitter" target="_blank">Twitter</a>
+        <a v-if="user.socialMedia.instagram" :href="user.socialMedia.instagram" target="_blank">Instagram</a>
+      </div>
+      <button class="logout-button" @click="logOut">Log Out</button>
+    </div>
+    <div class="reservations">
+      <table>
+        <caption>Current Reservations</caption>
+        <thead>
+          <tr>
+            <th>Lab</th>
+            <th>Date</th>
+            <th>Seat</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="reservation in user.reservations" :key="reservation.id">
+            <td>{{ reservation.lab }}</td>
+            <td>{{ reservation.date }}</td>
+            <td>{{ reservation.seat }}</td>
+            <td v-html="formatReservationTime(reservation.time)"></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="edit-reservations">
+        <a href="reserve.html" class="edit-reservations-button">Edit Reservations</a>
+      </div>
     </div>
   </div>
+
+  <script src="JS/nav.js"></script>
   <script src="JS/profile.js"></script>
 </body>
 </html>

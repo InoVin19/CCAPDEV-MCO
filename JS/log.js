@@ -8,12 +8,12 @@ new Vue({
     methods: {
       submitForm: function() {
         var accounts = {
-          admin: 'adminPass',
-          student1: 'student1Pass',
-          student2: 'student2Pass',
-          student3: 'student3Pass',
-          student4: 'student4Pass',
-          student5: 'student5Pass'
+          admin: '12345',
+          yasmin_datario: '12345',
+          vinnie_inocencio: '12345',
+          anton_mendoza: '12345',
+          charles_leclerc: '12345',
+          john_doe: '12345'
         };
 
         if (accounts[this.username] && this.password === accounts[this.username]) {

@@ -1,59 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>View Profile | Lab Reservation System</title>
+  <title>Profile | Lab Reservation System</title>
+  <link rel="stylesheet" href="CSS/profile.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
   <script src="https://unpkg.com/vue@2"></script>
-  <link rel="stylesheet" type="text/css" href="CSS/nav.css">
 </head>
 <body>
-    <div id="app">
-      <nav class = "navBar">
-        <div class="webName">
-          <span class="title"><a href="index.html">Laboratory Reservation</a></span>
-        </div>
-        <div class="searchbar">
-          <input type="text" placeholder="Search" v-model="searchQuery" class="bar">
-          <div v-bind:class ="myClass">
-            <div class ="hatdog">
-              <ul v-for="x, index in holdProfile" class="dropdownSearch">
-              <li class="drop"><a :href= "holdURL[index]">{{x}}</a></li>
+  <div id="app">
+    <nav class="navBar">
+      <div class="webName">
+        <span class="title"><a href="index.html">Laboratory Reservation</a></span>
+      </div>
+      <div class="searchbar">
+        <input type="text" placeholder="Search" v-model="searchQuery" class="bar">
+        <div v-bind:class="myClass">
+          <div class="hatdog">
+            <ul v-for="x, index in holdProfile" class="dropdownSearch">
+              <li class="drop"><a :href="holdURL[index]">{{x}}</a></li>
             </ul>
-            </div> 
           </div> 
-        </div>
-        <div class="dropdownProfile">
-          <div class="profile">
-            <button class="profile-button" @click="toggleDropdown">{{loggedInUser}}</button>
+        </div> 
+      </div>
+      <div class="dropdownProfile">
+        <div class="profile">
+          <button class="profile-button" @click="toggleDropdown">{{user.username}}</button>
           <ul v-if="isOpen" class="dropdown">
             <li><a href="availability.html">Lab Availability</a></li>
             <li><a href="reserve.html">Reserve</a></li>
             <li><a href="profile.html">Profile</a></li>
             <li @click="logOut">Logout</li>
           </ul>
-          </div>
-          
         </div>
-      
+      </div>
     </nav>
-        <h1>View Profile</h1>
-
-        <div v-if="user">
-            <img :src="user.picture" :alt="user.username">
-            <p>Username: {{ user.username }}</p>
-            <p>Description: {{ user.description }}</p>
-            <h2>Reservations</h2>
-            <ul v-if="user.reservations.length > 0">
-                <li v-for="reservation in user.reservations" :key="reservation.id">
-                  <div>Lab: {{ reservation.lab }}</div>
-                  <div>Date: {{ reservation.date }}</div>
-                  <div>Time: {{ reservation.time }}</div>
-                  <div>Request Time: {{ reservation.requestTime }}</div>
-                </li>
-            </ul>
-            <p v-else>No reservations.</p>
-            <button @click="goBack">Go Back</button>
-        </div>
+    <div class="profile">
+      <div class="profile-picture">
+        <img :src="user.picture" :alt="user.username" id="profile-image">
+        <input type="file" id="picture-input" style="display: none;" @change="handlePictureChange">       
+      </div>
+      <div class="profile-description">
+        <h1 class="profile-name">{{ user.username }}</h1>
+        <p class="profile-info" id="profile-info" :contentEditable="editingDescription ? 'true' : 'false'" :class="{ 'edit-mode': editingDescription }">{{ user.description }}</p>
+        <button class="edit-profile-button" @click="toggleEdit">{{ editingDescription ? 'Save Profile' : 'Edit Profile' }}</button>
+        <button class="edit-picture-button" @click="openPictureDialog">Edit Picture</button>
+      </div>
+      <div class="social-media-links">
+        <a v-if="user.socialMedia.facebook" :href="user.socialMedia.facebook" target="_blank">Facebook</a>
+        <a v-if="user.socialMedia.twitter" :href="user.socialMedia.twitter" target="_blank">Twitter</a>
+        <a v-if="user.socialMedia.instagram" :href="user.socialMedia.instagram" target="_blank">Instagram</a>
+      </div>
+      <button class="logout-button" @click="logOut">Log Out</button>
     </div>
-    <script src="JS/view.js"></script>
+    <div class="reservations">
+      <table>
+        <caption>Current Reservations</caption>
+        <thead>
+          <tr>
+            <th>Lab</th>
+            <th>Date</th>
+            <th>Seat</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="reservation in user.reservations" :key="reservation.id">
+            <td>{{ reservation.lab }}</td>
+            <td>{{ reservation.date }}</td>
+            <td>{{ reservation.seat }}</td>
+            <td v-html="formatReservationTime(reservation.time)"></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="edit-reservations">
+        <a href="reserve.html" class="edit-reservations-button">Edit Reservations</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="JS/nav.js"></script>
+  <script src="JS/view.js"></script>
 </body>
 </html>
