@@ -5,16 +5,6 @@ body {
     padding: 0;
   }
   
-  .navBar {
-    background-color: #F8F7F5;
-    overflow: hidden;
-    border-radius: 10px;
-    border: 1px solid #007BFF;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  
   .app {
     max-width: 100%;
     margin: 0 auto;
@@ -26,6 +16,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     padding: 20px;
+    align-items: center;
   }
   
   
@@ -43,12 +34,6 @@ body {
   
   label {
     width: 30%;
-  }
-  
-  .dropdown-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
   }
   
   select,
@@ -109,7 +94,7 @@ body {
     margin-top: 20px;
   }
   
-  button {
+  .resButton {
     padding: 10px 25px;
     background-color: #7ebbfc;
     color: #000000;

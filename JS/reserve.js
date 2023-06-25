@@ -127,6 +127,25 @@ new Vue({
         alert('This is an anonymous reservation. Profile cannot be viewed.');
       }
     },
+    availableSeats: function (lab) {
+      let count = 0;
+      for (let seat of this.seats) {
+        if (this.availableTimeSlots(lab, seat) > 0) {
+          count++;
+        }
+      }
+      return count;
+    },
+    availableTimeSlots: function (lab, seat) {
+      let count = 0;
+      const dateReservations = this.reservations[lab]?.[this.selectedDate];
+      for (let timeSlot of this.timeSlots) {
+        if (!dateReservations?.[seat]?.[timeSlot]) {
+          count++;
+        }
+      }
+      return count;
+    },
     logOut: function () {
       localStorage.removeItem('loggedInUser');
       window.location.href = 'login.html';
