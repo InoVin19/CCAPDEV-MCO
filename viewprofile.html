@@ -12,12 +12,14 @@
           <span class="title"><a href="index.html">Laboratory Reservation</a></span>
         </div>
         <div class="searchbar">
-          <input type="text" placeholder="Search" v-model="searchQuery">
-        <div v-bind:class ="myClass">
-          <ul v-for="x, index in holdProfile" class="dropdown">
-            <li><a :href= "holdURL[index]">{{x}}</a></li>
-          </ul>
-        </div>  
+          <input type="text" placeholder="Search" v-model="searchQuery" class="bar">
+          <div v-bind:class ="myClass">
+            <div class ="hatdog">
+              <ul v-for="x, index in holdProfile" class="dropdownSearch">
+              <li class="drop"><a :href= "holdURL[index]">{{x}}</a></li>
+            </ul>
+            </div> 
+          </div> 
         </div>
         <div class="dropdownProfile">
           <div class="profile">
