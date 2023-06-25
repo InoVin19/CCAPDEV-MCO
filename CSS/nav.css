@@ -1,26 +1,45 @@
+body {
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
 .navBar{
-    position: sticky;
 	top: 0px;
 	z-index: 3;
-
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid #007BFF;
 	display: flex;
 	align-items: center;
 	height: 60px;
-    border-bottom: 1px solid var(--bd-orange);
-    background-color: rgba(0, 0, 0, 0.1);
-
-	background: linear-gradient(to left, rgba(255, 243, 240, 0.85), rgba(255, 255, 240, 0.85), rgba(255, 255, 240, 0.85), rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85));
+  align-items: center;
+  justify-content: space-between;
+  background-color: #F8F7F5;
 }
 
 .webName {
   flex: 1;
-  position: relative;
+  display: block;
+  color: #333;
+  text-align: left;
+  padding: 14px 16px;
+  text-decoration: none;
+  background: none;
+}
+
+.title{
+  text-decoration: none;
+  color: #333;
 }
 
 .searchbar {
   flex: 2;
-  position: relative;
-  justify-content: center;
+  margin-top: 3px;
+  margin-right: 5px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
 }
 
 .dropdownProfile {
@@ -36,6 +55,11 @@
 
 .profile {
   position: absolute;
+  flex: 1;
+  display: block;
+  color: #333;
+  text-align: right;
+  text-decoration: none;
 }
 
 .profile-button {
@@ -87,10 +111,14 @@
 .drop{
   display: flex;
   padding: 5px;
+  text-decoration: none;
 }
 
 .bar {
   position: absolute; /* Change position to relative */
   display:flex;
-  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  margin-right: 8px;
 }
