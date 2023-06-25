@@ -9,7 +9,7 @@ new Vue({
     user: null,
     editedDescription: '',
     editingDescription: false,
-    profilePage: 'viewprofile.html',
+    profilePage: 'profile.html',
     profiles: [
       {
         username: 'admin',
