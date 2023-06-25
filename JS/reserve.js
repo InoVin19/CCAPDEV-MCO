@@ -144,6 +144,17 @@ new Vue({
     }
     // Save actual reservation owners to localStorage
     localStorage.setItem('actualReservationOwners', JSON.stringify(this.actualReservationOwners));
+
+    const today = new Date();
+    const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    const maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+    const minDateString = minDate.toISOString().split('T')[0];
+    const maxDateString = maxDate.toISOString().split('T')[0];
+    const datePicker = document.getElementById('date');
+    if (datePicker) {
+      datePicker.setAttribute('min', minDateString);
+      datePicker.setAttribute('max', maxDateString);
+    }
   },
   watch: {
     searchQuery: function (newVal) {
