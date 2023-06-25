@@ -133,9 +133,6 @@ new Vue({
       localStorage.removeItem('loggedInUser');
       window.location.href = 'login.html';
     },
-    toggleEdit: function() {
-      this.editingDescription = !this.editingDescription;
-    },
     isReserved: function (lab, seat) {
       for (let timeSlot of this.timeSlots) {
         if (this.reservations[lab]?.[this.selectedDate]?.[seat]?.[timeSlot]) {
@@ -162,10 +159,6 @@ new Vue({
         }
       }
       return count;
-    },
-    openPictureDialog: function() {
-      const pictureInput = document.getElementById('picture-input');
-      pictureInput.click();
     },
     handlePictureChange: function(event) {
       const file = event.target.files[0];
