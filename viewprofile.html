@@ -42,7 +42,10 @@
             <h2>Reservations</h2>
             <ul v-if="user.reservations.length > 0">
                 <li v-for="reservation in user.reservations" :key="reservation.id">
-                    {{ reservation.lab }} - {{ reservation.date }} - {{ reservation.time }}
+                  <div>Lab: {{ reservation.lab }}</div>
+                  <div>Date: {{ reservation.date }}</div>
+                  <div>Time: {{ reservation.time }}</div>
+                  <div>Request Time: {{ reservation.requestTime }}</div>
                 </li>
             </ul>
             <p v-else>No reservations.</p>
