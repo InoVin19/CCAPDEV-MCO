@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <title>Profile Page</title>
+        <link rel="stylesheet" href="profile.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+    </head>
+    <body>
+      <!-- Top Navigation Bar -->
+      <div class="navbar">
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Settings</a>
+        <div class="search-bar">
+          <input type="text" placeholder="Search">
+          <button type="submit">Search</button>
+        </div>
+      </div>
+      
+      <!-- Profile Section -->
+      <div class="profile">
+        <div class="profile-picture">
+          <img id="profile-image" src="profile_picture.jpg" alt="Profile Picture">
+        </div>
+        <div class="profile-description">
+          <h1 class="profile-name">charles_leclerc</h1>
+          <p class="profile-info" id="profile-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi semper risus eget ex varius malesuada. Nullam in turpis rhoncus, imperdiet tellus eu, ullamcorper nisi. Aenean justo arcu, laoreet in consequat ac, ultrices sit amet odio. Donec mi massa, ornare sit amet diam id, dignissim porta est. Nam viverra orci libero, in elementum nisi bibendum feugiat. Quisque lobortis est non elit ornare vestibulum. In id tincidunt sem, sit amet mattis arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam congue augue eget ex elementum sodales. Sed sodales pulvinar sapien eu porta. Pellentesque ultricies efficitur risus, nec ultrices sapien tincidunt condimentum. Nam pretium, nibh eget bibendum condimentum, erat quam imperdiet arcu, quis convallis tortor ex a erat. In ac arcu vel nulla sodales sodales id id nibh. Quisque nec semper massa, ut ultricies magna. Suspendisse potenti. Sed consectetur rhoncus sem, sed fringilla mi mattis vel.<br> <br> Aliquam tincidunt felis id libero aliquet, sit amet aliquam tellus interdum. Pellentesque non erat lectus. Curabitur vitae nibh suscipit, vehicula orci at, dapibus nisi. Mauris et lacinia lacus. Donec euismod, urna eget faucibus ornare, libero magna feugiat est, vel lobortis risus velit non dui. Donec laoreet lectus et massa convallis, ornare egestas nunc maximus. Vestibulum porttitor ipsum non ex rutrum tempus. Sed quis molestie nunc. Aliquam sed efficitur arcu. Ut in gravida orci. Duis placerat odio ex, sit amet auctor sapien hendrerit ultricies. Sed hendrerit vestibulum mauris eu auctor. Aenean condimentum lorem at convallis cursus. Etiam egestas orci sed enim lobortis, at sodales nunc hendrerit. Phasellus vel massa luctus lacus pharetra ultrices. Donec a commodo libero.</p>
+          <button class="edit-profile-button" onclick="toggleEditMode()">Edit Profile</button>
+          <input type="file" id="picture-input" style="display: none;">       
+          <button class="edit-picture-button" onclick="openPictureDialog()">Edit Picture</button>
+        </div>
+        <div class="social-media-links">
+            <a href="https://www.facebook.com/johndoe" target="_blank">Facebook</a>
+            <a href="https://www.twitter.com/johndoe" target="_blank">Twitter</a>
+            <a href="https://www.instagram.com/johndoe" target="_blank">Instagram</a>
+        </div>
+        <button class="logout-button">Log Out</button>
+      </div>
+      
+      <!-- Reservations Table -->
+      <div class="reservations">
+        <table>
+          <caption>Current Reservations</caption>
+          <thead>
+            <tr>
+              <th>Lab</th>
+              <th>Date</th>
+              <th>Seat</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Laboratory A</td>
+              <td>July 30, 2023</td>
+              <td>14</td>
+              <td>4:00 pm - 4:30 pm<br> 4:30 pm - 5:00 pm</td>
+            </tr>
+            <tr>
+              <td>Laboratory B</td>
+              <td>August 1, 2023</td>
+              <td>15</td>
+              <td>2:30 pm - 3:00 pm<br> 3:00 pm - 3:30 pm</td>
+            </tr>
+            <tr>
+              <td>Laboratory B</td>
+              <td>August 1, 2023</td>
+              <td>18</td>
+              <td>3:30 pm - 4:00 pm</td>
+            </tr>
+            <tr>
+              <td>Laboratory B</td>
+              <td>August 2, 2023</td>
+              <td>07</td>
+              <td>2:30 pm - 3:00 pm<br> 3:00 pm - 3:30 pm<br>3:30 pm - 4:00 pm</td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="edit-reservations">
+            <button class="edit-reservations-button">Edit Reservations</button>
+          </div>
+        </div>
+      </div>
+      <script src="profile.js"></script>
+    </body>
+</html>
