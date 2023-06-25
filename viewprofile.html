@@ -3,6 +3,7 @@
 <head>
   <title>Profile | Lab Reservation System</title>
   <link rel="stylesheet" href="CSS/profile.css">
+  <link rel="stylesheet" href="CSS/nav.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
   <script src="https://unpkg.com/vue@2"></script>
 </head>
@@ -16,8 +17,11 @@
         <input type="text" placeholder="Search" v-model="searchQuery" class="bar">
         <div v-bind:class="myClass">
           <div class="hatdog">
-            <ul v-for="x, index in holdProfile" class="dropdownSearch">
-              <li class="drop"><a :href="holdURL[index]">{{x}}</a></li>
+            <ul v-if="isDate == false" v-for="x, index in holdProfile" class="dropdownSearch">
+              <li class="drop"><a :href= "holdURL[index]">{{x}}</a></li>
+            </ul>
+            <ul v-if="isDate == true" v-for="y, index in holdDate" class="dropdownSearch">
+              <li class="drop"><a :href= "holdURL[index]">{{y}}</a></li>
             </ul>
           </div> 
         </div> 

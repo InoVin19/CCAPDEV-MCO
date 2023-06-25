@@ -20,19 +20,19 @@ new Vue({
         username: 'admin'
       },
       {
-        username: 'student1'
+        username: 'yasmin_datario'
       },
       {
-        username: 'student2'
+        username: 'vinnie_inocencio'
       },
       {
-        username: 'student3'
+        username: 'anton_mendoza'
       },
       {
-        username: 'student4'
+        username: 'charles_leclerc'
       },
       {
-        username: 'student5'
+        username: 'john_doe'
       },
       {
         username: 'student6'
