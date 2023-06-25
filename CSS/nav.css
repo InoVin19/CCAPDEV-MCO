@@ -71,22 +71,23 @@
 }
 
 .dropdownSearch {
-  position: relative;
+  position: absolute;
+  margin-top: 20px;
   top: 100%;
-  width: 50%;
-  right: 0;
+  width: 90%;
   background-color: #f2f2f2;
   list-style-type: none;
-  padding: 5px;
-  margin: 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   display: inline-block;
-  z-index: 1; /* Add a higher z-index to ensure it appears above other elements */
 }
 
-input[type="text"] {
-  position: relative; /* Change position to relative */
-  display: inline;
-  z-index: 2; /* Add a higher z-index to ensure it appears above the dropdown */
+.drop{
+  position: relative;
+  padding: 5px;
+}
+
+.bar {
+  position: absolute; /* Change position to relative */
+  display:block;
   width: 100%;
 }
