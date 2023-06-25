@@ -1,61 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Profile | Lab Reservation System</title>
-  <link rel="stylesheet" type="text/css" href="CSS/nav.css">
+  <title>View Profile | Lab Reservation System</title>
   <script src="https://unpkg.com/vue@2"></script>
+  <link rel="stylesheet" type="text/css" href="CSS/nav.css">
 </head>
 <body>
-  <div id="app">
-    <nav class = "navBar">
-      <div class="webName">
-        <span class="title"><a href="index.html">Laboratory Reservation</a></span>
-      </div>
-      <div class="searchbar">
-        <input type="text" placeholder="Search" v-model="searchQuery">
-      <div v-bind:class ="myClass">
-        <ul v-for="x, index in holdProfile" class="dropdown">
-          <li><a :href= "holdURL[index]">{{x}}</a></li>
-        </ul>
-      </div>  
-      </div>
-      <div class="dropdownProfile">
-        <div class="profile">
-          <button class="profile-button" @click="toggleDropdown">{{user.username}}</button>
-        <ul v-if="isOpen" class="dropdown">
-          <li><a href="availability.html">Lab Availability</a></li>
-          <li><a href="reserve.html">Reserve</a></li>
-          <li><a href="profile.html">Profile</a></li>
-          <li @click="logOut">Logout</li>
-        </ul>
+    <div id="app">
+      <nav class = "navBar">
+        <div class="webName">
+          <span class="title"><a href="index.html">Laboratory Reservation</a></span>
         </div>
-        
-      </div>
-    
-  </nav>
-    <h1>Profile</h1>
+        <div class="searchbar">
+          <input type="text" placeholder="Search" v-model="searchQuery">
+        <div v-bind:class ="myClass">
+          <ul v-for="x, index in holdProfile" class="dropdown">
+            <li><a :href= "holdURL[index]">{{x}}</a></li>
+          </ul>
+        </div>  
+        </div>
+        <div class="dropdownProfile">
+          <div class="profile">
+            <button class="profile-button" @click="toggleDropdown">{{loggedInUser}}</button>
+          <ul v-if="isOpen" class="dropdown">
+            <li><a href="availability.html">Lab Availability</a></li>
+            <li><a href="reserve.html">Reserve</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li @click="logOut">Logout</li>
+          </ul>
+          </div>
+          
+        </div>
+      
+    </nav>
+        <h1>View Profile</h1>
 
-    <div v-if="user">
-      <img :src="user.picture" :alt="user.username">
-      <p>Logged in as: {{ user.username }}</p>
-      <p v-if="!editingDescription">Description: {{ user.description }}</p>
-      <textarea v-model="editedDescription" rows="4" cols="30" v-if="editingDescription"></textarea>
-      <button v-if="!editingDescription" @click="toggleEdit">Edit Profile</button>
-      <button v-if="editingDescription" @click="saveProfile">Save Profile</button>
-      <input type="file" accept="image/*" ref="profilePictureInput" @change="changeProfilePicture" v-if="editingDescription">
-      <h2>Current Reservations</h2>
-      <ul v-if="user.reservations.length > 0">
-        <li v-for="reservation in user.reservations" :key="reservation.id">
-          <div>Lab: {{ reservation.lab }}</div>
-          <div>Date: {{ reservation.date }}</div>
-          <div>Time: {{ reservation.time }}</div>
-          <div>Request Time: {{ reservation.requestTime }}</div>
-        </li>
-      </ul>
-      <p v-else>No reservations.</p>
-      <button @click="logOut">Logout</button>
+        <div v-if="user">
+            <img :src="user.picture" :alt="user.username">
+            <p>Username: {{ user.username }}</p>
+            <p>Description: {{ user.description }}</p>
+            <h2>Reservations</h2>
+            <ul v-if="user.reservations.length > 0">
+                <li v-for="reservation in user.reservations" :key="reservation.id">
+                    {{ reservation.lab }} - {{ reservation.date }} - {{ reservation.time }}
+                </li>
+            </ul>
+            <p v-else>No reservations.</p>
+            <button @click="goBack">Go Back</button>
+        </div>
     </div>
-  </div>
-  <script src = "JS/profile.js"></script>
+    <script src="JS/view.js"></script>
 </body>
 </html>
