@@ -63,11 +63,11 @@ new Vue({
       {
         username: 'anton_mendoza',
         picture: 'Pictures/anton.jpg',
-        description: 'I am student 3.',
+        description: 'I am da hunter pew pew valo.',
         socialMedia: {
-          facebook: 'https://www.facebook.com/student3',
-          twitter: 'https://www.twitter.com/student3',
-          instagram: 'https://www.instagram.com/student3'
+          facebook: 'https://www.facebook.com/agmahaha2602/',
+          twitter: 'https://www.twitter.com/',
+          instagram: 'https://www.instagram.com/agmahaha/'
         },
         reservations: [
           { id: 5, lab: 'Lab 2', date: '2023-06-25', seat: 'C10', time: ['10:00 am - 11:00 am'], requestTime: '6/25/2023, 10:07:15 AM' },
