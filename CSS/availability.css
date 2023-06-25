@@ -13,7 +13,7 @@
     text-align: center; /* Add this line to center the text */
   }
 
-  button {
+  .resLab {
     padding: 8px 16px;
     background-color: #9fa4aa;
     color: #000000;
@@ -22,11 +22,11 @@
     margin: 5px;
   }
   
-  button:hover {
+  .resLab:hover {
     background-color: #0056b3;
   }
   
-  button.selected {
+  .resLab.selected {
     background-color: #004080;
   }
   
