@@ -1,3 +1,5 @@
+// profile
+
 new Vue({
   el: '#app',
   data: {
@@ -23,7 +25,7 @@ new Vue({
       {
         username: 'yasmin_datario',
         picture: 'Pictures/yasmin.png',
-        description: 'I am student 1.',
+        description: 'A flexible and tenacious individual with over seven years of student leadership experience dealing with administrative and creative responsibilities through versatility and determination. She received multiple recognition for leadership, academic excellence, research ability, and effective writing. She looks forward to furthering her understanding of the systems and foundations behind a computer for both hardware and software. Currently, she has studied the basic principles of Data Science and Data Visualization through Basic SQL, Python Pandas, and Tableau. She has also built her programming foundations by learning Python and C. Despite being a student, She is also a part-time assistant and social media manager to a Realtor from the United States of America. Yasmin has learned different applications, social media advertisements, and lead generation techniques through continuous training as the Realtors assistant and Cyberbacker. If any of my interests and craft align with yours, feel free to contact me at datario.yasminaudrey@gmail.com as I would love to have an exchange of ideas with another individual.',
         socialMedia: {
           facebook: 'https://www.facebook.com/ysmndry',
           twitter: 'https://www.twitter.com/itsyasminaudrey',
@@ -65,11 +67,11 @@ new Vue({
       {
         username: 'charles_leclerc',
         picture: 'Pictures/charles.jpg',
-        description: 'I am student 4.',
+        description: 'Charles Leclerc is a Monacan motorsports racing driver who currently competes in Formula 1 for the Scuderia Ferrari team. Known for his exceptional talent and speed, Leclerc began his racing career in karting and quickly rose through the ranks. He achieved tremendous success in the karting world, winning multiple championships. In 2017, he won the FIA Formula 2 Championship, showcasing his potential as a top-tier driver. Leclerc made his Formula 1 debut in 2018 and has since secured multiple victories in Grand Prix races. With his remarkable skills, determination, and fearless driving style, Charles Leclerc has established himself as one of the rising stars in the world of motorsports.',
         socialMedia: {
-          facebook: 'https://www.facebook.com/student4',
-          twitter: 'https://www.twitter.com/student4',
-          instagram: 'https://www.instagram.com/student4'
+          facebook: 'https://www.facebook.com/',
+          twitter: 'https://www.twitter.com/',
+          instagram: 'https://www.instagram.com/'
         },
         reservations: [
           { id: 7, lab: 'Lab 1', date: '2023-06-24', seat: 'C1', time: ['1:00 pm - 2:00 pm'], requestTime: '6/24/2023, 1:07:15 PM' },
@@ -79,11 +81,11 @@ new Vue({
       {
         username: 'john_doe',
         picture: 'Pictures/john.jpg',
-        description: 'I am student 5.',
+        description: 'John Doe is a passionate computer science student at De La Salle University (DLSU). Currently in his 3rd year, he is dedicated to learning and mastering various programming languages and software development techniques. John has a strong interest in algorithms, data structures, and artificial intelligence. He actively participates in coding competitions and hackathons to enhance his problem-solving skills. Apart from academics, John enjoys playing video games, exploring the latest technology trends, and reading tech blogs. With his strong foundation in computer science principles and his passion for innovation, John aspires to contribute to the field by developing cutting-edge software solutions.',
         socialMedia: {
-          facebook: 'https://www.facebook.com/student5',
-          twitter: 'https://www.twitter.com/student5',
-          instagram: 'https://www.instagram.com/student5'
+          facebook: 'https://www.facebook.com/',
+          twitter: 'https://www.twitter.com/',
+          instagram: 'https://www.instagram.com/'
         },
         reservations: [
           { id: 9, lab: 'Lab 3', date: '2023-06-26', seat: 'C2', time: ['2:00 pm - 3:00 pm'], requestTime: '6/26/2023, 2:07:15 PM' },
