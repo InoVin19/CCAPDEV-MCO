@@ -3,6 +3,8 @@
 <head>
   <title>Availability | Lab Reservation System</title>
   <link rel="stylesheet" type="text/css" href="CSS/nav.css">
+  <link rel="stylesheet" href="CSS/availability.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
   <script src="https://unpkg.com/vue@2"></script>
 </head>
 <body>
@@ -40,14 +42,25 @@
     </nav>
 
     <h1>Lab Slot Availability</h1>
-
     <button v-for="day in dates" :key="day" @click="selectedDate = day">{{ day }}</button>
 
-    <div v-for="lab in labs" :key="lab">
-      <h2>{{ lab }}</h2>
-      <p>Available seats: {{ availableSeats(lab) }}</p>
-      <button @click="reserveLab(lab)">Make a Reservation for {{ lab }}</button>
-    </div>
+    <div class="labs-container">
+      <div class="lab-box">
+        <h2>{{ labs[0] }}</h2>
+        <p>Available seats: {{ availableSeats(labs[0]) }}</p>
+        <button @click="reserveLab(labs[0])">Make a Reservation for {{ labs[0] }}</button>
+      </div>
+      <div class="lab-box">
+        <h2>{{ labs[1] }}</h2>
+        <p>Available seats: {{ availableSeats(labs[1]) }}</p>
+        <button @click="reserveLab(labs[1])">Make a Reservation for {{ labs[1] }}</button>
+      </div>
+      <div class="lab-box">
+        <h2>{{ labs[2] }}</h2>
+        <p>Available seats: {{ availableSeats(labs[2]) }}</p>
+        <button @click="reserveLab(labs[2])">Make a Reservation for {{ labs[2] }}</button>
+      </div>
+    </div>    
   </div>
   <script src="JS/availability.js"></script>
 </body>
