@@ -7,32 +7,30 @@
 </head>
 <body>
   <div id="app">
-    <nav class = "navBar">
+    <nav class="navBar">
       <div class="webName">
         <span class="title"><a href="index.html">Laboratory Reservation</a></span>
       </div>
       <div class="searchbar">
         <input type="text" placeholder="Search" v-model="searchQuery">
-      <div v-bind:class ="myClass">
-        <ul v-for="x, index in holdProfile" class="dropdown">
-          <li><a :href= "holdURL[index]">{{x}}</a></li>
-        </ul>
-      </div>  
+        <div v-bind:class="myClass">
+          <ul v-for="x, index in holdProfile" class="dropdown">
+            <li><a :href="holdURL[index]">{{x}}</a></li>
+          </ul>
+        </div>  
       </div>
       <div class="dropdownProfile">
         <div class="profile">
           <button class="profile-button" @click="toggleDropdown">{{user.username}}</button>
-        <ul v-if="isOpen" class="dropdown">
-          <li><a href="availability.html">Lab Availability</a></li>
-          <li><a href="reserve.html">Reserve</a></li>
-          <li><a href="profile.html">Profile</a></li>
-          <li @click="logOut">Logout</li>
-        </ul>
+          <ul v-if="isOpen" class="dropdown">
+            <li><a href="availability.html">Lab Availability</a></li>
+            <li><a href="reserve.html">Reserve</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li @click="logOut">Logout</li>
+          </ul>
         </div>
-        
       </div>
-    
-  </nav>
+    </nav>
     <h1>Profile</h1>
 
     <div v-if="user">
@@ -46,13 +44,17 @@
       <h2>Current Reservations</h2>
       <ul v-if="user.reservations.length > 0">
         <li v-for="reservation in user.reservations" :key="reservation.id">
-          {{ reservation.lab }} - {{ reservation.date }} - {{ reservation.time }}
+          <div>Lab: {{ reservation.lab }}</div>
+          <div>Date: {{ reservation.date }}</div>
+          <div>Time: {{ reservation.time }}</div>
+          <div>Request Time: {{ reservation.requestTime }}</div>
+          <button @click="editReservation(reservation.id)">Edit Reservation</button>
         </li>
       </ul>
       <p v-else>No reservations.</p>
       <button @click="logOut">Logout</button>
     </div>
   </div>
-  <script src = "JS/profile.js"></script>
+  <script src="JS/profile.js"></script>
 </body>
 </html>
