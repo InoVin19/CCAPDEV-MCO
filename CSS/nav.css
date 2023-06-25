@@ -14,10 +14,13 @@
 
 .webName {
   flex: 1;
+  position: relative;
 }
 
 .searchbar {
   flex: 2;
+  position: relative;
+  justify-content: center;
 }
 
 .dropdownProfile {
@@ -32,7 +35,7 @@
 }
 
 .profile {
-  position: relative;
+  position: absolute;
 }
 
 .profile-button {
@@ -65,4 +68,25 @@
 
 .dropdown li a:hover {
   color: #000;
+}
+
+.dropdownSearch {
+  position: relative;
+  top: 100%;
+  width: 50%;
+  right: 0;
+  background-color: #f2f2f2;
+  list-style-type: none;
+  padding: 5px;
+  margin: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  z-index: 1; /* Add a higher z-index to ensure it appears above other elements */
+}
+
+input[type="text"] {
+  position: relative; /* Change position to relative */
+  display: inline;
+  z-index: 2; /* Add a higher z-index to ensure it appears above the dropdown */
+  width: 100%;
 }
