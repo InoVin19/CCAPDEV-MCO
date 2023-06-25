@@ -15,7 +15,7 @@ new Vue({
     selectedSeats: [],
     loggedInUser: '', // Initialize the loggedInUser property
     selectedUser: '', // Initialize the selectedUser property
-    users: ['admin','student1', 'student2', 'student3', 'student4', 'student5'], // Modify the users array with actual user names
+    users: ['yasmin_datario', 'vinnie_inocencio', 'anton_mendoza', 'charles_leclerc', 'john_doe'], // Modify the users array with actual user names
     profilePage: 'viewprofile.html', // Set the profile page URL
     anonymousReservation: false, // Initialize the anonymousReservation property
     actualReservationOwners: {} // For storing actual owners of anonymous reservations
@@ -123,7 +123,7 @@ new Vue({
       } else {
         alert('This is an anonymous reservation. Profile cannot be viewed.');
       }
-    },
+    },        
     logOut: function () {
       localStorage.removeItem('loggedInUser');
       window.location.href = 'login.html';

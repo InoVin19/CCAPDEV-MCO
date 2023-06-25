@@ -14,23 +14,23 @@ new Vue({
           picture: 'path_to_admin_picture.jpg'
         },
         {
-          username: 'student1',
+          username: 'yasmin_datario',
           picture: 'path_to_student1_picture.jpg'
         },
         {
-          username: 'student2',
+          username: 'vinnie_inocencio',
           picture: 'path_to_student2_picture.jpg'
         },
         {
-          username: 'student3',
+          username: 'anton_mendoza',
           picture: 'path_to_student3_picture.jpg'
         },
         {
-          username: 'student4',
+          username: 'charles_leclerc',
           picture: 'path_to_student4_picture.jpg'
         },
         {
-          username: 'student5',
+          username: 'john_doe',
           picture: 'path_to_student5_picture.jpg'
         }
       ]
