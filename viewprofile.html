@@ -28,7 +28,7 @@
       </div>
       <div class="dropdownProfile">
         <div class="profileUser">
-          <button class="profile-button" @click="toggleDropdown">{{user.username}}</button>
+          <button class="profile-button" @click="toggleDropdown">{{loggedInUser}}</button>
           <ul v-if="isOpen" class="dropdown">
             <li><a href="availability.html">Lab Availability</a></li>
             <li><a href="reserve.html">Reserve</a></li>
@@ -54,7 +54,6 @@
         <a v-if="user.socialMedia.twitter" :href="user.socialMedia.twitter" target="_blank">Twitter</a>
         <a v-if="user.socialMedia.instagram" :href="user.socialMedia.instagram" target="_blank">Instagram</a>
       </div>
-      <button class="logout-button" @click="logOut">Log Out</button>
     </div>
     <div class="reservations">
       <table>
@@ -76,9 +75,6 @@
           </tr>
         </tbody>
       </table>
-      <div class="edit-reservations">
-        <a href="reserve.html" class="edit-reservations-button">Edit Reservations</a>
-      </div>
     </div>
   </div>
 
