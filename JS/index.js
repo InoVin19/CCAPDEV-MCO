@@ -121,7 +121,7 @@ new Vue({
           for (let i = 0; i <= (this.profiles.length + this.dates.length); i++) {
             if (this.profiles[i].username.includes(newVal) && !this.dates[i].includes(newVal) ) {
               this.myClass = 'valid';
-              this.holdProfile.push(this.profiles[i].username+this.dates[i]);
+              this.holdProfile.push(this.profiles[i].username);
               this.holdURL.push(this.profilePage + '?user=' + this.profiles[i].username);
               this.isDate = false
             } 
