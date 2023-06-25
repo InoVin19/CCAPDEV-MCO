@@ -100,7 +100,11 @@ new Vue({
     editReservation: function(reservationId) {
       // Redirect to the reservation edit page with the reservationId
       window.location.href = 'reserve.html?reservationId=' + reservationId;
-    }
+    },
+    logOut: function() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+  }
   },
   watch: {
     searchQuery: function(newVal) {

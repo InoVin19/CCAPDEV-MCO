@@ -33,7 +33,11 @@ new Vue({
       },
       {
         username: 'student5'
-      }
+      },
+      {
+        username: 'student6'
+      },
+      
     ],
     dates: [],
   },
@@ -70,7 +74,11 @@ new Vue({
     },
     reserveLab: function(lab) {
       window.location.href = 'reserve.html?lab=' + encodeURIComponent(lab) + '&date=' + encodeURIComponent(this.selectedDate);
-    }   
+    },
+    logOut: function() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+  }  
   },
   created: function () {
     this.loggedInUser = localStorage.getItem('loggedInUser')
@@ -107,8 +115,8 @@ new Vue({
           } 
           else if(this.dates[i].includes(newVal) && !this.profiles[i].username.includes(newVal)){
             this.myClass = 'valid';
-            this.holdDate.push(this.dates[i])
-            this.holdURL.push()
+            this.holdDate.push(this.dates[i] + '   Lab 1: ' + this.availableSeats(1) + '   Lab 2: ' + this.availableSeats(2)+'   Lab 3: ' + this.availableSeats(3))
+            this.holdURL.push('reserve.html?date=' + this.dates[i])
             this.isDate = true
           } 
           else {
