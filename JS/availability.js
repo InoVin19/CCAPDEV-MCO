@@ -4,6 +4,8 @@ new Vue({
     searchQuery: '',
     holdProfile: [],
     holdURL: [],
+    holdDate:[],
+    isDate:false,
     isOpen: false,
     myClass: 'invalid',
     loggedInUser: '',
@@ -12,7 +14,7 @@ new Vue({
     seats: ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16', 'C17', 'C18', 'C19', 'C20'],
     timeSlots: ['8:00', '8:30', '9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '1:00', '1:30', '2:00', '2:30', '3:00', '3:30', '4:00', '4:30', '5:00'],
     reservations: {},
-    profilePage: 'profile.html',
+    profilePage: 'viewprofile.html',
     profiles:[
       {
         username: 'admin'
@@ -92,15 +94,24 @@ new Vue({
     searchQuery: function(newVal) {
       this.holdProfile = [];
       this.holdURL = [];
+      this.holdDate = [];
       if (!newVal || newVal.trim() === '') {
         this.myClass = 'invalid';
       } else {
-        for (let i = 0; i < this.profiles.length; i++) {
-          if (this.profiles[i].username.includes(newVal)) {
+        for (let i = 0; i <= (this.profiles.length + this.dates.length); i++) {
+          if (this.profiles[i].username.includes(newVal) && !this.dates[i].includes(newVal) ) {
             this.myClass = 'valid';
             this.holdProfile.push(this.profiles[i].username);
             this.holdURL.push(this.profilePage + '?user=' + this.profiles[i].username);
-          } else {
+            this.isDate = false
+          } 
+          else if(this.dates[i].includes(newVal) && !this.profiles[i].username.includes(newVal)){
+            this.myClass = 'valid';
+            this.holdDate.push(this.dates[i])
+            this.holdURL.push()
+            this.isDate = true
+          } 
+          else {
             this.myClass = 'invalid';
           }
         }
