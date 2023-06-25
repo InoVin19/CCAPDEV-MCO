@@ -53,16 +53,18 @@ body {
   font-weight: bold;
 }
 
-.profile {
+.profileUser {
   position: absolute;
   flex: 1;
   display: block;
   color: #333;
   text-align: right;
   text-decoration: none;
+  margin-bottom: 20px;
 }
 
 .profile-button {
+  margin-right: 20px;
   background: none;
   border: none;
   cursor: pointer;
@@ -121,4 +123,5 @@ body {
   border-radius: 4px;
   border: 1px solid #333;
   margin-right: 8px;
+  width: 45%;
 }
