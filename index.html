@@ -14,9 +14,11 @@
         <div class="searchbar">
           <input type="text" placeholder="Search" v-model="searchQuery" class="bar">
           <div v-bind:class ="myClass">
-            <ul v-for="x, index in holdProfile" class="dropdownSearch">
+            <div class ="hatdog">
+              <ul v-for="x, index in holdProfile" class="dropdownSearch">
               <li class="drop"><a :href= "holdURL[index]">{{x}}</a></li>
             </ul>
+            </div> 
           </div> 
         </div>
         <div class="dropdownProfile">
