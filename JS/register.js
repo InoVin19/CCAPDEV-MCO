@@ -20,7 +20,7 @@ new Vue({
         this.password = '';
 
         // Redirect to index.html
-        window.location.href = 'index.html';
+        window.location.href = 'login.html';
       }
     }
   });
