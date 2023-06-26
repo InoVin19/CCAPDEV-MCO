@@ -28,6 +28,15 @@
     border-radius: 4px;
     margin: 5px;
   }
+
+  .resLab:focus{
+    padding: 10px 20px;
+    background-color: #86c980;
+    color: #000000;
+    border:#0073ff solid 1px;
+    border-radius: 4px;
+    margin: 5px;
+  }
   
   .resLab:hover {
     background-color: #0056b3;
