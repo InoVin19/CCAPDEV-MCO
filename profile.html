@@ -54,7 +54,6 @@
         <a v-if="user.socialMedia.twitter" :href="user.socialMedia.twitter" target="_blank">Twitter</a>
         <a v-if="user.socialMedia.instagram" :href="user.socialMedia.instagram" target="_blank">Instagram</a>
       </div>
-      <button class="logout-button" @click="logOut">Log Out</button>
     </div>
     <div class="reservations">
       <table>
@@ -78,6 +77,7 @@
       </table>
       <div class="edit-reservations">
         <a href="reserve.html" class="edit-reservations-button">Edit Reservations</a>
+        <button class="logout-button" @click="logOut">Log Out</button>
       </div>
     </div>
   </div>

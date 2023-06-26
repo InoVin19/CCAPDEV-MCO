@@ -124,12 +124,13 @@ body {
 
   .logout-button { 
     display: block;
-    margin-left: 975px;
+    margin-left: 1300px;
     align-items: end;
     background-color: #ff0000;
     color: #FFF;
     border: none;
     width: 7%;
+    margin-bottom: 10px;
     border-radius: 4px;
     padding: 8px 12px;
     cursor: pointer;
@@ -177,6 +178,7 @@ body {
   }
   
   .edit-reservations-button {
+    position: absolute;
     background-color: #1d9e0c;
     color: #FFF;
     border: none;
