@@ -11,17 +11,17 @@
   <div class="app">
     <nav class = "navBar">
       <div class="webName">
-        <span class="title"><a href="index.html">Laboratory Reservation</a></span>
+        <span ><a class="title" href="index.html">Laboratory Reservation</a></span>
       </div>
       <div class="searchbar">
         <input type="text" placeholder="Search" v-model="searchQuery" class="bar">
         <div v-bind:class ="myClass">
           <div class ="hatdog">
             <ul v-if="isDate == false" v-for="x, index in holdProfile" class="dropdownSearch">
-              <li class="drop"><a :href= "holdURL[index]">{{x}}</a></li>
+              <li class="drop"><a class="drop" :href= "holdURL[index]">{{x}}</a></li>
             </ul>
             <ul v-if="isDate == true" v-for="y, index in holdDate" class="dropdownSearch">
-              <li class="drop"><a :href= "holdURL[index]">{{y}}</a></li>
+              <li class="drop"><a class="drop" :href= "holdURL[index]">{{y}}</a></li>
             </ul>
           </div> 
         </div> 
