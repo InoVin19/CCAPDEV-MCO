@@ -23,8 +23,8 @@ new Vue({
     profiles: [
       {
         username: 'admin',
-        picture: 'path_to_admin_picture.jpg',
-        description: 'I am the admin.',
+        picture: 'Pictures/admin.jpg',
+        description: 'As the admin of the Computer Laboratory Reservation System, I am responsible for overseeing the smooth operation of the system and ensuring a seamless experience for all users. With a deep understanding of the reservation process and system functionalities, I work diligently to manage and maintain the systems integrity.',
         socialMedia: {
           facebook: 'https://www.facebook.com/admin',
           twitter: 'https://www.twitter.com/admin',
@@ -49,7 +49,7 @@ new Vue({
       {
         username: 'vinnie_inocencio',
         picture: 'Pictures/vinnie.jpg',
-        description: 'I am student 2.',
+        description: 'Currently a Quality Assurance Tester for NCJ Data with experience in object-oriented programming, using Postman API for Test Case Automation, and software testing. His current involvement in the company\'s project is being the primary QA resource for a credentialing portal for anesthesiologists. Alongside this, he is also an undergraduate student in his second year, studying Computer Science and majoring in Software Technology. As a student, He\'s involved himself in various student organizations and projects, often having leadership positions in these, credit to his experience in leading projects, managing teams, and communicating with external bodies.',
         socialMedia: {
           facebook: 'https://www.facebook.com/student2',
           twitter: 'https://www.twitter.com/student2',
