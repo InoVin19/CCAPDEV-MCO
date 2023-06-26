@@ -66,7 +66,7 @@ new Vue({
         description: 'I am da hunter pew pew valo.',
         socialMedia: {
           facebook: 'https://www.facebook.com/agmahaha2602/',
-          twitter: 'https://www.twitter.com/',
+          twitter: 'https://twitter.com/agmahaha',
           instagram: 'https://www.instagram.com/agmahaha/'
         },
         reservations: [

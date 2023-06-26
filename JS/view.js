@@ -51,9 +51,9 @@ new Vue({
         picture: 'Pictures/vinnie.jpg',
         description: 'Currently a Quality Assurance Tester for NCJ Data with experience in object-oriented programming, using Postman API for Test Case Automation, and software testing. His current involvement in the company\'s project is being the primary QA resource for a credentialing portal for anesthesiologists. Alongside this, he is also an undergraduate student in his second year, studying Computer Science and majoring in Software Technology. As a student, He\'s involved himself in various student organizations and projects, often having leadership positions in these, credit to his experience in leading projects, managing teams, and communicating with external bodies.',
         socialMedia: {
-          facebook: 'https://www.facebook.com/student2',
-          twitter: 'https://www.twitter.com/student2',
-          instagram: 'https://www.instagram.com/student2'
+          facebook: 'https://www.facebook.com/rey.inocencio.169',
+          twitter: 'https://twitter.com/vinniekinz',
+          instagram: 'https://www.instagram.com/vie_inocencio/'
         },
         reservations: [
           { id: 3, lab: 'Lab 1', date: '2023-06-24', seat: 'C18', time: ['3:00 pm - 4:00 pm'], requestTime: '6/24/2023, 3:07:15 PM' },
@@ -66,7 +66,7 @@ new Vue({
         description: 'I am da hunter pew pew valo.',
         socialMedia: {
           facebook: 'https://www.facebook.com/agmahaha2602/',
-          twitter: 'https://www.twitter.com/',
+          twitter: 'https://www.twitter.com/agmahaha',
           instagram: 'https://www.instagram.com/agmahaha/'
         },
         reservations: [
