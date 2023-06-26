@@ -23,8 +23,8 @@ new Vue({
     profiles: [
       {
         username: 'admin',
-        picture: 'path_to_admin_picture.jpg',
-        description: 'I am the admin.',
+        picture: 'Pictures/admin.jpg',
+        description: 'As the admin of the Computer Laboratory Reservation System, I am responsible for overseeing the smooth operation of the system and ensuring a seamless experience for all users. With a deep understanding of the reservation process and system functionalities, I work diligently to manage and maintain the systems integrity.',
         socialMedia: {
           facebook: 'https://www.facebook.com/admin',
           twitter: 'https://www.twitter.com/admin',
