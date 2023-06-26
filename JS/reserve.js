@@ -17,7 +17,7 @@ new Vue({
     selectedSeats: [],
     loggedInUser: '', // Initialize the loggedInUser property
     selectedUser: '', // Initialize the selectedUser property
-    users: ['admin', 'yasmin_datario', 'vinnie_inocencio', 'anton_mendoza', 'charles_leclerc', 'john_doe'], // Modify the users array with actual user names
+    users: ['admin', 'yasmin_datario', 'vinnie_inocencio', 'anton_mendoza', 'charles_leclerc', 'john_doe', 'student6'], // Modify the users array with actual user names
     profilePage: 'viewprofile.html', // Set the profile page URL
     anonymousReservation: false, // Initialize the anonymousReservation property
     actualReservationOwners: {}, // For storing actual owners of anonymous reservations

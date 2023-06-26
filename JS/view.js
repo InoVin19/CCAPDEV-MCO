@@ -101,6 +101,17 @@ new Vue({
           { id: 9, lab: 'Lab 3', date: '2023-06-26', seat: 'C2', time: ['2:00 pm - 3:00 pm'], requestTime: '6/26/2023, 2:07:15 PM' },
           { id: 10, lab: 'Lab 1', date: '2023-06-24', seat: 'C11', time: ['11:00 am - 12:00 pm'], requestTime: '6/24/2023, 11:07:15 AM' }
         ]
+      },
+      {
+        username:'student6',
+        picture: 'Pictures/john.jpg',
+        description: 'student6 is a passionate computer at De La Salle University (DLSU). Currently in his 3rd year, he is dedicated to learning and mastering various programming languages and software development techniques. John has a strong interest in algorithms, data structures, and artificial intelligence. He actively participates in coding competitions and hackathons to enhance his problem-solving skills. Apart from academics, John enjoys playing video games, exploring the latest technology trends, and reading tech blogs. With his strong foundation in computer science principles and his passion for innovation, John aspires to contribute to the field by developing cutting-edge software solutions.',
+        socialMedia: {
+          facebook: 'https://www.facebook.com/',
+          twitter: 'https://www.twitter.com/',
+          instagram: 'https://www.instagram.com/'
+        },
+        reservations: []  
       }      
     ]
   },
