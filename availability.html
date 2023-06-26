@@ -42,7 +42,9 @@
     </nav>
 
     <h1>Lab Slot Availability</h1>
-    <button class="resLab" v-for="day in dates" :key="day" @click="selectedDate = day">{{ day }}</button>
+    <div class="resLabContainer">
+      <button class="resLab" v-for="day in dates" :key="day" @click="selectedDate = day">{{ day }}</button>
+    </div>
 
     <div class="labs-container">
       <div class="lab-box">

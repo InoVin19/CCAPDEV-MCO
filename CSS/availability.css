@@ -13,11 +13,18 @@
     text-align: center; /* Add this line to center the text */
   }
 
+  .resLabContainer {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start; 
+    margin-top: 10px;
+  }
+
   .resLab {
-    padding: 8px 16px;
-    background-color: #9fa4aa;
+    padding: 10px 20px;
+    background-color: #bed7f5;
     color: #000000;
-    border: none;
+    border:#0073ff solid 1px;
     border-radius: 4px;
     margin: 5px;
   }
