@@ -93,6 +93,16 @@ body {
     flex-wrap: wrap; /* Add this line */
     margin-top: 20px;
   }
+
+  .resButton {
+    padding: 10px 25px;
+    background-color: #7ebbfc;
+    color: #000000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px; /* Update this line */
+  }
   
   .resButton {
     padding: 10px 25px;
