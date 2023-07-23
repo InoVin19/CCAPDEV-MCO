@@ -28,7 +28,7 @@
       </div>
       <div class="dropdownProfile">
         <div class="profileUser">
-          <button class="profile-button" @click="toggleDropdown">{{user.username}}</button>
+          <button class="profile-button" @click="toggleDropdown">{{loggedInUser}}</button>
           <ul v-if="isOpen" class="dropdown">
             <li><a href="availability.html">Lab Availability</a></li>
             <li><a href="reserve.html">Reserve</a></li>
@@ -41,7 +41,7 @@
   </div>
 
   <header>
-    <h1>Welcome to the Computer Laboratory Reservation System!</h1>
+    <h1>Welcome to the Computer Laboratory Reservation System! </h1>
     <p class = "description">Our platform provides a convenient and efficient way for users to reserve computer labs for various purposes. Whether you're a student looking to work on projects, a researcher needing access to specialized software, or a faculty member planning a class session, our system is designed to meet your needs. With our user-friendly interface, you can easily search for available labs based on your preferred date, time, and specific requirements. The system provides comprehensive information about each lab, including equipment availability, seating capacity, and additional amenities. This ensures that you can find the perfect lab that suits your needs. Once you've identified the ideal lab, our reservation process is seamless and straightforward. Simply select your desired date and time slot and confirm your booking. Our system will instantly reserve the lab for you, ensuring a hassle-free experience.</p>
     <p class = "description">Please make sure to show up 10 minutes within your reservation or the admin has the rights to cancel your seat reservation right away.</p>
     <button class="make-reservation" onclick="window.location.href='reserve.html'">Make a Seat Reservation</button>
