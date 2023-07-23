@@ -182,7 +182,7 @@ new Vue({
   
       //checks for valid filee (jpg or png)
       if (!file || !allowedTypes.includes(file.type)) {
-        const errorMessageElement = document.getElementById('error-message');
+        const errorMessageElement = document.getElementById('pic-error');
 
         const errorMessage = 'Invalid file type. Only JPG and PNG files are allowed.';
         errorMessageElement.textContent = errorMessage;

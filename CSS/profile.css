@@ -194,3 +194,7 @@ body {
   border-radius: 8px;
   background-color: #e8ffe2;
   }
+
+  #pic-error {
+    color: red;
+  }
