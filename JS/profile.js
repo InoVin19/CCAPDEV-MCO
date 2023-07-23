@@ -178,8 +178,19 @@ new Vue({
     },
     handlePictureChange: function(event) {
       const file = event.target.files[0];
-      const reader = new FileReader();
+      const allowedTypes = ['image/jpeg', 'image/png'];
+  
+      //checks for valid filee (jpg or png)
+      if (!file || !allowedTypes.includes(file.type)) {
+        const errorMessageElement = document.getElementById('error-message');
 
+        const errorMessage = 'Invalid file type. Only JPG and PNG files are allowed.';
+        errorMessageElement.textContent = errorMessage;
+        return;
+      }
+  
+      const reader = new FileReader();
+  
       reader.onload = (e) => {
         this.user.picture = e.target.result;
       };

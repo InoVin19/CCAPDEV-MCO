@@ -41,7 +41,7 @@
     <div class="profile">
       <div class="profile-picture">
         <img :src="user.picture" :alt="user.username" id="profile-image">
-        <input type="file" id="picture-input" style="display: none;" @change="handlePictureChange">       
+        <input type="file" id="picture-input" style="display: none;" @change="handlePictureChange">   
       </div>
       <div class="profile-description">
         <h1 class="profile-name">{{ user.username }}</h1>
@@ -54,6 +54,7 @@
         <a v-if="user.socialMedia.twitter" :href="user.socialMedia.twitter" target="_blank">Twitter</a>
         <a v-if="user.socialMedia.instagram" :href="user.socialMedia.instagram" target="_blank">Instagram</a>
       </div>
+      <p class="error"></p>
     </div>
     <div class="reservations">
       <table>
