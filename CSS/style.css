@@ -126,3 +126,8 @@ button.sign {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.error {
+  color: red;
+  text-align: center;
+}
