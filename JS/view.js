@@ -20,111 +20,30 @@ new Vue({
     user: null,
     editingDescription: false,
     dates: [],
-    profiles: [
-      {
-        username: 'admin',
-        picture: 'Pictures/admin.jpg',
-        description: 'As the admin of the Computer Laboratory Reservation System, I am responsible for overseeing the smooth operation of the system and ensuring a seamless experience for all users. With a deep understanding of the reservation process and system functionalities, I work diligently to manage and maintain the systems integrity.',
-        socialMedia: {
-          facebook: 'https://www.facebook.com/admin',
-          twitter: 'https://www.twitter.com/admin',
-          instagram: 'https://www.instagram.com/admin'
-        },
-        reservations: []
-      },
-      {
-        username: 'yasmin_datario',
-        picture: 'Pictures/yasmin.png',
-        description: 'A flexible and tenacious individual with over seven years of student leadership experience dealing with administrative and creative responsibilities through versatility and determination. She received multiple recognition for leadership, academic excellence, research ability, and effective writing. She looks forward to furthering her understanding of the systems and foundations behind a computer for both hardware and software. Currently, she has studied the basic principles of Data Science and Data Visualization through Basic SQL, Python Pandas, and Tableau. She has also built her programming foundations by learning Python and C. Despite being a student, She is also a part-time assistant and social media manager to a Realtor from the United States of America. Yasmin has learned different applications, social media advertisements, and lead generation techniques through continuous training as the Realtors assistant and Cyberbacker. If any of my interests and craft align with yours, feel free to contact me at datario.yasminaudrey@gmail.com as I would love to have an exchange of ideas with another individual.',
-        socialMedia: {
-          facebook: 'https://www.facebook.com/ysmndry',
-          twitter: 'https://www.twitter.com/itsyasminaudrey',
-          instagram: 'https://www.instagram.com/itsyasminaudrey'
-        },
-        reservations: [
-          { id: 1, lab: 'Lab 1', date: '2023-06-24', seat: 'C2', time: ['4:00 pm - 4:30 pm', '4:30 pm - 5:00 pm'], requestTime: '6/24/2023, 10:07:15 AM' },
-          { id: 2, lab: 'Lab 2', date: '2023-06-25', seat: 'C19', time: ['2:30 pm - 3:00 pm', '3:00 pm - 3:30 pm'], requestTime: '6/25/2023, 4:07:15 PM' }
-        ]
-      },
-      {
-        username: 'vinnie_inocencio',
-        picture: 'Pictures/vinnie.jpg',
-        description: 'Currently a Quality Assurance Tester for NCJ Data with experience in object-oriented programming, using Postman API for Test Case Automation, and software testing. His current involvement in the company\'s project is being the primary QA resource for a credentialing portal for anesthesiologists. Alongside this, he is also an undergraduate student in his second year, studying Computer Science and majoring in Software Technology. As a student, He\'s involved himself in various student organizations and projects, often having leadership positions in these, credit to his experience in leading projects, managing teams, and communicating with external bodies.',
-        socialMedia: {
-          facebook: 'https://www.facebook.com/rey.inocencio.169',
-          twitter: 'https://twitter.com/vinniekinz',
-          instagram: 'https://www.instagram.com/vie_inocencio/'
-        },
-        reservations: [
-          { id: 3, lab: 'Lab 1', date: '2023-06-24', seat: 'C18', time: ['3:00 pm - 4:00 pm'], requestTime: '6/24/2023, 3:07:15 PM' },
-          { id: 4, lab: 'Lab 3', date: '2023-06-26', seat: 'C7', time: ['2:30 pm - 3:00 pm', '3:00 pm - 3:30 pm', '3:30 pm - 4:00 pm'], requestTime: '6/26/2023, 9:07:15 AM' }
-        ]
-      },
-      {
-        username: 'anton_mendoza',
-        picture: 'Pictures/anton.jpg',
-        description: 'I am da hunter pew pew valo.',
-        socialMedia: {
-          facebook: 'https://www.facebook.com/agmahaha2602/',
-          twitter: 'https://www.twitter.com/agmahaha',
-          instagram: 'https://www.instagram.com/agmahaha/'
-        },
-        reservations: [
-          { id: 5, lab: 'Lab 2', date: '2023-06-25', seat: 'C10', time: ['10:00 am - 11:00 am'], requestTime: '6/25/2023, 10:07:15 AM' },
-          { id: 6, lab: 'Lab 3', date: '2023-06-26', seat: 'C11', time: ['11:00 am - 12:00 pm'], requestTime: '6/26/2023, 11:07:15 AM' }
-        ]
-      },
-      {
-        username: 'charles_leclerc',
-        picture: 'Pictures/charles.jpg',
-        description: 'Charles Leclerc is a Monacan motorsports racing driver who currently competes in Formula 1 for the Scuderia Ferrari team. Known for his exceptional talent and speed, Leclerc began his racing career in karting and quickly rose through the ranks. He achieved tremendous success in the karting world, winning multiple championships. In 2017, he won the FIA Formula 2 Championship, showcasing his potential as a top-tier driver. Leclerc made his Formula 1 debut in 2018 and has since secured multiple victories in Grand Prix races. With his remarkable skills, determination, and fearless driving style, Charles Leclerc has established himself as one of the rising stars in the world of motorsports.',
-        socialMedia: {
-          facebook: 'https://www.facebook.com/student4',
-          twitter: 'https://www.twitter.com/student4',
-          instagram: 'https://www.instagram.com/student4'
-        },
-        reservations: [
-          { id: 7, lab: 'Lab 1', date: '2023-06-24', seat: 'C1', time: ['1:00 pm - 2:00 pm'], requestTime: '6/24/2023, 1:07:15 PM' },
-          { id: 8, lab: 'Lab 2', date: '2023-06-25', seat: 'C4', time: ['4:00 pm - 5:00 pm'], requestTime: '6/25/2023, 4:07:15 PM' }
-        ]
-      },
-      {
-        username: 'john_doe',
-        picture: 'Pictures/john.jpg',
-        description: 'John Doe is a passionate computer science student at De La Salle University (DLSU). Currently in his 3rd year, he is dedicated to learning and mastering various programming languages and software development techniques. John has a strong interest in algorithms, data structures, and artificial intelligence. He actively participates in coding competitions and hackathons to enhance his problem-solving skills. Apart from academics, John enjoys playing video games, exploring the latest technology trends, and reading tech blogs. With his strong foundation in computer science principles and his passion for innovation, John aspires to contribute to the field by developing cutting-edge software solutions.',
-        socialMedia: {
-          facebook: 'https://www.facebook.com/student5',
-          twitter: 'https://www.twitter.com/student5',
-          instagram: 'https://www.instagram.com/student5'
-        },
-        reservations: [
-          { id: 9, lab: 'Lab 3', date: '2023-06-26', seat: 'C2', time: ['2:00 pm - 3:00 pm'], requestTime: '6/26/2023, 2:07:15 PM' },
-          { id: 10, lab: 'Lab 1', date: '2023-06-24', seat: 'C11', time: ['11:00 am - 12:00 pm'], requestTime: '6/24/2023, 11:07:15 AM' }
-        ]
-      },
-      {
-        username:'student6',
-        picture: 'Pictures/john.jpg',
-        description: 'student6 is a passionate computer at De La Salle University (DLSU). Currently in his 3rd year, he is dedicated to learning and mastering various programming languages and software development techniques. John has a strong interest in algorithms, data structures, and artificial intelligence. He actively participates in coding competitions and hackathons to enhance his problem-solving skills. Apart from academics, John enjoys playing video games, exploring the latest technology trends, and reading tech blogs. With his strong foundation in computer science principles and his passion for innovation, John aspires to contribute to the field by developing cutting-edge software solutions.',
-        socialMedia: {
-          facebook: 'https://www.facebook.com/',
-          twitter: 'https://www.twitter.com/',
-          instagram: 'https://www.instagram.com/'
-        },
-        reservations: []  
-      }      
-    ]
+    profiles: []
   },
-  created: function() {
+  created: async function() {
     const params = new URLSearchParams(window.location.search);
     const username = params.get('user');
-    this.user = this.profiles.find(profile => profile.username === username);
+
+    try {
+      const response = await fetch('http://localhost:3000/profiles');
+      if (response.ok) {
+        const data = await response.json();
+        this.profiles = data;
+        this.user = this.profiles.find(profile => profile.username === username);
+      } else {
+        console.error('Failed to fetch profiles from the server.');
+      }
+    } catch (error) {
+      console.error('Error while fetching profiles:', error);
+    }
     this.loggedInUser = localStorage.getItem('loggedInUser');
     const savedReservations = localStorage.getItem('reservations');
     if (savedReservations) {
       this.reservations = JSON.parse(savedReservations);
     }
-    
+  
     let today = new Date();
     for (let i = 0; i < 7; i++) {
       let newDate = new Date();
@@ -176,6 +95,9 @@ new Vue({
       const reader = new FileReader();
 
       reader.onload = (e) => {
+        if (!this.user) {
+          this.user = {};
+        }
         this.user.picture = e.target.result;
       };
 
@@ -186,27 +108,34 @@ new Vue({
     }
   },
   watch: {
-    searchQuery: function(newVal) {
+    searchQuery: function (newVal) {
       this.holdProfile = [];
       this.holdURL = [];
       this.holdDate = [];
+
       if (!newVal || newVal.trim() === '') {
         this.myClass = 'invalid';
       } else {
-        for (let i = 0; i <= (this.profiles.length + this.dates.length); i++) {
-          if (this.profiles[i].username.includes(newVal) && !this.dates[i].includes(newVal) ) {
+        for (let i = 0; i < this.profiles.length; i++) { // Fixed the loop to iterate only over existing profiles
+          if (this.profiles[i]?.username.includes(newVal) && !this.dates[i].includes(newVal)) {
             this.myClass = 'valid';
             this.holdProfile.push(this.profiles[i].username);
             this.holdURL.push(this.profilePage + '?user=' + this.profiles[i].username);
-            this.isDate = false
-          } 
-          else if(this.dates[i].includes(newVal) && !this.profiles[i].username.includes(newVal)){
+            this.isDate = false;
+          } else if (this.dates[i].includes(newVal) && !this.profiles[i]?.username.includes(newVal)) {
             this.myClass = 'valid';
-            this.holdDate.push(this.dates[i] + '   Lab 1: ' + this.availableSeats(1) + '   Lab 2: ' + this.availableSeats(2)+'   Lab 3: ' + this.availableSeats(3))
-            this.holdURL.push('reserve.html?date=' + this.dates[i])
-            this.isDate = true
-          } 
-          else {
+            this.holdDate.push(
+              this.dates[i] +
+                '   Lab 1: ' +
+                this.availableSeats(1) +
+                '   Lab 2: ' +
+                this.availableSeats(2) +
+                '   Lab 3: ' +
+                this.availableSeats(3)
+            );
+            this.holdURL.push('reserve.html?date=' + this.dates[i]);
+            this.isDate = true;
+          } else {
             this.myClass = 'invalid';
           }
         }

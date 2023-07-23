@@ -41,9 +41,56 @@ const userSchema = new mongoose.Schema({
   },
   picture: {
     type: String,
-    required: true,
+    required: false,
   },
+  description: {
+    type: String,
+    required: false,
+  },
+  socialMedia: {
+    facebook: {
+      type: String,
+      required: false,
+    },
+    twitter: {
+      type: String,
+      required: false,
+    },
+    instagram: {
+      type: String,
+      required: false,
+    },
+  },
+  reservations: [
+    {
+      id: {
+        type: Number,
+        required: true,
+      },
+      lab: {
+        type: String,
+        required: true,
+      },
+      date: {
+        type: String,
+        required: true,
+      },
+      seat: {
+        type: String,
+        required: true,
+      },
+      time: {
+        type: [String],
+        required: true,
+      },
+      requestTime: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
+
 
 const User = mongoose.model('User', userSchema);
 
@@ -93,7 +140,7 @@ app.post('/login', async (req, res) => {
 
 app.get('/profiles', async (req, res) => {
   try {
-    const allProfiles = await User.find({}, '-_id username'); // Retrieve all user profiles, excluding the '_id' field
+    const allProfiles = await User.find({}); // Retrieve all user profiles, excluding the '_id' field
     return res.status(200).json(allProfiles);
   } catch (error) {
     console.error(error);

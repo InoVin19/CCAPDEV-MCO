@@ -16,8 +16,7 @@ new Vue({
       reservations: {},
       user: null,
       profilePage: 'viewprofile.html',
-      profiles: [
-      ],
+      profiles: [],
       dates: [],
     },
     methods: {
@@ -69,6 +68,7 @@ new Vue({
         if (response.ok) {
           const data = await response.json();
           this.profiles = data; // Update the profiles array with the received data
+          console.log(this.profiles)
         } else {
           console.error('Failed to fetch profiles from the server.');
         }
