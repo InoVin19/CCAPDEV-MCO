@@ -23,6 +23,8 @@ new Vue({
     profilePage: 'viewprofile.html', // Set the profile page URL
     anonymousReservation: false, // Initialize the anonymousReservation property
     actualReservationOwners: {}, // For storing actual owners of anonymous reservations
+    requestTimesWithOwners: [], // Initialize an array to hold formatted request times with owners
+    selectedRequestTime: '', // New data property to hold the selected request time
     dates:[]
   },
   methods: {
@@ -125,34 +127,77 @@ new Vue({
       }
     },
     cancelEntireReservation: function () {
-      if (this.selectedLab && this.selectedDate) {
-        if (confirm('Are you sure you want to cancel all reservations for the selected lab and date?')) {
-          // Check if the user has the permission to cancel all reservations
-          let hasPermission = true;
-          for (let seat in this.reservations[this.selectedLab][this.selectedDate]) {
-            for (let timeSlot in this.reservations[this.selectedLab][this.selectedDate][seat]) {
-              if (!this.canCancelReservation(seat, timeSlot)) {
-                hasPermission = false;
-                break;
-              }
-            }
-            if (!hasPermission) {
-              break;
-            }
-          }
+      if (this.selectedLab && this.selectedDate && this.selectedSeat) {
+        if (this.loggedInUser !== 'admin') {
+          alert('You do not have permission to cancel all reservations for the selected seat, date, and lab.');
+          return;
+        }
     
-          // Only cancel the reservations if the user has the permission
-          if (hasPermission) {
-            this.reservations[this.selectedLab][this.selectedDate] = {};
-            // Save updated reservations to localStorage
-            localStorage.setItem('reservations', JSON.stringify(this.reservations));
-            alert('All reservations canceled!');
-          } else {
-            alert('You are not allowed to cancel some or all reservations.');
-          }
+        if (confirm('Are you sure you want to cancel all reservations for the selected lab, date, and seat?')) {
+          // Remove all reservations for the selected seat, date, and lab
+          this.reservations[this.selectedLab][this.selectedDate][this.selectedSeat] = {};
+          // Save updated reservations to localStorage
+          localStorage.setItem('reservations', JSON.stringify(this.reservations));
+          alert('All reservations for the selected seat, date, and lab canceled!');
         }
       } else {
-        alert('Please select a lab and date before canceling the reservations.');
+        alert('Please select a lab, date, and seat before canceling the reservations.');
+      }
+    },
+    cancelReservationsByRequestTime: function() {
+      if (this.loggedInUser !== 'admin') {
+        alert('Only an admin can bulk cancel reservations.');
+        return;
+      }
+    
+      if (!this.selectedRequestTime) {
+        alert('Please select a request time from the dropdown before proceeding.');
+        return;
+      }
+    
+      const confirmation = confirm('Are you sure you want to cancel all reservations made at the selected request time?');
+      if (!confirmation) {
+        return;
+      }
+    
+      let selectedTimestamp = this.selectedRequestTime.split(' (')[0];  // Extract the timestamp from selectedRequestTime
+      let cancelled = false; // A flag to check if any reservations were cancelled
+    
+      for (const lab in this.reservations) {
+        for (const date in this.reservations[lab]) {
+          for (const seat in this.reservations[lab][date]) {
+            for (const timeSlot in this.reservations[lab][date][seat]) {
+              if (this.reservations[lab][date][seat][timeSlot].requestTime === selectedTimestamp) {
+                delete this.reservations[lab][date][seat][timeSlot];
+                cancelled = true;
+              }
+            }
+            // Clean up the seat object if it has no timeslots
+            if (Object.keys(this.reservations[lab][date][seat]).length === 0) {
+              delete this.reservations[lab][date][seat];
+            }
+          }
+          // Clean up the date object if it has no seats
+          if (Object.keys(this.reservations[lab][date]).length === 0) {
+            delete this.reservations[lab][date];
+          }
+        }
+        // Clean up the lab object if it has no dates
+        if (Object.keys(this.reservations[lab]).length === 0) {
+          delete this.reservations[lab];
+        }
+      }
+    
+      if (cancelled) {
+        // Update the requestTimesWithOwners array
+        this.requestTimesWithOwners = this.requestTimesWithOwners.filter(requestTime => requestTime.split(' (')[0] !== selectedTimestamp);
+    
+        // Save updated reservations to localStorage
+        localStorage.setItem('reservations', JSON.stringify(this.reservations));
+    
+        alert('All reservations made at the selected request time have been canceled.');
+      } else {
+        alert('No reservations found with the selected request time.');
       }
     },    
     viewProfile: function (seat, timeSlot) {
@@ -233,6 +278,19 @@ new Vue({
     const urlParams = new URLSearchParams(window.location.search);
     this.selectedLab = urlParams.get('lab');
     this.selectedDate = urlParams.get('date');
+    
+    // Create the array of formatted request times with owners for the dropdown
+    for (const lab in this.reservations) {
+      for (const date in this.reservations[lab]) {
+        for (const seat in this.reservations[lab][date]) {
+          for (const timeSlot in this.reservations[lab][date][seat]) {
+            const requestTime = this.reservations[lab][date][seat][timeSlot].requestTime;
+            const reservationOwner = this.reservations[lab][date][seat][timeSlot].owner;
+            this.requestTimesWithOwners.push(`${requestTime} (${reservationOwner})`);
+          }
+        }
+      }
+    }
   },
   watch: {
     searchQuery: function (newVal) {
