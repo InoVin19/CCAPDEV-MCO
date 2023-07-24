@@ -124,6 +124,37 @@ new Vue({
         alert('You are not allowed to cancel this reservation.');
       }
     },
+    cancelEntireReservation: function () {
+      if (this.selectedLab && this.selectedDate) {
+        if (confirm('Are you sure you want to cancel all reservations for the selected lab and date?')) {
+          // Check if the user has the permission to cancel all reservations
+          let hasPermission = true;
+          for (let seat in this.reservations[this.selectedLab][this.selectedDate]) {
+            for (let timeSlot in this.reservations[this.selectedLab][this.selectedDate][seat]) {
+              if (!this.canCancelReservation(seat, timeSlot)) {
+                hasPermission = false;
+                break;
+              }
+            }
+            if (!hasPermission) {
+              break;
+            }
+          }
+    
+          // Only cancel the reservations if the user has the permission
+          if (hasPermission) {
+            this.reservations[this.selectedLab][this.selectedDate] = {};
+            // Save updated reservations to localStorage
+            localStorage.setItem('reservations', JSON.stringify(this.reservations));
+            alert('All reservations canceled!');
+          } else {
+            alert('You are not allowed to cancel some or all reservations.');
+          }
+        }
+      } else {
+        alert('Please select a lab and date before canceling the reservations.');
+      }
+    },    
     viewProfile: function (seat, timeSlot) {
       const reservationData = this.reservations[this.selectedLab]?.[this.selectedDate]?.[seat]?.[timeSlot];
       if (reservationData && reservationData.owner !== 'Anonymous') {
