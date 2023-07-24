@@ -119,3 +119,38 @@ body {
     margin: 0 10px;
     flex-shrink: 0; /* Prevent the buttons from shrinking */
   }
+
+ .grid-container {
+  margin-top: 10px;
+  border-radius: 10px; /* Add rounded corners to the grid items */
+  outline: 2px solid #007BFF;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 10px; /* Adjust the gap value as per your desired padding */
+  padding: 20px; /* Add padding to the entire grid container */
+  background-color: #f0f0f0;
+  justify-items: center;
+}
+
+.grid-item {
+  background-color: #ffffff;
+  width: 200px; /* Set the width for the grid items (change the value to your desired width) */
+  height: 80px; /* Set the height for the grid items (change the value to your desired height) */
+  align-self: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Optional: Add a box shadow for a subtle effect */
+  outline: 2px solid #80bdff; /* Add a red outline to the grid items */
+  border-radius: 10px; /* Add rounded corners to the grid items */
+}
+
+.grid-item h1 {
+  margin-left: 5px;
+  margin-top: 25px;
+  text-align: center;
+}
+
+.grid-item:hover {
+  background-color: #f9f9f9; /* Change the background color on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a larger drop shadow on hover */
+  outline: 2px solid #00aaff; /* Change the outline color on hover */
+}

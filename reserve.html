@@ -75,36 +75,42 @@
     <label for="anonymous">Reserve as anonymous:</label>
     <input id="anonymous" type="checkbox" v-model="anonymousReservation">
 
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th v-for="timeSlot in timeSlots" :key="timeSlot">{{ timeSlot }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="seat in seats" :key="seat">
-          <td>{{ seat }}</td>
-          <td v-for="timeSlot in timeSlots" :key="timeSlot" :class="{ reserved: isReserved(seat, timeSlot) }">
-            <label>
-              <input type="checkbox"
-                     :disabled="isReserved(seat, timeSlot)"
-                     :checked="isSelected(seat, timeSlot)"
-                     @change="selectSeat(seat, timeSlot)">
-            </label>
-            <div class="reservation-details" v-if="isReserved(seat, timeSlot)">
-              <div>Reserved by: {{ reservations[selectedLab][selectedDate][seat][timeSlot].owner }}</div>
-              <div>Seat Number: {{ seat }}</div>
-              <div>Lab Number: {{ selectedLab }}</div>
-              <div>Time Slot: {{ timeSlot }}</div>
-              <div>Request Time: {{ reservations[selectedLab][selectedDate][seat][timeSlot].requestTime }}</div>
-              <button v-if="canCancelReservation(seat, timeSlot)" @click="cancelReservation(seat, timeSlot)">Cancel</button>
-              <button v-if="isReserved(seat, timeSlot)" @click="viewProfile(seat, timeSlot)">View Profile</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="grid-container">
+      <div class="grid-item" v-for="seat in seats" :key="seats" @click="updateSelectedSeat(seat)"> <h1>{{ seat}}</h1> </div>
+    </div>
+
+    <div class="reservation-table">
+      <table>
+        <thead>
+          <tr>
+            <th> timeslot </th>
+            <th v-for="timeSlot in timeSlots" :key="timeslot">{{ timeSlot }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td :key="selectedSeat">{{ selectedSeat }}</td>
+            <td v-for="timeSlot in timeSlots" :key="timeSlot" :class="{ reserved: isReserved(seat, timeSlot) }">
+              <label>
+                <input type="checkbox"
+                       :disabled="isReserved(seat, timeSlot)"
+                       :checked="isSelected(seat, timeSlot)"
+                       @change="selectSeat(seat, timeSlot)">
+              </label>
+              <div class="reservation-details" v-if="isReserved(seat, timeSlot)">
+                <div>Reserved by: {{ reservations[selectedLab][selectedDate][seat][timeSlot].owner }}</div>
+                <div>Seat Number: {{ seat }}</div>
+                <div>Lab Number: {{ selectedLab }}</div>
+                <div>Time Slot: {{ timeSlot }}</div>
+                <div>Request Time: {{ reservations[selectedLab][selectedDate][seat][timeSlot].requestTime }}</div>
+                <button v-if="canCancelReservation(seat, timeSlot)" @click="cancelReservation(seat, timeSlot)">Cancel</button>
+                <button v-if="isReserved(seat, timeSlot)" @click="viewProfile(seat, timeSlot)">View Profile</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="button-container">
       <button class="resButton" @click="confirmReservation">Confirm Reservation</button>
