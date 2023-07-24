@@ -99,6 +99,7 @@ new Vue({
       // Update the reservations object with the new data in the original format
       this.dbReservation = origFormatReservations;
       this.dbReservedSlots = JSON.stringify(this.dbReservation);
+      localStorage.setItem('reservations', JSON.stringify(this.dbReservation));
       this.dbReservation = {}
     },
     confirmReservation: function () {
