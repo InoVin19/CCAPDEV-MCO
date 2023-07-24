@@ -1,5 +1,3 @@
-// log.js
-
 new Vue({
   el: '#app',
   data: {

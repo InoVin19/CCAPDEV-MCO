@@ -16,36 +16,7 @@ new Vue({
       reservations: {},
       user: null,
       profilePage: 'viewprofile.html',
-      profiles: [
-        {
-          username: 'admin',
-          picture: 'path_to_admin_picture.jpg'
-        },
-        {
-          username: 'yasmin_datario',
-          picture: 'path_to_student1_picture.jpg'
-        },
-        {
-          username: 'vinnie_inocencio',
-          picture: 'path_to_student2_picture.jpg'
-        },
-        {
-          username: 'anton_mendoza',
-          picture: 'path_to_student3_picture.jpg'
-        },
-        {
-          username: 'charles_leclerc',
-          picture: 'path_to_student4_picture.jpg'
-        },
-        {
-          username: 'john_doe',
-          picture: 'path_to_student5_picture.jpg'
-        },
-        {
-          username: 'student6',
-          picture: 'path_to_student6_picture.jpg'
-        }
-      ],
+      profiles: [],
       dates: [],
     },
     methods: {
@@ -91,9 +62,21 @@ new Vue({
         window.location.href = 'login.html';
       }
     },
-    created: function() {
-      var loggedInUser = localStorage.getItem('loggedInUser');
-      this.user = this.profiles.find(profile => profile.username === loggedInUser);
+    created: async function() {
+      try {
+        const response = await fetch('http://localhost:3000/profiles'); // Update the URL to the correct backend server URL
+        if (response.ok) {
+          const data = await response.json();
+          this.profiles = data; // Update the profiles array with the received data
+          console.log(this.profiles)
+        } else {
+          console.error('Failed to fetch profiles from the server.');
+        }
+      } catch (error) {
+        console.error('Error while fetching profiles:', error);
+      }
+      this.loggedInUser = localStorage.getItem('loggedInUser');
+      this.user = this.profiles.find(profile => profile.username === this.loggedInUser);
       const savedReservations = localStorage.getItem('reservations');
       if (savedReservations) {
         this.reservations = JSON.parse(savedReservations);
@@ -110,28 +93,35 @@ new Vue({
         this.selectedDate = this.dates[0];
       }
     },
-    watch:{
-      searchQuery: function(newVal) {
+    watch: {
+      searchQuery: function (newVal) {
         this.holdProfile = [];
         this.holdURL = [];
         this.holdDate = [];
+  
         if (!newVal || newVal.trim() === '') {
           this.myClass = 'invalid';
         } else {
-          for (let i = 0; i <= (this.profiles.length + this.dates.length); i++) {
-            if (this.profiles[i].username.includes(newVal) && !this.dates[i].includes(newVal) ) {
+          for (let i = 0; i < this.profiles.length; i++) { // Fixed the loop to iterate only over existing profiles
+            if (this.profiles[i]?.username.includes(newVal) && !this.dates[i].includes(newVal)) {
               this.myClass = 'valid';
               this.holdProfile.push(this.profiles[i].username);
               this.holdURL.push(this.profilePage + '?user=' + this.profiles[i].username);
-              this.isDate = false
-            } 
-            else if(this.dates[i].includes(newVal) && !this.profiles[i].username.includes(newVal)){
+              this.isDate = false;
+            } else if (this.dates[i].includes(newVal) && !this.profiles[i]?.username.includes(newVal)) {
               this.myClass = 'valid';
-              this.holdDate.push(this.dates[i] + '   Lab 1: ' + this.availableSeats(1) + '   Lab 2: ' + this.availableSeats(2)+'   Lab 3: ' + this.availableSeats(3))
-              this.holdURL.push('reserve.html?date=' + this.dates[i])
-              this.isDate = true
-            } 
-            else {
+              this.holdDate.push(
+                this.dates[i] +
+                  '   Lab 1: ' +
+                  this.availableSeats(1) +
+                  '   Lab 2: ' +
+                  this.availableSeats(2) +
+                  '   Lab 3: ' +
+                  this.availableSeats(3)
+              );
+              this.holdURL.push('reserve.html?date=' + this.dates[i]);
+              this.isDate = true;
+            } else {
               this.myClass = 'invalid';
             }
           }

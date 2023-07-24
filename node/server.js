@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 
 // Middleware
 app.use(bodyParser.json());
@@ -34,12 +34,63 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  username:{
+  username: {
     type: String,
     required: true,
     unique: true,
   },
+  picture: {
+    type: String,
+    required: false,
+  },
+  description: {
+    type: String,
+    required: false,
+  },
+  socialMedia: {
+    facebook: {
+      type: String,
+      required: false,
+    },
+    twitter: {
+      type: String,
+      required: false,
+    },
+    instagram: {
+      type: String,
+      required: false,
+    },
+  },
+  reservations: [
+    {
+      id: {
+        type: Number,
+        required: true,
+      },
+      lab: {
+        type: String,
+        required: true,
+      },
+      date: {
+        type: String,
+        required: true,
+      },
+      seat: {
+        type: String,
+        required: true,
+      },
+      time: {
+        type: [String],
+        required: true,
+      },
+      requestTime: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
+
 
 const User = mongoose.model('User', userSchema);
 
@@ -87,32 +138,10 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/fetchUser', async (req, res) => {
-  const loggedInUser = req.query.username;
-
+app.get('/profiles', async (req, res) => {
   try {
-    // Check if the user exists in the database
-    const user = await User.findOne({ username: loggedInUser });
-    if (!user) {
-      return res.status(401).json({ error: 'User does not exist.' });
-    }
-    
-    // Send the user data (excluding the password) to the client
-    const userData = {
-      username: user.username,
-    };
-    console.log(user.username)
-    return res.status(200).json(userData);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal server error.' });
-  }
-});
-
-app.get('/getUsernames', async (req, res) => {
-  try {
-    const usernames = await User.find({}, 'username'); // Query the database to get all usernames
-    return res.status(200).json({ usernames: usernames.map(user => user.username) });
+    const allProfiles = await User.find({}); // Retrieve all user profiles, excluding the '_id' field
+    return res.status(200).json(allProfiles);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal server error.' });
