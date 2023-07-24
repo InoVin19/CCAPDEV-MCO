@@ -88,8 +88,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td :key="selectedSeat">{{ selectedSeat }}</td>
+          <tr v-for="seat in seats" :key="seat" v-if="seat === selectedGridItem">
+            <td>{{ seat }}</td>
             <td v-for="timeSlot in timeSlots" :key="timeSlot" :class="{ reserved: isReserved(seat, timeSlot) }">
               <label>
                 <input type="checkbox"
