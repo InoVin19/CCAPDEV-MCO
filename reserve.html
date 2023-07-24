@@ -71,7 +71,7 @@
     <label v-if="loggedInUser === 'admin'" for="user">User:</label>
     <select v-if="loggedInUser === 'admin'" id="user" v-model="selectedUser" required>
       <option value="">Select User</option>
-      <option v-for="user in profiles" :value="user">{{ user.username }}</option>
+      <option v-for="user in profiles" :value="user.username">{{ user.username }}</option>
     </select>
 
     <label for="anonymous">Reserve as anonymous:</label>
