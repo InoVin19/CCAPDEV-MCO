@@ -49,6 +49,18 @@ new Vue({
       }
       return count - 1;
     },
+    
+    reservedSlotsForProfile: function (lab, date) {
+      let count = 0;
+      for (const profile of this.profiles) {
+        for (const reservation of profile.reservations) {
+          if (reservation.lab === lab && reservation.date === date) {
+            count += reservation.timeSlot.length - 1;
+          }
+        }
+      }
+      return count;
+    },
     reserveLab: function(lab) {
       window.location.href = 'reserve.html?lab=' + encodeURIComponent(lab) + '&date=' + encodeURIComponent(this.selectedDate);
     },
@@ -64,19 +76,6 @@ new Vue({
         const data = await response.json();
         this.profiles = data; // Update the profiles array with the received data
         console.log(this.profiles)
-
-        this.profiles.forEach(profile => {
-          this.reservations[profile.username] = {};
-          this.labs.forEach(lab => {
-            this.reservations[profile.username][lab] = {};
-            this.seats.forEach(seat => {
-              this.reservations[profile.username][lab][seat] = {};
-              this.timeSlots.forEach(timeSlot => {
-                this.reservations[profile.username][lab][seat][timeSlot] = false;
-              });
-            });
-          });
-        });
 
       } else {
         console.error('Failed to fetch profiles from the server.');
@@ -118,11 +117,11 @@ new Vue({
             this.holdDate.push(
               this.dates[i] +
                 '   Lab 1: ' +
-                this.availableSeats(1)*this.availableTimeSlots(1, this.profiles[i].username) +
+                (this.availableSeats(1)*this.availableTimeSlots(1, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 1", this.dates[i])) +
                 '   Lab 2: ' +
-                this.availableSeats(2)*this.availableTimeSlots(2, this.profiles[i].username) +
+                (this.availableSeats(2)*this.availableTimeSlots(2, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 2", this.dates[i])) +
                 '   Lab 3: ' +
-                this.availableSeats(3)*this.availableTimeSlots(3, this.profiles[i].username)
+                (this.availableSeats(3)*this.availableTimeSlots(3, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 3", this.dates[i]))
             );
             this.holdURL.push('reserve.html?date=' + this.dates[i]);
             this.isDate = true;

@@ -55,6 +55,17 @@ new Vue({
             count++;
           }
         }
+        return count - 1;
+      },
+      reservedSlotsForProfile: function (lab, date) {
+        let count = 0;
+        for (const profile of this.profiles) {
+          for (const reservation of profile.reservations) {
+            if (reservation.lab === lab && reservation.date === date) {
+              count += reservation.timeSlot.length - 1;
+            }
+          }
+        }
         return count;
       },
       logOut: function() {
@@ -102,7 +113,7 @@ new Vue({
         if (!newVal || newVal.trim() === '') {
           this.myClass = 'invalid';
         } else {
-          for (let i = 0; i <= this.profiles.length; i++) { // Fixed the loop to iterate only over existing profiles
+          for (let i = 0; i < this.profiles.length; i++) { // Fixed the loop to iterate only over existing profiles
             if (this.profiles[i]?.username.includes(newVal) && !this.dates[i].includes(newVal)) {
               this.myClass = 'valid';
               this.holdProfile.push(this.profiles[i].username);
@@ -113,11 +124,11 @@ new Vue({
               this.holdDate.push(
                 this.dates[i] +
                   '   Lab 1: ' +
-                  this.availableSeats(1)*this.availableTimeSlots(1, this.availableSeats(1)) +
+                  (this.availableSeats(1)*this.availableTimeSlots(1, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 1", this.dates[i])) +
                   '   Lab 2: ' +
-                  this.availableSeats(2)*this.availableTimeSlots(2, this.availableSeats(2)) +
+                  (this.availableSeats(2)*this.availableTimeSlots(2, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 2", this.dates[i])) +
                   '   Lab 3: ' +
-                  this.availableSeats(3)*this.availableTimeSlots(3, this.availableSeats(3))
+                  (this.availableSeats(3)*this.availableTimeSlots(3, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 3", this.dates[i]))
               );
               this.holdURL.push('reserve.html?date=' + this.dates[i]);
               this.isDate = true;

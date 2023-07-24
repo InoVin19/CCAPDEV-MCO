@@ -51,17 +51,20 @@
     <div class="labs-container">
       <div class="lab-box">
         <h2>{{ labs[0] }}</h2>
-        <p>Available slots: {{ availableTimeSlots(labs[0], availableSeats(labs[0]))*availableSeats(labs[0]) }}</p>
+        <p>Available seats: {{ availableSeats(labs[0]) }}</p>
+        <p>Available slots: {{ availableTimeSlots(labs[0], availableSeats(labs[0]))*availableSeats(labs[0]) - reservedSlotsForProfile("Lab 1", selectedDate)}}</p>
         <button class="resLab" @click="reserveLab(labs[0])">Make a Reservation for {{ labs[0] }}</button>
       </div>
       <div class="lab-box">
         <h2>{{ labs[1] }}</h2>
-        <p>Available slots: {{ availableTimeSlots(labs[1], availableSeats(labs[1]))*availableSeats(labs[1]) }}</p>
+        <p>Available seats: {{ availableSeats(labs[1]) }}</p>
+        <p>Available slots: {{ availableTimeSlots(labs[1], availableSeats(labs[1]))*availableSeats(labs[1]) - reservedSlotsForProfile("Lab 2", selectedDate)}}</p>
         <button class="resLab" @click="reserveLab(labs[1])">Make a Reservation for {{ labs[1] }}</button>
       </div>
       <div class="lab-box">
         <h2>{{ labs[2] }}</h2>
-        <p>Available slots: {{ availableTimeSlots(labs[2], availableSeats(labs[2]))*availableSeats(labs[2])}}</p>
+        <p>Available seats: {{ availableSeats(labs[2]) }}</p>
+        <p>Available slots: {{ availableTimeSlots(labs[2], availableSeats(labs[2]))*availableSeats(labs[2]) - reservedSlotsForProfile("Lab 3", selectedDate)}}</p>
         <button class="resLab" @click="reserveLab(labs[2])">Make a Reservation for {{ labs[2] }}</button>
       </div>
     </div>    
