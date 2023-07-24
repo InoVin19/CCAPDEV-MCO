@@ -30,6 +30,14 @@ body {
 .title{
   text-decoration: none;
   color: #333;
+  margin-right: 12px;
+}
+
+.title:hover{
+  text-decoration: none;
+  color: #333;
+  margin-right: 12px;
+  text-decoration: underline;
 }
 
 .searchbar {
