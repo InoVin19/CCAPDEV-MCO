@@ -71,14 +71,14 @@
     <label v-if="loggedInUser === 'admin'" for="user">User:</label>
     <select v-if="loggedInUser === 'admin'" id="user" v-model="selectedUser" required>
       <option value="">Select User</option>
-      <option v-for="user in users" :value="user">{{ user }}</option>
+      <option v-for="user in profiles" :value="user">{{ user.username }}</option>
     </select>
 
     <label for="anonymous">Reserve as anonymous:</label>
     <input id="anonymous" type="checkbox" v-model="anonymousReservation">
 
     <div class="grid-container">
-      <div class="grid-item" v-for="seat in seats" :key="seats" @click="updateSelectedSeat(seat)" :class="{ selected: seat === selectedGridItem }"> <h1>{{ seat}}</h1> </div>
+      <div class="grid-item" v-for="seat in seats" :key="seat" @click="updateSelectedSeat(seat)" :class="{ selected: seat === selectedGridItem }"> <h1>{{ seat}}</h1> </div>
     </div>
 
     <div class="reservation-table">
@@ -86,7 +86,7 @@
         <thead>
           <tr>
             <th> timeslot </th>
-            <th v-for="timeSlot in timeSlots" :key="timeslot">{{ timeSlot }}</th>
+            <th v-for="timeSlot in timeSlots" :key="timeSlot">{{ timeSlot }}</th>
           </tr>
         </thead>
         <tbody>

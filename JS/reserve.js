@@ -19,13 +19,14 @@ new Vue({
     selectedSeats: [],
     loggedInUser: '', // Initialize the loggedInUser property
     selectedUser: '', // Initialize the selectedUser property
-    users: ['admin', 'yasmin_datario', 'vinnie_inocencio', 'anton_mendoza', 'charles_leclerc', 'john_doe', 'student6'], // Modify the users array with actual user names
+    users: null, // Modify the users array with actual user names
     profilePage: 'viewprofile.html', // Set the profile page URL
     anonymousReservation: false, // Initialize the anonymousReservation property
     actualReservationOwners: {}, // For storing actual owners of anonymous reservations
     requestTimesWithOwners: [], // Initialize an array to hold formatted request times with owners
     selectedRequestTime: '', // New data property to hold the selected request time
-    dates:[]
+    dates:[],
+    profiles:[]
   },
   methods: {
     updateSelectedSeat: function(seat) {
@@ -226,7 +227,7 @@ new Vue({
           count++;
         }
       }
-      return count;
+      return count - 1;
     },
     logOut: function () {
       localStorage.removeItem('loggedInUser');
@@ -236,8 +237,34 @@ new Vue({
       return;
     }
   },
-  created: function () {
+  created: async function () {
     // Retrieve reservations from localStorage
+    try {
+      const response = await fetch('http://localhost:3000/profiles'); // Update the URL to the correct backend server URL
+      if (response.ok) {
+        const data = await response.json();
+        this.profiles = data; // Update the profiles array with the received data
+        console.log(this.profiles)
+
+        this.profiles.forEach(profile => {
+          this.reservations[profile.username] = {};
+          this.labs.forEach(lab => {
+            this.reservations[profile.username][lab] = {};
+            this.seats.forEach(seat => {
+              this.reservations[profile.username][lab][seat] = {};
+              this.timeSlots.forEach(timeSlot => {
+                this.reservations[profile.username][lab][seat][timeSlot] = false;
+              });
+            });
+          });
+        });
+
+      } else {
+        console.error('Failed to fetch profiles from the server.');
+      }
+    } catch (error) {
+      console.error('Error while fetching profiles:', error);
+    }
     const savedReservations = localStorage.getItem('reservations');
     if (savedReservations) {
       this.reservations = JSON.parse(savedReservations);
@@ -252,6 +279,8 @@ new Vue({
     // Save actual reservation owners to localStorage
     localStorage.setItem('actualReservationOwners', JSON.stringify(this.actualReservationOwners));
 
+    console.log(this.reservations)
+    console.log(this.actualReservationOwners)
     const today = new Date();
     const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
     const maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
@@ -297,23 +326,30 @@ new Vue({
       this.holdProfile = [];
       this.holdURL = [];
       this.holdDate = [];
+
       if (!newVal || newVal.trim() === '') {
         this.myClass = 'invalid';
       } else {
-        for (let i = 0; i < this.users.length; i++) {
-          if (this.users[i].includes(newVal) && !this.dates[i].includes(newVal)) {
-            this.myClass = 'valid'
-            this.holdProfile.push(this.users[i])
-            this.holdURL.push(this.profilePage + '?user=' + this.users[i])
-            this.isDate = false
-          } 
-          else if(this.dates[i].includes(newVal) && !this.users[i].includes(newVal)){
-            this.myClass = 'valid'
-            this.holdDate.push(this.dates[i] + '   Lab 1: ' + this.availableSeats(1) + '   Lab 2: ' + this.availableSeats(2)+'   Lab 3: ' + this.availableSeats(3))
-            this.holdURL.push('reserve.html?date=' + this.dates[i])
-            this.isDate = true
-          } 
-          else {
+        for (let i = 0; i < this.profiles.length; i++) { // Fixed the loop to iterate only over existing profiles
+          if (this.profiles[i]?.username.includes(newVal) && !this.dates[i].includes(newVal)) {
+            this.myClass = 'valid';
+            this.holdProfile.push(this.profiles[i].username);
+            this.holdURL.push(this.profilePage + '?user=' + this.profiles[i].username);
+            this.isDate = false;
+          } else if (this.dates[i].includes(newVal) && !this.profiles[i]?.username.includes(newVal)) {
+            this.myClass = 'valid';
+            this.holdDate.push(
+              this.dates[i] +
+                '   Lab 1: ' +
+                this.availableSeats(1)*this.availableTimeSlots(1, this.profiles[i].username) +
+                '   Lab 2: ' +
+                this.availableSeats(2)*this.availableTimeSlots(2, this.profiles[i].username) +
+                '   Lab 3: ' +
+                this.availableSeats(3)*this.availableTimeSlots(3, this.profiles[i].username)
+            );
+            this.holdURL.push('reserve.html?date=' + this.dates[i]);
+            this.isDate = true;
+          } else {
             this.myClass = 'invalid';
           }
         }

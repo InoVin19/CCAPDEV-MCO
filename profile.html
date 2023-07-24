@@ -30,7 +30,7 @@
       </div>
       <div class="dropdownProfile">
         <div class="profileUser">
-          <button class="profile-button" @click="toggleDropdown">{{user.username}}</button>
+          <button class="profile-button" @click="toggleDropdown">{{ user ? user.username : 'Loading...' }}</button>
           <ul v-if="isOpen" class="dropdown">
             <li><a href="availability.html">Lab Availability</a></li>
             <li><a href="reserve.html">Reserve</a></li>
@@ -42,23 +42,23 @@
     </nav>
     <div class="profile">
       <div class="profile-picture">
-        <img :src="user.picture" :alt="user.username" id="profile-image">
-        <input type="file" id="picture-input" style="display: none;" @change="handlePictureChange">   
+        <img v-if="user" :src="user.picture || 'images/placeholder.jpg'" :alt="user.username" id="profile-image">
+        <input type="file" id="picture-input" style="display: none;" @change="handlePictureChange">       
       </div>
       <div class="profile-description">
-        <h1 class="profile-name">{{ user.username }}</h1>
-        <p class="profile-info" id="profile-info" :contentEditable="editingDescription ? 'true' : 'false'" :class="{ 'edit-mode': editingDescription }">{{ user.description }}</p>
+        <h1 class="profile-name">{{ user ? user.username : 'Loading...' }}</h1>
+        <p class="profile-info" id="profile-info" :contentEditable="editingDescription ? 'true' : 'false'" :class="{ 'edit-mode': editingDescription }">{{ user ? user.description : 'Loading...' }}</p>
         <button class="edit-profile-button" @click="toggleEdit">{{ editingDescription ? 'Save Profile' : 'Edit Bio' }}</button>
         <button class="edit-picture-button" @click="openPictureDialog">Edit Picture</button>
         <p class="error" id="pic-error"></p>
       </div>
       <div class="social-media-links">
-        <a v-if="user.socialMedia.facebook" :href="user.socialMedia.facebook" target="_blank">Facebook</a>
-        <a v-if="user.socialMedia.twitter" :href="user.socialMedia.twitter" target="_blank">Twitter</a>
-        <a v-if="user.socialMedia.instagram" :href="user.socialMedia.instagram" target="_blank">Instagram</a>
+        <a v-if="user && user.socialMedia && user.socialMedia.facebook" :href="user.socialMedia.facebook" target="_blank">Facebook</a>
+        <a v-if="user && user.socialMedia && user.socialMedia.twitter" :href="user.socialMedia.twitter" target="_blank">Twitter</a>
+        <a v-if="user && user.socialMedia && user.socialMedia.instagram" :href="user.socialMedia.instagram" target="_blank">Instagram</a>
       </div>
     </div>
-    <div class="reservations">
+    <div class="reservations" v-if="user && user.reservations">
       <table>
         <caption>Current Reservations</caption>
         <thead>

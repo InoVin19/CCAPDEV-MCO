@@ -102,7 +102,7 @@ new Vue({
         if (!newVal || newVal.trim() === '') {
           this.myClass = 'invalid';
         } else {
-          for (let i = 0; i < this.profiles.length; i++) { // Fixed the loop to iterate only over existing profiles
+          for (let i = 0; i <= this.profiles.length; i++) { // Fixed the loop to iterate only over existing profiles
             if (this.profiles[i]?.username.includes(newVal) && !this.dates[i].includes(newVal)) {
               this.myClass = 'valid';
               this.holdProfile.push(this.profiles[i].username);
@@ -113,11 +113,11 @@ new Vue({
               this.holdDate.push(
                 this.dates[i] +
                   '   Lab 1: ' +
-                  this.availableSeats(1) +
+                  this.availableSeats(1)*this.availableTimeSlots(1, this.availableSeats(1)) +
                   '   Lab 2: ' +
-                  this.availableSeats(2) +
+                  this.availableSeats(2)*this.availableTimeSlots(2, this.availableSeats(2)) +
                   '   Lab 3: ' +
-                  this.availableSeats(3)
+                  this.availableSeats(3)*this.availableTimeSlots(3, this.availableSeats(3))
               );
               this.holdURL.push('reserve.html?date=' + this.dates[i]);
               this.isDate = true;

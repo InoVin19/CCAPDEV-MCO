@@ -27,6 +27,8 @@ new Vue({
       if (response.ok) {
         const data = await response.json();
         this.profiles = data; // Update the profiles array with the received data
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        this.user = this.profiles.find(profile => profile.username === loggedInUser);
         console.log(this.profiles)
       } else {
         console.error('Failed to fetch profiles from the server.');
@@ -34,8 +36,6 @@ new Vue({
     } catch (error) {
       console.error('Error while fetching profiles:', error);
     }
-    var loggedInUser = localStorage.getItem('loggedInUser');
-    this.user = this.profiles.find(profile => profile.username === loggedInUser);
     const savedReservations = localStorage.getItem('reservations');
     if (savedReservations) {
       this.reservations = JSON.parse(savedReservations);
