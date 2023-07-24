@@ -186,6 +186,9 @@ new Vue({
     logOut: function () {
       localStorage.removeItem('loggedInUser');
       window.location.href = 'login.html';
+    },
+    ranFunc: function(){
+      return;
     }
   },
   created: function () {
