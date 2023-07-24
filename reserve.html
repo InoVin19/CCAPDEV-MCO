@@ -106,7 +106,7 @@
                 <div>Time Slot: {{ timeSlot }}</div>
                 <div>Request Time: {{ reservations[selectedLab][selectedDate][seat][timeSlot].requestTime }}</div>
                 <button v-if="canCancelReservation(seat, timeSlot)" @click="cancelReservation(seat, timeSlot)">Cancel</button>
-                <button v-on:click="cancelEntireReservation">Cancel Entire Reservation</button>
+                <button v-on:click="cancelEntireReservation">Cancel Entire Seat Reservation</button>
                 <button v-if="isReserved(seat, timeSlot)" @click="viewProfile(seat, timeSlot)">View Profile</button>
               </div>
             </td>
