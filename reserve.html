@@ -76,7 +76,7 @@
     <input id="anonymous" type="checkbox" v-model="anonymousReservation">
 
     <div class="grid-container">
-      <div class="grid-item" v-for="seat in seats" :key="seats" @click="updateSelectedSeat(seat)"> <h1>{{ seat}}</h1> </div>
+      <div class="grid-item" v-for="seat in seats" :key="seats" @click="updateSelectedSeat(seat)" :class="{ selected: seat === selectedGridItem }"> <h1>{{ seat}}</h1> </div>
     </div>
 
     <div class="reservation-table">

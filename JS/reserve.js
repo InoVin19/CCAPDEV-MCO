@@ -11,9 +11,10 @@ new Vue({
     labs: ['Lab 1', 'Lab 2', 'Lab 3'],
     selectedLab: '',
     selectedDate: '',
-    seats: ['C1', 'C6', 'C11', 'C16', 'C2', 'C7', 'C12', 'C17', 'C3', 'C8', 'C13', 'C18', 'C14', 'C9', 'C14', 'C19', 'C15', 'C10', 'C15', 'C20'],
+    seats: ['C1', 'C6', 'C11', 'C16', 'C2', 'C7', 'C12', 'C17', 'C3', 'C8', 'C13', 'C18', 'C4', 'C9', 'C14', 'C19', 'C5', 'C10', 'C15', 'C20'],
     timeSlots: ['8:00', '8:30', '9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '1:00', '1:30', '2:00', '2:30', '3:00', '3:30', '4:00', '4:30', '5:00'],
     selectedSeat: '',
+    selectedGridItem: '',
     reservations: {},
     selectedSeats: [],
     loggedInUser: '', // Initialize the loggedInUser property
@@ -27,6 +28,7 @@ new Vue({
   methods: {
     updateSelectedSeat: function(seat) {
       this.selectedSeat = seat;
+      this.selectedGridItem = seat;
     },
     toggleDropdown: function () {
       this.isOpen = !this.isOpen;

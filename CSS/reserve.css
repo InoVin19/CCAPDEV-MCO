@@ -154,3 +154,7 @@ body {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a larger drop shadow on hover */
   outline: 2px solid #00aaff; /* Change the outline color on hover */
 }
+
+.selected {
+  background-color: #7fff7a; /* You can set your desired background color here */
+}
