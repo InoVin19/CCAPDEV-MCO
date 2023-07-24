@@ -99,7 +99,7 @@
               </label>
               <div class="reservation-details" v-if="isReserved(seat, timeSlot)">
                 <div>Reserved by: {{ reservations[selectedLab][selectedDate][seat][timeSlot].owner }}</div>
-                <div>Seat Number: {{ seat }}</div>
+                <div>Seat Number: {{ selectedSeat }}</div>
                 <div>Lab Number: {{ selectedLab }}</div>
                 <div>Time Slot: {{ timeSlot }}</div>
                 <div>Request Time: {{ reservations[selectedLab][selectedDate][seat][timeSlot].requestTime }}</div>
