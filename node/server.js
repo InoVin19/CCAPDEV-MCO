@@ -6,6 +6,7 @@ let User;
 let Profiles;
 let Reservations;
 let LoggedUser;
+let Picture;
 
 import('./models/user.js')
   .then((module) => {
@@ -31,13 +32,15 @@ import('./models/reservations.js')
     console.error('Error importing Reservation module:', error);
   });
 
- import('./models/loggedUser.js')
+import('./models/loggedUser.js')
   .then((module) => {
     LoggedUser = module.default; 
   })
   .catch((error) => {
     console.error('Error importing LoggedUser module:', error);
   });
+
+
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -229,24 +232,6 @@ app.post('/resetReservation', async (req, res) => {
   }
 });
 
-app.post('/resetReservation', async (req, res) => {
-  const { username, lab, date, seat,  } = req.body;
-
-  try {
-    // Find and delete the reservation from the "reservations" collection
-    const deletedReservation = await Reservations.findOneAndDelete({ username, lab, date, seat });
-
-    if (!deletedReservation) {
-      return res.status(404).json({ error: 'Reservation not found.' });
-    }
-
-    return res.status(200).json({ message: 'Reservation deleted successfully.' });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal server error.' });
-  }
-});
-
 app.post('/deleteTimeSlot', async (req, res) => {
   const { username, lab, date, seat, timeSlot } = req.body;
 
@@ -272,6 +257,25 @@ app.post('/deleteTimeSlot', async (req, res) => {
   }
 });
 
+app.post('/saveDescription', async (req, res) => {
+  const { username, description } = req.body;
 
+  try {
+    const existingProfile = await Profiles.findOne({ username });
+
+    if (existingProfile) {
+      existingProfile.description = description;
+
+      await existingProfile.save();
+
+      return res.status(200).json({ message: 'Description updated!' });
+    } else {
+      return res.status(404).json({ error: 'Profile not found.' });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error.' });
+  }
+});
   // Start the server
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

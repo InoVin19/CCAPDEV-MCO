@@ -76,9 +76,36 @@ new Vue({
         console.error(error);
       }
     },
-    toggleEdit: function() {
+    
+    saveProfile: async function() {
       this.editingDescription = !this.editingDescription;
+      if(this.editingDescription == false){
+        try {
+          const editedDescription = document.getElementById('profile-info').innerText;
+          const response = await fetch('http://localhost:3000/saveDescription', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              username: this.loggedInUser,
+              description: editedDescription // Use the updated description from the UI
+            })
+          });
+      
+          const data = await response.json();
+          if (response.status === 200) {
+            console.log(data.message); // Display a success message or perform any desired action
+          } else {
+            console.error(data.error);
+          }
+        } catch (error) {
+          console.error('Error while saving profile:', error);
+        }
+      }
+      
     },
+    
     isReserved: function (lab, seat) {
       for (let timeSlot of this.timeSlots) {
         if (this.reservations[lab]?.[this.selectedDate]?.[seat]?.[timeSlot]) {
@@ -142,7 +169,7 @@ new Vue({
     },
     formatReservationTime: function(timeArray) {
       return timeArray.join('<br>');
-    }
+    },
   },
   watch: {
     searchQuery: function (newVal) {

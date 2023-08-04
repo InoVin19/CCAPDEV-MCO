@@ -100,14 +100,13 @@
                        @change="selectSeat(seat, timeSlot)">
               </label>
               <div class="reservation-details" v-if="isReserved(seat, timeSlot)">
-                <div v-if="dbReservation[selectedLab][selectedDate][seat][timeSlot].anonymity == false || loggedInUser === 'admin'">Reserved by: {{ dbReservation[selectedLab][selectedDate][seat][timeSlot].owner }}</div>
-                <div v-if="dbReservation[selectedLab][selectedDate][seat][timeSlot].anonymity == true && !loggedInUser === 'admin'">Reserved by: Anonymous</div>
+                <div v-if="dbReservation[selectedLab][selectedDate][seat][timeSlot].anonymity == false || loggedInUser === 'admin' || !loggedInUser === 'admin'">Reserved by: {{ dbReservation[selectedLab][selectedDate][seat][timeSlot].owner }}</div>
+                <div v-if="dbReservation[selectedLab][selectedDate][seat][timeSlot].anonymity == true || !loggedInUser === 'admin'">Reserved by: Anonymous</div>
                 <div>Seat Number: {{ selectedSeat }}</div>
                 <div>Lab Number: {{ selectedLab }}</div>
                 <div>Time Slot: {{ timeSlot }}</div>
                 <div>Request Time: {{ dbReservation[selectedLab][selectedDate][seat][timeSlot].requestTime }}</div>
                 <button v-if="canCancelReservation(seat, timeSlot)" @click="cancelReservation(seat, timeSlot)">Cancel</button>
-                <button v-on:click="cancelEntireReservation">Cancel Entire Seat Reservation</button>
                 <button v-if="(isReserved(seat, timeSlot) && dbReservation[selectedLab][selectedDate][seat][timeSlot].anonymity == false) || loggedInUser === 'admin'" @click="viewProfile(seat, timeSlot)">View Profile</button>
               </div>
             </td>
@@ -120,12 +119,12 @@
       <button class="resButton" @click="confirmReservation">Confirm Reservation</button>
       <button class="resButton" @click="resetReservations">Cancel Entire Seat Reservation</button>
       <br>
-      <select v-model="selectedRequestTime">
+      <select v-model="selectedRequestTime" v-if = "loggedInUser === 'admin'">
         <option v-for="requestTime in requestTimesWithOwners" :value="requestTime">
           {{ requestTime }}
         </option>
       </select>
-      <button class="resButton" @click="cancelReservationsByRequestTime">Cancel Request</button>      
+      <button v-if = "loggedInUser === 'admin'" class="resButton" @click="cancelReservationsByRequestTime">Cancel Request</button>      
     </div>
   </div>
   </div>

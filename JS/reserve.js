@@ -18,6 +18,7 @@ new Vue({
     reservations: [],
     dbReservation:{},
     holdReservation:{},
+    dropReservations:[],
     selectedSeats: [],
     loggedInUser: '', // Initialize the loggedInUser property
     selectedUser: '', // Initialize the selectedUser property
@@ -224,24 +225,6 @@ new Vue({
           console.error(error);
           alert('Reservation reset not successful');
         }
-      }
-    },
-    cancelEntireReservation: function () {
-      if (this.selectedLab && this.selectedDate && this.selectedSeat) {
-        if (this.loggedInUser !== 'admin') {
-          alert('You do not have permission to cancel all reservations for the selected seat, date, and lab.');
-          return;
-        }
-    
-        if (confirm('Are you sure you want to cancel all reservations for the selected lab, date, and seat?')) {
-          // Remove all reservations for the selected seat, date, and lab
-          this.dbReservation[this.selectedLab][this.selectedDate][this.selectedSeat] = {};
-          // Save updated reservations to localStorage(modify to update db)
-          localStorage.setItem('reservations', JSON.stringify(this.reservations));
-          alert('All reservations for the selected seat, date, and lab canceled!');
-        }
-      } else {
-        alert('Please select a lab, date, and seat before canceling the reservations.');
       }
     },
     cancelReservationsByRequestTime: function() {
