@@ -100,14 +100,15 @@
                        @change="selectSeat(seat, timeSlot)">
               </label>
               <div class="reservation-details" v-if="isReserved(seat, timeSlot)">
-                <div>Reserved by: {{ dbReservation[selectedLab][selectedDate][seat][timeSlot].owner }}</div>
+                <div v-if="dbReservation[selectedLab][selectedDate][seat][timeSlot].anonymity == false || loggedInUser === 'admin'">Reserved by: {{ dbReservation[selectedLab][selectedDate][seat][timeSlot].owner }}</div>
+                <div v-if="dbReservation[selectedLab][selectedDate][seat][timeSlot].anonymity == true && !loggedInUser === 'admin'">Reserved by: Anonymous</div>
                 <div>Seat Number: {{ selectedSeat }}</div>
                 <div>Lab Number: {{ selectedLab }}</div>
                 <div>Time Slot: {{ timeSlot }}</div>
                 <div>Request Time: {{ dbReservation[selectedLab][selectedDate][seat][timeSlot].requestTime }}</div>
                 <button v-if="canCancelReservation(seat, timeSlot)" @click="cancelReservation(seat, timeSlot)">Cancel</button>
                 <button v-on:click="cancelEntireReservation">Cancel Entire Seat Reservation</button>
-                <button v-if="isReserved(seat, timeSlot)" @click="viewProfile(seat, timeSlot)">View Profile</button>
+                <button v-if="(isReserved(seat, timeSlot) && dbReservation[selectedLab][selectedDate][seat][timeSlot].anonymity == false) || loggedInUser === 'admin'" @click="viewProfile(seat, timeSlot)">View Profile</button>
               </div>
             </td>
           </tr>
@@ -117,7 +118,7 @@
 
     <div class="button-container">
       <button class="resButton" @click="confirmReservation">Confirm Reservation</button>
-      <button class="resButton" @click="resetReservations">Reset Reservations</button>
+      <button class="resButton" @click="resetReservations">Cancel Entire Seat Reservation</button>
       <br>
       <select v-model="selectedRequestTime">
         <option v-for="requestTime in requestTimesWithOwners" :value="requestTime">

@@ -203,7 +203,7 @@ app.post('/saveReservation', async (req, res) => {
       const newReservation = new Reservations({ username, lab, date, seat, timeSlot: [timeSlot], requestTime, anonymous });
       await newReservation.save();
 
-      return res.status(201).json({ message: 'Reservation confirmed!' });
+      return res.status(200).json({ message: 'Reservation confirmed!' });
     }
   } catch (error) {
     console.error(error);
@@ -228,6 +228,50 @@ app.post('/resetReservation', async (req, res) => {
     return res.status(500).json({ error: 'Internal server error.' });
   }
 });
+
+app.post('/resetReservation', async (req, res) => {
+  const { username, lab, date, seat,  } = req.body;
+
+  try {
+    // Find and delete the reservation from the "reservations" collection
+    const deletedReservation = await Reservations.findOneAndDelete({ username, lab, date, seat });
+
+    if (!deletedReservation) {
+      return res.status(404).json({ error: 'Reservation not found.' });
+    }
+
+    return res.status(200).json({ message: 'Reservation deleted successfully.' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
+app.post('/deleteTimeSlot', async (req, res) => {
+  const { username, lab, date, seat, timeSlot } = req.body;
+
+  try {
+    const existingReservation = await Reservations.findOne({ username, lab, date, seat });
+
+    if (!existingReservation) {
+      return res.status(404).json({ error: 'Reservation not found.' });
+    }
+
+    const updatedReservation = existingReservation.toObject();
+    const timeSlotIndex = updatedReservation.timeSlot.findIndex(slot => slot === timeSlot);
+    if (timeSlotIndex !== -1) {
+      updatedReservation.timeSlot.splice(timeSlotIndex, 1);
+    }
+
+    await Reservations.updateOne({ username, lab, date, seat }, { $set: { timeSlot: updatedReservation.timeSlot } });
+
+    return res.status(200).json({ message: 'Time slot deleted successfully.' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
 
   // Start the server
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
