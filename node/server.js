@@ -199,7 +199,7 @@ app.post('/saveReservation', async (req, res) => {
 
       return res.status(200).json({ message: 'Reservation updated!' });
     } else {
-      
+
       const newReservation = new Reservations({ username, lab, date, seat, timeSlot: [timeSlot], requestTime, anonymous });
       await newReservation.save();
 
@@ -211,6 +211,23 @@ app.post('/saveReservation', async (req, res) => {
   }
 });
 
+app.post('/resetReservation', async (req, res) => {
+  const { username, lab, date, seat } = req.body;
+
+  try {
+    // Find and delete the reservation from the "reservations" collection
+    const deletedReservation = await Reservations.findOneAndDelete({ username, lab, date, seat });
+
+    if (!deletedReservation) {
+      return res.status(404).json({ error: 'Reservation not found.' });
+    }
+
+    return res.status(200).json({ message: 'Reservation deleted successfully.' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error.' });
+  }
+});
 
   // Start the server
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

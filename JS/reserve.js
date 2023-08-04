@@ -29,7 +29,8 @@ new Vue({
     selectedRequestTime: '', // New data property to hold the selected request time
     dates:[],
     profiles:[],
-    dbReservedSlots:{}
+    dbReservedSlots:{},
+    response: null
   },
   methods: {
     updateSelectedSeat: function(seat) {
@@ -119,7 +120,7 @@ new Vue({
 
           // If the reservation is anonymous, store the actual owner
             if (this.anonymousReservation && !this.loggedInUser === 'admin') {
-              const response =  await fetch('http://localhost:3000/saveReservation',{
+              this.response =  await fetch('http://localhost:3000/saveReservation',{
                 method: 'POST',
                 headers:{
                   'Content-Type': 'application/json'
@@ -135,7 +136,7 @@ new Vue({
                 })
               })
             }else if(this.anonymousReservation && this.loggedInUser === 'admin'){
-              const response =  await fetch('http://localhost:3000/saveReservation',{
+              this.response =  await fetch('http://localhost:3000/saveReservation',{
                 method: 'POST',
                 headers:{
                   'Content-Type': 'application/json'
@@ -151,7 +152,7 @@ new Vue({
                 })
               })
             }
-            const response =  await fetch('http://localhost:3000/saveReservation',{
+            this.response =  await fetch('http://localhost:3000/saveReservation',{
                 method: 'POST',
                 headers:{
                   'Content-Type': 'application/json'
@@ -169,26 +170,54 @@ new Vue({
             
         }
 
-        const data = await response.json();
+        const data = await this.response.json();
 
-        if (response.status === 201) {
+        if (this.response.status === 201) {
           this.selectedSeats = [];
           alert(data.message);
           } else {
           this.error = data.error;
         }
-      
+        window.location.href = 'reserve.html';
         } 
       }catch(error){
         alert('Please select a lab, date, and user (for admin) before confirming the reservation.');
       }
       
     },
-    resetReservations: function () {
-      this.reservations = {}; // Clear the reservations data
-      localStorage.removeItem('reservations'); // Remove saved reservations from localStorage (modify to delete db)
-      alert('Reservations have been reset.');
+    resetReservations: async function () {
+      try {
+        const response = await fetch('http://localhost:3000/resetReservation', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: this.loggedInUser, 
+            lab: this.selectedLab,
+            date: this.selectedDate, 
+            seat: this.selectedSeat
+          })
+        });
+    
+        const data = await response.json();
+    
+        if (response.status === 200) {
+          alert(data.message);
+        } else if (response.status === 404) {
+          alert(data.error);
+        } else {
+          this.error = data.error;
+        }
+        // Optionally, you can reload the reservations after deletion by calling the created() method again
+        //this.created();
+        // Or update the dbReservation and dbReservedSlots properties to reflect the new state
+      } catch (error) {
+        alert('Reservation reset not successful');
+        console.error(error);
+      }
     },
+    
     canCancelReservation: function (seat, timeSlot) {
       const reservationData = this.dbReservation[this.selectedLab]?.[this.selectedDate]?.[seat]?.[timeSlot];
       const actualReservationOwner = this.actualReservationOwners[this.selectedLab]?.[this.selectedDate]?.[seat]?.[timeSlot];
