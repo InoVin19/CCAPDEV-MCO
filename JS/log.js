@@ -20,13 +20,22 @@ new Vue({
           })
         });
 
+        await fetch('http://localhost:3000/saveLoggedInUser', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: this.username
+          })
+        })
+
         const data = await response.json();
 
         if (response.status === 200) {
           // Login successful
           this.loginError = '';
           alert('Login successful!');
-          localStorage.setItem('loggedInUser', this.username);
           window.location.href = 'index.html';
         } else {
           // Login failed

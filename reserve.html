@@ -100,11 +100,11 @@
                        @change="selectSeat(seat, timeSlot)">
               </label>
               <div class="reservation-details" v-if="isReserved(seat, timeSlot)">
-                <div>Reserved by: {{ reservations[selectedLab][selectedDate][seat][timeSlot].owner }}</div>
+                <div>Reserved by: {{ dbReservation[selectedLab][selectedDate][seat][timeSlot].owner }}</div>
                 <div>Seat Number: {{ selectedSeat }}</div>
                 <div>Lab Number: {{ selectedLab }}</div>
                 <div>Time Slot: {{ timeSlot }}</div>
-                <div>Request Time: {{ reservations[selectedLab][selectedDate][seat][timeSlot].requestTime }}</div>
+                <div>Request Time: {{ dbReservation[selectedLab][selectedDate][seat][timeSlot].requestTime }}</div>
                 <button v-if="canCancelReservation(seat, timeSlot)" @click="cancelReservation(seat, timeSlot)">Cancel</button>
                 <button v-on:click="cancelEntireReservation">Cancel Entire Seat Reservation</button>
                 <button v-if="isReserved(seat, timeSlot)" @click="viewProfile(seat, timeSlot)">View Profile</button>

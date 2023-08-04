@@ -55,7 +55,7 @@
         <a v-if="user && user.socialMedia && user.socialMedia.instagram" :href="user.socialMedia.instagram" target="_blank">Instagram</a>
       </div>
     </div>
-    <div class="reservations" v-if="user && user.reservations">
+    <div class="reservations" v-if="user">
       <table>
         <caption>Current Reservations</caption>
         <thead>
@@ -67,11 +67,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="reservation in user.reservations" :key="reservation.id">
+          <tr v-for="reservation in reservations" v-if="user.username === reservation.username">
             <td>{{ reservation.lab }}</td>
             <td>{{ reservation.date }}</td>
             <td>{{ reservation.seat }}</td>
-            <td v-html="formatReservationTime(reservation.time)"></td>
+            <td v-html="formatReservationTime(reservation.timeSlot)"></td>
           </tr>
         </tbody>
       </table>

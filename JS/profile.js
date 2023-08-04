@@ -13,7 +13,7 @@ new Vue({
     selectedDate: '',
     seats: ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16', 'C17', 'C18', 'C19', 'C20'],
     timeSlots: ['8:00', '8:30', '9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '1:00', '1:30', '2:00', '2:30', '3:00', '3:30', '4:00', '4:30', '5:00'],
-    reservations: {},
+    reservations: [],
     myClass: 'invalid',
     profilePage: 'viewprofile.html',
     user: null,
@@ -23,22 +23,25 @@ new Vue({
   },
   created: async function() {
     try {
-      const response = await fetch('http://localhost:3000/profiles'); // Update the URL to the correct backend server URL
+      const response = await fetch('http://localhost:3000/profiles') 
+      const getUser = await fetch('http://localhost:3000/getLoggedUser')
+      const getReservations = await fetch('http://localhost:3000/reservations')
+      
       if (response.ok) {
         const data = await response.json();
-        this.profiles = data; // Update the profiles array with the received data
-        const loggedInUser = localStorage.getItem('loggedInUser');
-        this.user = this.profiles.find(profile => profile.username === loggedInUser);
-        console.log(this.profiles)
+        const log = await getUser.json();
+        const reserve  = await getReservations.json()
+
+        this.profiles = data; 
+        this.loggedInUser = log[0].username
+        this.reservations = reserve;
+        this.user = this.profiles.find(profile => profile.username === this.loggedInUser);
+        console.log(this.reservations)
       } else {
         console.error('Failed to fetch profiles from the server.');
       }
     } catch (error) {
       console.error('Error while fetching profiles:', error);
-    }
-    const savedReservations = localStorage.getItem('reservations');
-    if (savedReservations) {
-      this.reservations = JSON.parse(savedReservations);
     }
     
     let today = new Date();
@@ -56,9 +59,22 @@ new Vue({
     toggleDropdown: function() {
       this.isOpen = !this.isOpen;
     },
-    logOut: function() {
-      localStorage.removeItem('loggedInUser');
-      window.location.href = 'login.html';
+    logOut: async function() {
+      try {
+        await fetch('http://localhost:3000/logout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: this.loggedInUser
+          })
+        })
+    
+        window.location.href = 'login.html';
+      } catch (error) {
+        console.error(error);
+      }
     },
     toggleEdit: function() {
       this.editingDescription = !this.editingDescription;
@@ -82,11 +98,9 @@ new Vue({
     },
     reservedSlotsForProfile: function (lab, date) {
       let count = 0;
-      for (const profile of this.profiles) {
-        for (const reservation of profile.reservations) {
-          if (reservation.lab === lab && reservation.date === date) {
-            count += reservation.timeSlot.length - 1;
-          }
+      for (const reservation of this.reservations) {
+        if (reservation.lab === lab && reservation.date === date) {
+          count += reservation.timeSlot.length - 1;
         }
       }
       return count;
@@ -145,16 +159,16 @@ new Vue({
             this.holdProfile.push(this.profiles[i].username);
             this.holdURL.push(this.profilePage + '?user=' + this.profiles[i].username);
             this.isDate = false;
-          } else if (this.dates[i].includes(newVal) && !this.profiles[i]?.username.includes(newVal)) {
+          } else if (this.dates[i].includes(newVal) && !this.reservations[i]?.username.includes(newVal)) {
             this.myClass = 'valid';
             this.holdDate.push(
               this.dates[i] +
                 '   Lab 1: ' +
-                (this.availableSeats(1)*this.availableTimeSlots(1, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 1", this.dates[i])) +
+                (this.availableSeats(1)*this.availableTimeSlots(1, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 1", this.dates[i])) +
                 '   Lab 2: ' +
-                (this.availableSeats(2)*this.availableTimeSlots(2, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 2", this.dates[i])) +
+                (this.availableSeats(2)*this.availableTimeSlots(2, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 2", this.dates[i])) +
                 '   Lab 3: ' +
-                (this.availableSeats(3)*this.availableTimeSlots(3, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 3", this.dates[i]))
+                (this.availableSeats(3)*this.availableTimeSlots(3, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 3", this.dates[i]))
             );
             this.holdURL.push('reserve.html?date=' + this.dates[i]);
             this.isDate = true;

@@ -31,6 +31,23 @@ new Vue({
           })
         });
 
+        await fetch('http://localhost:3000/createProfile', {
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: username,
+            description: "none",
+            picture: "holder",
+            socialMedia:{
+              facebook: "https://www.facebook.com/",
+              twitter: "https://www.twitter.com/",
+              instagram: "https://www.instagram.com/"
+            }
+          })
+        })
+
         const data = await response.json();
 
         if (response.status === 201) {

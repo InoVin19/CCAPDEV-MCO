@@ -15,8 +15,9 @@ new Vue({
     timeSlots: ['8:00', '8:30', '9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '1:00', '1:30', '2:00', '2:30', '3:00', '3:30', '4:00', '4:30', '5:00'],
     selectedSeat: '',
     selectedGridItem: '',
-    reservations: {},
+    reservations: [],
     dbReservation:{},
+    holdReservation:{},
     selectedSeats: [],
     loggedInUser: '', // Initialize the loggedInUser property
     selectedUser: '', // Initialize the selectedUser property
@@ -39,7 +40,7 @@ new Vue({
       this.isOpen = !this.isOpen;
     },
     isReserved: function (seat, timeSlot) {
-      const reservationData = this.reservations[this.selectedLab]?.[this.selectedDate]?.[seat]?.[timeSlot];
+      const reservationData = this.dbReservation[this.selectedLab]?.[this.selectedDate]?.[seat]?.[timeSlot];
       return !!reservationData;
     },
     isSelected: function (seat, timeSlot) {
@@ -57,20 +58,25 @@ new Vue({
       }
     },
     saveReservedSlots: function () {
-      for (let i = 0; i < this.profiles.length; i++) {
-        for (let j = 0; j < this.profiles[i].reservations.length; j++) {
-          for (let k = 0; k < this.profiles[i].reservations[j].timeSlot.length; k++) {
-            const prof = this.profiles[i].reservations[j];
-            this.dbReservation[prof.lab] = {};
-            this.dbReservation[prof.lab][prof.date] = {};
-            this.dbReservation[prof.lab][prof.date][prof.seat] = {};
-            const reservationKey = `${prof.lab},${prof.date},${prof.seat},${prof.timeSlot[k]}`;
-            const reservationData = {
-              owner: this.profiles[i].username,
-              requestTime: prof.requestTime // Set the request time for the reservation
-            };
-            this.$set(this.dbReservedSlots, reservationKey ,this.dbReservation[prof.lab][prof.date][prof.seat][prof.timeSlot[k]] = reservationData);
+      for (let i = 0; i < this.reservations.length; i++) {
+        for (let k = 0; k < this.reservations[i].timeSlot.length; k++) {
+          const prof = this.reservations[i];
+          if (!this.holdReservation[prof.lab]) {
+            this.holdReservation[prof.lab] = {};
           }
+          if (!this.holdReservation[prof.lab][prof.date]) {
+            this.holdReservation[prof.lab][prof.date] = {};
+          }
+          if (!this.holdReservation[prof.lab][prof.date][prof.seat]) {
+            this.holdReservation[prof.lab][prof.date][prof.seat] = {};
+          }
+          const reservationKey = `${prof.lab},${prof.date},${prof.seat},${prof.timeSlot[k]}`;
+          const reservationData = {
+            owner: this.reservations[i].username,
+            requestTime: prof.requestTime, // Set the request time for the reservation
+            anonymity: prof.anonymous
+          };
+          this.$set(this.dbReservedSlots, reservationKey ,this.holdReservation[prof.lab][prof.date][prof.seat][prof.timeSlot[k]] = reservationData);
         }
       }
     },
@@ -99,76 +105,100 @@ new Vue({
       // Update the reservations object with the new data in the original format
       this.dbReservation = origFormatReservations;
       this.dbReservedSlots = JSON.stringify(this.dbReservation);
-      localStorage.setItem('reservations', JSON.stringify(this.dbReservation));
       this.dbReservation = {}
     },
-    confirmReservation: function () {
-      if (this.selectedLab && this.selectedDate && (this.loggedInUser || this.selectedUser)) {
-        if (!this.reservations[this.selectedLab]) {
-          this.reservations[this.selectedLab] = {};
-        }
-        if (!this.reservations[this.selectedLab][this.selectedDate]) {
-          this.reservations[this.selectedLab][this.selectedDate] = {};
-        }
-        const requestTime = new Date().toLocaleString(); // Get the current request time
-        for (let i = 0; i < this.selectedSeats.length; i++) {
-          const [seat, timeSlot] = this.selectedSeats[i].split('_');
-          if (!this.reservations[this.selectedLab][this.selectedDate][seat]) {
-            this.reservations[this.selectedLab][this.selectedDate][seat] = {};
-          }
-          const reservationOwner = this.loggedInUser === 'admin' ? this.selectedUser : this.loggedInUser;
-          const displayedReservationOwner = this.anonymousReservation ? 'Anonymous' : reservationOwner;
+    confirmReservation: async function () {
+      try{
+        if (this.selectedLab && this.selectedDate && (this.loggedInUser || this.selectedUser)) {
+
+          const requestTime = new Date().toLocaleString(); // Get the current request time
+          for (let i = 0; i < this.selectedSeats.length; i++) {
+            const [seat, timeSlot] = this.selectedSeats[i].split('_');
+            const reservationOwner = this.loggedInUser === 'admin' ? this.selectedUser : this.loggedInUser;
+            const displayedReservationOwner = this.anonymousReservation ? 'Anonymous' : reservationOwner;
 
           // If the reservation is anonymous, store the actual owner
-          if (this.anonymousReservation) {
-            if (!this.actualReservationOwners[this.selectedLab]) {
-              this.actualReservationOwners[this.selectedLab] = {};
+            if (this.anonymousReservation && !this.loggedInUser === 'admin') {
+              const response =  await fetch('http://localhost:3000/saveReservation',{
+                method: 'POST',
+                headers:{
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  username: this.loggedInUser, 
+                  lab: this.selectedLab,
+                  date: this.selectedDate, 
+                  seat: seat, 
+                  timeSlot: timeSlot, 
+                  requestTime: requestTime, 
+                  anonymous: this.anonymousReservation
+                })
+              })
+            }else if(this.anonymousReservation && this.loggedInUser === 'admin'){
+              const response =  await fetch('http://localhost:3000/saveReservation',{
+                method: 'POST',
+                headers:{
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  username: this.selectedUser, 
+                  lab: this.selectedLab,
+                  date: this.selectedDate, 
+                  seat: seat, 
+                  timeSlot: timeSlot, 
+                  requestTime: requestTime, 
+                  anonymous: this.anonymousReservation
+                })
+              })
             }
-            if (!this.actualReservationOwners[this.selectedLab][this.selectedDate]) {
-              this.actualReservationOwners[this.selectedLab][this.selectedDate] = {};
-            }
-            if (!this.actualReservationOwners[this.selectedLab][this.selectedDate][seat]) {
-              this.actualReservationOwners[this.selectedLab][this.selectedDate][seat] = {};
-            }
-            this.actualReservationOwners[this.selectedLab][this.selectedDate][seat][timeSlot] = reservationOwner;
-          }
-
-          if (!this.reservations[this.selectedLab][this.selectedDate][seat]) {
-            this.reservations[this.selectedLab][this.selectedDate][seat] = {};
-          }
-          const reservationData = {
-            owner: displayedReservationOwner,
-            requestTime: requestTime // Set the request time for the reservation
-          };
-          this.reservations[this.selectedLab][this.selectedDate][seat][timeSlot] = reservationData;
+            const response =  await fetch('http://localhost:3000/saveReservation',{
+                method: 'POST',
+                headers:{
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  username: this.loggedInUser, 
+                  lab: this.selectedLab,
+                  date: this.selectedDate, 
+                  seat: seat, 
+                  timeSlot: timeSlot, 
+                  requestTime: requestTime, 
+                  anonymous: this.anonymousReservation
+                })
+              })
+            
         }
 
-        // Clear selected seats
-        this.selectedSeats = [];
+        const data = await response.json();
 
-        // Save reservations to localStorage
-        localStorage.setItem('reservations', JSON.stringify(this.reservations));
-
-        alert('Reservation confirmed!');
-      } else {
+        if (response.status === 201) {
+          this.selectedSeats = [];
+          alert(data.message);
+          } else {
+          this.error = data.error;
+        }
+      
+        } 
+      }catch(error){
         alert('Please select a lab, date, and user (for admin) before confirming the reservation.');
       }
+      
     },
     resetReservations: function () {
       this.reservations = {}; // Clear the reservations data
-      localStorage.removeItem('reservations'); // Remove saved reservations from localStorage
+      localStorage.removeItem('reservations'); // Remove saved reservations from localStorage (modify to delete db)
       alert('Reservations have been reset.');
     },
     canCancelReservation: function (seat, timeSlot) {
-      const reservationData = this.reservations[this.selectedLab]?.[this.selectedDate]?.[seat]?.[timeSlot];
+      const reservationData = this.dbReservation[this.selectedLab]?.[this.selectedDate]?.[seat]?.[timeSlot];
       const actualReservationOwner = this.actualReservationOwners[this.selectedLab]?.[this.selectedDate]?.[seat]?.[timeSlot];
       const reservationOwner = actualReservationOwner || (reservationData && reservationData.owner);
       return this.loggedInUser === 'admin' || reservationOwner === this.loggedInUser;
     },
     cancelReservation: function (seat, timeSlot) {
       if (this.canCancelReservation(seat, timeSlot)) {
-        delete this.reservations[this.selectedLab][this.selectedDate][seat][timeSlot];
-        // Save updated reservations to localStorage
+        delete this.dbReservation[this.selectedLab][this.selectedDate][seat][timeSlot];
+        // Save updated reservations to localStorage(modify to update db)
         localStorage.setItem('reservations', JSON.stringify(this.reservations));
         alert('Reservation canceled!');
       } else {
@@ -184,8 +214,8 @@ new Vue({
     
         if (confirm('Are you sure you want to cancel all reservations for the selected lab, date, and seat?')) {
           // Remove all reservations for the selected seat, date, and lab
-          this.reservations[this.selectedLab][this.selectedDate][this.selectedSeat] = {};
-          // Save updated reservations to localStorage
+          this.dbReservation[this.selectedLab][this.selectedDate][this.selectedSeat] = {};
+          // Save updated reservations to localStorage(modify to update db)
           localStorage.setItem('reservations', JSON.stringify(this.reservations));
           alert('All reservations for the selected seat, date, and lab canceled!');
         }
@@ -212,28 +242,28 @@ new Vue({
       let selectedTimestamp = this.selectedRequestTime.split(' (')[0];  // Extract the timestamp from selectedRequestTime
       let cancelled = false; // A flag to check if any reservations were cancelled
     
-      for (const lab in this.reservations) {
-        for (const date in this.reservations[lab]) {
-          for (const seat in this.reservations[lab][date]) {
-            for (const timeSlot in this.reservations[lab][date][seat]) {
-              if (this.reservations[lab][date][seat][timeSlot].requestTime === selectedTimestamp) {
-                delete this.reservations[lab][date][seat][timeSlot];
+      for (const lab in this.dbReservation) {
+        for (const date in this.dbReservation[lab]) {
+          for (const seat in this.dbReservation[lab][date]) {
+            for (const timeSlot in this.dbReservation[lab][date][seat]) {
+              if (this.dbReservation[lab][date][seat][timeSlot].requestTime === selectedTimestamp) {
+                delete this.dbReservation[lab][date][seat][timeSlot];
                 cancelled = true;
               }
             }
             // Clean up the seat object if it has no timeslots
-            if (Object.keys(this.reservations[lab][date][seat]).length === 0) {
-              delete this.reservations[lab][date][seat];
+            if (Object.keys(this.dbReservation[lab][date][seat]).length === 0) {
+              delete this.dbReservation[lab][date][seat];
             }
           }
           // Clean up the date object if it has no seats
-          if (Object.keys(this.reservations[lab][date]).length === 0) {
-            delete this.reservations[lab][date];
+          if (Object.keys(this.dbReservation[lab][date]).length === 0) {
+            delete this.dbReservation[lab][date];
           }
         }
         // Clean up the lab object if it has no dates
-        if (Object.keys(this.reservations[lab]).length === 0) {
-          delete this.reservations[lab];
+        if (Object.keys(this.dbReservation[lab]).length === 0) {
+          delete this.dbReservation[lab];
         }
       }
     
@@ -250,7 +280,7 @@ new Vue({
       }
     },    
     viewProfile: function (seat, timeSlot) {
-      const reservationData = this.reservations[this.selectedLab]?.[this.selectedDate]?.[seat]?.[timeSlot];
+      const reservationData = this.dbReservation[this.selectedLab]?.[this.selectedDate]?.[seat]?.[timeSlot];
       if (reservationData && reservationData.owner !== 'Anonymous') {
         const profileURL = this.profilePage + '?user=' + reservationData.owner;
         window.location.href = profileURL;
@@ -279,19 +309,29 @@ new Vue({
     },
     reservedSlotsForProfile: function (lab, date) {
       let count = 0;
-      for (const profile of this.profiles) {
-        for (const reservation of profile.reservations) {
-          if (reservation.lab === lab && reservation.date === date) {
-            count += reservation.timeSlot.length - 1;
-          }
+      for (const reservation of this.reservations) {
+        if (reservation.lab === lab && reservation.date === date) {
+          count += reservation.timeSlot.length - 1;
         }
       }
       return count;
     },
-    logOut: function () {
-      localStorage.removeItem('reservations');
-      localStorage.removeItem('loggedInUser');
-      window.location.href = 'login.html';
+    logOut: async function() {
+      try {
+        await fetch('http://localhost:3000/logout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: this.loggedInUser
+          })
+        })
+    
+        window.location.href = 'login.html';
+      } catch (error) {
+        console.error(error);
+      }
     },
     ranFunc: function(){
       return;
@@ -300,26 +340,31 @@ new Vue({
   created: async function () {
     // Retrieve reservations from localStorage
     try {
-      const response = await fetch('http://localhost:3000/profiles'); // Update the URL to the correct backend server URL
-      if (response.ok) {
-        const data = await response.json();
-        this.profiles = data; // Update the profiles array with the received data
-        console.log(this.profiles)
+      const responseReservations = await fetch('http://localhost:3000/reservations');
+      const responseProfiles = await fetch('http://localhost:3000/profiles');
+      const responseLoggedUser = await fetch('http://localhost:3000/getLoggedUser');
 
-      } else {
-        console.error('Failed to fetch profiles from the server.');
+      if (!responseReservations.ok || !responseProfiles.ok || !responseLoggedUser.ok) {
+        console.error('Failed to fetch data from the server.');
+        return;
       }
+
+        const dataReservations = await responseReservations.json();
+        const dataProfiles = await responseProfiles.json();
+        const dataLoggedUser = await responseLoggedUser.json();
+
+        this.reservations = dataReservations;
+        this.loggedInUser = dataLoggedUser[0].username;
+        this.profiles = dataProfiles;
+        console.log(this.reservations[0].timeSlot.length)
+
+        this.saveReservedSlots();
+        this.convertToOrigFormat();
+
     } catch (error) {
       console.error('Error while fetching profiles:', error);
     }
-    this.saveReservedSlots()
-    this.convertToOrigFormat();
-    const savedReservations = localStorage.getItem('reservations');
-    if (savedReservations) {
-      this.reservations = JSON.parse(savedReservations);
-    }
-    // Retrieve the logged-in user from localStorage
-    this.loggedInUser = localStorage.getItem('loggedInUser') || '';
+    
     // Retrieve the actual reservation owners from localStorage
     const savedActualReservationOwners = localStorage.getItem('actualReservationOwners');
     if (savedActualReservationOwners) {
@@ -328,8 +373,8 @@ new Vue({
     // Save actual reservation owners to localStorage
     localStorage.setItem('actualReservationOwners', JSON.stringify(this.actualReservationOwners));
     
-    console.log(savedReservations)
-    console.log(JSON.stringify(this.dbReservedSlots))
+    this.dbReservation = JSON.parse(this.dbReservedSlots)
+    console.log(this.dbReservedSlots)
     console.log(this.actualReservationOwners)
     const today = new Date();
     const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
@@ -359,12 +404,12 @@ new Vue({
     this.selectedDate = urlParams.get('date');
     
     // Create the array of formatted request times with owners for the dropdown
-    for (const lab in this.reservations) {
-      for (const date in this.reservations[lab]) {
-        for (const seat in this.reservations[lab][date]) {
-          for (const timeSlot in this.reservations[lab][date][seat]) {
-            const requestTime = this.reservations[lab][date][seat][timeSlot].requestTime;
-            const reservationOwner = this.reservations[lab][date][seat][timeSlot].owner;
+    for (const lab in this.dbReservation) {
+      for (const date in this.dbReservation[lab]) {
+        for (const seat in this.dbReservation[lab][date]) {
+          for (const timeSlot in this.dbReservation[lab][date][seat]) {
+            const requestTime = this.dbReservation[lab][date][seat][timeSlot].requestTime;
+            const reservationOwner = this.dbReservation[lab][date][seat][timeSlot].owner;
             this.requestTimesWithOwners.push(`${requestTime} (${reservationOwner})`);
           }
         }
@@ -386,16 +431,16 @@ new Vue({
             this.holdProfile.push(this.profiles[i].username);
             this.holdURL.push(this.profilePage + '?user=' + this.profiles[i].username);
             this.isDate = false;
-          } else if (this.dates[i].includes(newVal) && !this.profiles[i]?.username.includes(newVal)) {
+          } else if (this.dates[i].includes(newVal) && !this.reservations[i]?.username.includes(newVal)) {
             this.myClass = 'valid';
             this.holdDate.push(
               this.dates[i] +
                 '   Lab 1: ' +
-                (this.availableSeats(1)*this.availableTimeSlots(1, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 1", this.dates[i])) +
+                (this.availableSeats(1)*this.availableTimeSlots(1, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 1", this.dates[i])) +
                 '   Lab 2: ' +
-                (this.availableSeats(2)*this.availableTimeSlots(2, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 2", this.dates[i])) +
+                (this.availableSeats(2)*this.availableTimeSlots(2, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 2", this.dates[i])) +
                 '   Lab 3: ' +
-                (this.availableSeats(3)*this.availableTimeSlots(3, this.profiles[i].username) - this.reservedSlotsForProfile("Lab 3", this.dates[i]))
+                (this.availableSeats(3)*this.availableTimeSlots(3, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 3", this.dates[i]))
             );
             this.holdURL.push('reserve.html?date=' + this.dates[i]);
             this.isDate = true;
