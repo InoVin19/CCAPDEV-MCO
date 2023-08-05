@@ -33,7 +33,8 @@ new Vue({
     dates:[],
     profiles:[],
     dbReservedSlots:{},
-    response: null
+    response: null,
+    requestTimesWithDetails: []
   },
   methods: {
     updateSelectedSeat: function(seat) {
@@ -416,7 +417,10 @@ new Vue({
           for (const timeSlot in this.dbReservation[lab][date][seat]) {
             const requestTime = this.dbReservation[lab][date][seat][timeSlot].requestTime;
             const reservationOwner = this.dbReservation[lab][date][seat][timeSlot].owner;
+            const reservationDetails = `${requestTime} (${reservationOwner}) - ${lab}, Date: ${date}, Seat: ${seat}`;
+
             this.requestTimesWithOwners.push(`${requestTime} (${reservationOwner})`);
+            this.requestTimesWithDetails.push(reservationDetails); // Add the details to the array
           }
         }
       }

@@ -276,5 +276,25 @@ app.post('/saveDescription', async (req, res) => {
     return res.status(500).json({ error: 'Internal server error.' });
   }
 });
+
+app.post('/deleteUser', async (req, res) => {
+  const { username} = req.body;
+
+  try {
+
+    const deletedUser = await User.findOneAndDelete({ username });
+    const deletedProfile = await Profiles.findOneAndDelete({ username });
+    await Profiles.deleteMany({ username });
+
+    if (!deletedUser || !deletedProfile) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    return res.status(200).json({ message: 'User and associated records deleted successfully.' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error.' });
+  }
+});
   // Start the server
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
