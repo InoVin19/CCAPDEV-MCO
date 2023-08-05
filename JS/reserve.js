@@ -1,3 +1,5 @@
+import { BASE_URL } from './api-config.js'
+
 new Vue({
   el: '.app',
   data: {
@@ -118,7 +120,7 @@ new Vue({
           for (let i = 0; i < this.selectedSeats.length; i++) {
             const [seat, timeSlot] = this.selectedSeats[i].split('_');
 
-            this.response = await fetch('http://localhost:3000/saveReservation', {
+            this.response = await fetch(`${BASE_URL}/saveReservation`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -158,7 +160,7 @@ new Vue({
           usernameToDelete = this.loggedInUser;
         }
     
-        const response = await fetch('http://localhost:3000/resetReservation', {
+        const response = await fetch(`${BASE_URL}/resetReservation`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -200,7 +202,7 @@ new Vue({
             usernameToDelete = this.loggedInUser;
           }
       
-          const response = await fetch('http://localhost:3000/deleteTimeSlot', {
+          const response = await fetch(`${BASE_URL}/deleteTimeSlot`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -322,7 +324,7 @@ new Vue({
     },
     logOut: async function() {
       try {
-        await fetch('http://localhost:3000/logout', {
+        await fetch(`${BASE_URL}/logout`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -344,9 +346,9 @@ new Vue({
   created: async function () {
     // Retrieve reservations from localStorage
     try {
-      const responseReservations = await fetch('http://localhost:3000/reservations');
-      const responseProfiles = await fetch('http://localhost:3000/profiles');
-      const responseLoggedUser = await fetch('http://localhost:3000/getLoggedUser');
+      const responseReservations = await fetch(`${BASE_URL}/reservations`);
+      const responseProfiles = await fetch(`${BASE_URL}/profiles`);
+      const responseLoggedUser = await fetch(`${BASE_URL}/getLoggedUser`);
 
       if (!responseReservations.ok || !responseProfiles.ok || !responseLoggedUser.ok) {
         console.error('Failed to fetch data from the server.');

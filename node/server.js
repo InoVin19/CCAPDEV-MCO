@@ -6,7 +6,6 @@ let User;
 let Profiles;
 let Reservations;
 let LoggedUser;
-let Picture;
 
 import('./models/user.js')
   .then((module) => {
@@ -46,20 +45,20 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-  
-const app = express();
-const PORT = process.env.PORT || 3000;
-//const bcrypt = require('bcrypt');
-  
+require('dotenv').config();
 
+const app = express();
 app.use(bodyParser.json());
 app.use(cors());
   
   // Connect to MongoDB
-mongoose.connect('mongodb+srv://admin:1234567890@cluster0.ugrgne2.mongodb.net/lab-reservation-system', {
+mongoose.connect(process.env.DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+const PORT = process.env.PORT;
+//const bcrypt = require('bcrypt');
   
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));

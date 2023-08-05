@@ -1,4 +1,4 @@
-// register.js
+import { BASE_URL } from './api-config.js'
 
 new Vue({
   el: '#app',
@@ -19,7 +19,7 @@ new Vue({
       try {
         // Make a POST request to the server for registration
         const username = this.email.substring(0, this.email.indexOf('@'));
-        const response = await fetch('http://localhost:3000/register', {
+        const response = await fetch(`${BASE_URL}/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ new Vue({
           })
         });
 
-        await fetch('http://localhost:3000/createProfile', {
+        await fetch(`${BASE_URL}/createProfile`, {
           method: 'POST',
           headers:{
             'Content-Type': 'application/json'

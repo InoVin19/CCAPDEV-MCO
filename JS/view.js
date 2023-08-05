@@ -1,4 +1,4 @@
-// view profile
+import { BASE_URL } from './api-config.js'
 
 new Vue({
   el: '#app',
@@ -27,9 +27,9 @@ new Vue({
     const username = params.get('user');
 
     try {
-      const response = await fetch('http://localhost:3000/profiles')
-      const getUser = await fetch('http://localhost:3000/getLoggedUser')
-      const getReservations = await fetch('http://localhost:3000/reservations')
+      const response = await fetch(`${BASE_URL}/profiles`)
+      const getUser = await fetch(`${BASE_URL}/getLoggedUser`)
+      const getReservations = await fetch(`${BASE_URL}/reservations`)
 
       if (response.ok) {
         const data = await response.json()
@@ -63,7 +63,7 @@ new Vue({
     },
     logOut: async function() {
       try {
-        await fetch('http://localhost:3000/logout', {
+        await fetch(`${BASE_URL}/logout`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
