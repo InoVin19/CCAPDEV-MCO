@@ -41,18 +41,21 @@
       </div>
     </nav>
     <div class="profile">
-      <div class="profile-picture">
-        <img v-if="user" :src="user.picture || 'images/placeholder.jpg'" :alt="user.username" id="profile-image">
-        <input type="file" id="picture-input" style="display: none;" @change="handlePictureChange">       
-      </div>
-      <div class="profile-description">
-        <h1 class="profile-name">{{ user ? user.username : 'Loading...' }}</h1>
-        <p class="profile-info" id="profile-info" :contentEditable="editingDescription ? 'true' : 'false'" :class="{ 'edit-mode': editingDescription }">{{ user ? user.description : 'Loading...' }}</p>
-        <button class="edit-profile-button" @click="saveProfile">{{ editingDescription ? 'Save Profile' : 'Edit Bio' }}</button>
-        <button class="delete-account-button" @click="promptDeleteAccount">Delete Account</button>
-        <button class="edit-picture-button" @click="openPictureDialog">Edit Picture</button>
-        <p class="error" id="pic-error"></p>
-      </div>
+      <form id="profile-form" enctype="multipart/form-data">
+        <div class="profile-picture">
+          <img v-if="user" :src="user.picture || 'images/placeholder.jpg'" :alt="user.username" id="profile-image">
+          <input type="file" id="picture-input" name="profilePicture" style="display: none;" @change="handlePictureChange">
+      </form>
+        </div>
+        <div class="profile-description">
+          <h1 class="profile-name">{{ user ? user.username : 'Loading...' }}</h1>
+          <p class="profile-info" id="profile-info" :contentEditable="editingDescription ? 'true' : 'false'" :class="{ 'edit-mode': editingDescription }">{{ user ? user.description : 'Loading...' }}</p>
+          <button class="edit-profile-button" @click="saveProfile">{{ editingDescription ? 'Save Profile' : 'Edit Bio' }}</button>
+          <button class="delete-account-button" @click="promptDeleteAccount">Delete Account</button>
+          <button class="edit-picture-button" @click="openPictureDialog">Edit Picture</button>
+          <p class="error" id="pic-error"></p>
+        </div>
+      
       <div class="social-media-links">
         <a v-if="user && user.socialMedia && user.socialMedia.facebook" :href="user.socialMedia.facebook" target="_blank">Facebook</a>
         <a v-if="user && user.socialMedia && user.socialMedia.twitter" :href="user.socialMedia.twitter" target="_blank">Twitter</a>
