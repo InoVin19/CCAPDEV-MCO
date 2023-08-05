@@ -92,7 +92,7 @@
         <tbody>
           <tr v-for="seat in seats" :key="seat" v-if="seat === selectedGridItem">
             <td>{{ seat }}</td>
-            <td v-for="timeSlot in timeSlots" :key="timeSlot" :class="{ reserved: isReserved(seat, timeSlot) }">
+            <td v-for="timeSlot in timeSlots" :key="timeSlot" :class="{ reserved: isReserved(seat, timeSlot), selected: isSelected(seat, timeSlot) }">
               <label>
                 <input type="checkbox"
                        :disabled="isReserved(seat, timeSlot)"
@@ -102,7 +102,7 @@
               <div class="reservation-details" v-if="isReserved(seat, timeSlot)">
                 <div v-if="dbReservation[selectedLab][selectedDate][seat][timeSlot].anonymity == false || loggedInUser === 'admin' || !loggedInUser === 'admin'">Reserved by: {{ dbReservation[selectedLab][selectedDate][seat][timeSlot].owner }}</div>
                 <div v-if="dbReservation[selectedLab][selectedDate][seat][timeSlot].anonymity == true || !loggedInUser === 'admin'">Reserved by: Anonymous</div>
-                <div>Seat Number: {{ selectedSeat }}</div>
+                <div>Seat Number: {{ seat }}</div>
                 <div>Lab Number: {{ selectedLab }}</div>
                 <div>Time Slot: {{ timeSlot }}</div>
                 <div>Request Time: {{ dbReservation[selectedLab][selectedDate][seat][timeSlot].requestTime }}</div>
@@ -114,6 +114,7 @@
         </tbody>
       </table>
     </div>
+    
 
     <div class="button-container">
       <button class="resButton" @click="confirmReservation">Confirm Reservation</button>

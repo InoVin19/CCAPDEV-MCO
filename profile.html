@@ -68,6 +68,7 @@
             <th>Date</th>
             <th>Seat</th>
             <th>Time</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -76,6 +77,9 @@
             <td>{{ reservation.date }}</td>
             <td>{{ reservation.seat }}</td>
             <td v-html="formatReservationTime(reservation.timeSlot)"></td>
+            <td>
+              <button class="edit-this-reservation-button" @click="editReservation(reservation)">Edit</button>
+            </td>
           </tr>
         </tbody>
       </table>
