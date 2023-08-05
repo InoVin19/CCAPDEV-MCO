@@ -11,6 +11,12 @@ body {
     padding: 20px;
   }
 
+  .autofill-seat {
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 4px;
+  }
+
   .content {
     max-width: 100%;
     margin-left: auto;

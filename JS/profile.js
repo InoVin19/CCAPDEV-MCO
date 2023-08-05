@@ -120,6 +120,14 @@ new Vue({
       }
       return false;
     },
+    editReservation: function (reservation) {
+      const lab = reservation.lab;
+      const date = reservation.date;
+      const selectedSeat = reservation.seat; // Get the selected seat from the reservation data
+    
+      // Redirect to the reserve page with the selected parameters, including the seat
+      window.location.href = `reserve.html?lab=${encodeURIComponent(lab)}&date=${encodeURIComponent(date)}&selectedSeat=${encodeURIComponent(selectedSeat)}`;
+    },    
     availableSeats: function (lab) {
       let count = 0;
       for (let seat of this.seats) {

@@ -34,7 +34,9 @@ new Vue({
     profiles:[],
     dbReservedSlots:{},
     response: null,
-    requestTimesWithDetails: []
+    requestTimesWithDetails: [],
+    tempSelectedSeats: [], // New data property to store temporarily selected seats
+    isEditing: false,
   },
   methods: {
     updateSelectedSeat: function(seat) {
@@ -49,17 +51,29 @@ new Vue({
       return !!reservationData;
     },
     isSelected: function (seat, timeSlot) {
-      return this.selectedSeats.includes(seat + '_' + timeSlot);
+      const seatTime = seat + '_' + timeSlot;
+      return this.selectedSeats.includes(seatTime) || this.tempSelectedSeats.includes(seatTime);
+    },
+
+    // New method to update the temporarily selected seat
+    updateTempSelectedSeat: function (seat) {
+      this.tempSelectedGridItem = seat; // Update the temporarily selected seat for styling
+      const seatTime = seat + '_' + this.selectedDate;
+      if (!this.isSelected(seat, this.selectedDate) && !this.isReserved(seat, this.selectedDate)) {
+        this.tempSelectedSeats.push(seatTime);
+      } else {
+        const index = this.tempSelectedSeats.indexOf(seatTime);
+        this.tempSelectedSeats.splice(index, 1);
+      }
     },
     selectSeat: function (seat, timeSlot) {
       const seatTime = seat + '_' + timeSlot;
-      if (!this.isSelected(seat, timeSlot)) {
-        if (!this.isReserved(seat, timeSlot)) {
-          this.selectedSeats.push(seatTime);
-        }
+      if (this.tempSelectedSeats.includes(seatTime)) {
+        // If the seat-time combination is already selected, deselect it
+        this.tempSelectedSeats = this.tempSelectedSeats.filter((item) => item !== seatTime);
       } else {
-        const index = this.selectedSeats.indexOf(seatTime);
-        this.selectedSeats.splice(index, 1);
+        // If the seat-time combination is not selected, select it
+        this.tempSelectedSeats.push(seatTime);
       }
     },
     saveReservedSlots: function () {
@@ -112,14 +126,15 @@ new Vue({
       this.dbReservedSlots = JSON.stringify(this.dbReservation);
       this.dbReservation = {}
     },
+    // Method to confirm the reservation
     confirmReservation: async function () {
       try {
         if (this.selectedLab && this.selectedDate && (this.loggedInUser || this.selectedUser)) {
           const requestTime = new Date().toLocaleString(); // Get the current request time
           const reservationOwner = this.loggedInUser === 'admin' ? this.selectedUser : this.loggedInUser;
     
-          for (let i = 0; i < this.selectedSeats.length; i++) {
-            const [seat, timeSlot] = this.selectedSeats[i].split('_');
+          for (let i = 0; i < this.tempSelectedSeats.length; i++) {
+            const [seat, timeSlot] = this.tempSelectedSeats[i].split('_');
 
             this.response = await fetch(`${BASE_URL}/saveReservation`, {
               method: 'POST',
@@ -141,7 +156,8 @@ new Vue({
           const data = await this.response.json();
     
           if (this.response.status === 201) {
-            this.selectedSeats = [];
+            this.selectedSeats = [...this.selectedSeats, ...this.tempSelectedSeats]; // Update selectedSeats with the confirmed reservations
+            this.tempSelectedSeats = []; // Clear the tempSelectedSeats array
             alert(data.message);
           } else {
             this.error = data.error;
@@ -151,7 +167,7 @@ new Vue({
       } catch (error) {
         alert('Please select a lab, date, and user (for admin) before confirming the reservation.');
       }
-    },    
+    },
     resetReservations: async function () {
       try {
         let usernameToDelete;
@@ -405,10 +421,18 @@ new Vue({
       this.selectedDate = this.dates[0];
     }
 
-    // Parse the lab and date from the query parameters
+    // Parse the lab, date, and selectedSeat from the query parameters
     const urlParams = new URLSearchParams(window.location.search);
     this.selectedLab = urlParams.get('lab');
     this.selectedDate = urlParams.get('date');
+    this.selectedSeat = urlParams.get('selectedSeat'); // Get the selectedSeat from the URL parameters
+
+    // If the selectedSeat exists, set it as the selectedGridItem
+    if (this.selectedSeat && this.seats.includes(this.selectedSeat)) {
+      this.selectedGridItem = this.selectedSeat;
+      this.tempSelectedGridItem = this.selectedSeat; // Set tempSelectedGridItem to the selected seat as well
+    }
+
     
     // Create the array of formatted request times with owners for the dropdown
     for (const lab in this.dbReservation) {
@@ -435,27 +459,24 @@ new Vue({
       if (!newVal || newVal.trim() === '') {
         this.myClass = 'invalid';
       } else {
-        for (let i = 0; i < this.profiles.length; i++) {
-          const profileUsername = this.profiles[i]?.username; // Check for undefined profile username
-          const profileDate = this.dates[i];
-  
-          if (profileUsername && profileUsername.includes(newVal) && (!profileDate || !profileDate.includes(newVal))) {
+        for (let i = 0; i < this.profiles.length; i++) { // Fixed the loop to iterate only over existing profiles
+          if (this.profiles[i]?.username.includes(newVal) && !this.dates[i].includes(newVal)) {
             this.myClass = 'valid';
-            this.holdProfile.push(profileUsername);
-            this.holdURL.push(this.profilePage + '?user=' + profileUsername);
+            this.holdProfile.push(this.profiles[i].username);
+            this.holdURL.push(this.profilePage + '?user=' + this.profiles[i].username);
             this.isDate = false;
-          } else if (profileDate && profileDate.includes(newVal) && (!this.reservations[i]?.username || !this.reservations[i]?.username.includes(newVal))) {
+          } else if (this.dates[i].includes(newVal) && !this.reservations[i]?.username.includes(newVal)) {
             this.myClass = 'valid';
             this.holdDate.push(
-              profileDate +
-              '   Lab 1: ' +
-              (this.availableSeats(1) * this.availableTimeSlots(1, profileUsername) - this.reservedSlotsForProfile("Lab 1", profileDate)) +
-              '   Lab 2: ' +
-              (this.availableSeats(2) * this.availableTimeSlots(2, profileUsername) - this.reservedSlotsForProfile("Lab 2", profileDate)) +
-              '   Lab 3: ' +
-              (this.availableSeats(3) * this.availableTimeSlots(3, profileUsername) - this.reservedSlotsForProfile("Lab 3", profileDate))
+              this.dates[i] +
+                '   Lab 1: ' +
+                (this.availableSeats(1)*this.availableTimeSlots(1, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 1", this.dates[i])) +
+                '   Lab 2: ' +
+                (this.availableSeats(2)*this.availableTimeSlots(2, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 2", this.dates[i])) +
+                '   Lab 3: ' +
+                (this.availableSeats(3)*this.availableTimeSlots(3, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 3", this.dates[i]))
             );
-            this.holdURL.push('reserve.html?date=' + profileDate);
+            this.holdURL.push('reserve.html?date=' + this.dates[i]);
             this.isDate = true;
           } else {
             this.myClass = 'invalid';
