@@ -49,6 +49,7 @@
         <h1 class="profile-name">{{ user ? user.username : 'Loading...' }}</h1>
         <p class="profile-info" id="profile-info" :contentEditable="editingDescription ? 'true' : 'false'" :class="{ 'edit-mode': editingDescription }">{{ user ? user.description : 'Loading...' }}</p>
         <button class="edit-profile-button" @click="saveProfile">{{ editingDescription ? 'Save Profile' : 'Edit Bio' }}</button>
+        <button class="delete-account-button" @click="promptDeleteAccount">Delete Account</button>
         <button class="edit-picture-button" @click="openPictureDialog">Edit Picture</button>
         <p class="error" id="pic-error"></p>
       </div>

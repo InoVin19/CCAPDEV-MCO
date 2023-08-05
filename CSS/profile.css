@@ -107,6 +107,20 @@ body {
     background-color: #ddd;
   }
 
+  .delete-account-button {
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #007BFF;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .delete-account-button:hover {
+    background-color: #ff0000; /* Red background color on hover */
+    color: #fff; /* Change text color to white on hover */
+  }
+
   /* CSS for social media links */
   .social-media-links {
     display: flex;

@@ -171,6 +171,45 @@ new Vue({
     formatReservationTime: function(timeArray) {
       return timeArray.join('<br>');
     },
+    promptDeleteAccount: function() {
+      // Show a prompt to confirm the account deletion
+      const confirmed = confirm('Are you sure you want to delete your account? This action cannot be undone.');
+
+      if (confirmed) {
+        // Call the deleteAccount method to handle the account deletion
+        this.deleteAccount();
+      }
+    },
+
+    deleteAccount: async function() {
+      // Show a prompt to confirm the account deletion
+      const confirmed = confirm('Are you sure you want to delete your account? This action cannot be undone.');
+
+      if (confirmed) {
+        try {
+          const response = await fetch(`${BASE_URL}/deleteAccount`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              username: this.loggedInUser
+            })
+          });
+
+          if (response.ok) {
+            // Account deleted successfully, redirect to the login page
+            window.location.href = 'login.html';
+          } else {
+            // Handle the error response appropriately (e.g., display an error message)
+            const data = await response.json();
+            console.error(data.error);
+          }
+        } catch (error) {
+          console.error('Error while deleting account:', error);
+        }
+      }
+    },
   },
   watch: {
     searchQuery: function (newVal) {
