@@ -58,7 +58,7 @@ mongoose.connect(process.env.DB_URI, {
 });
 
 const PORT = process.env.PORT;
-//const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
   
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
@@ -75,8 +75,9 @@ app.post('/register', async (req, res) => {
       return res.status(400).json({ error: 'Email already registered.' });
     }
   
+    const hashedPassword = await bcrypt.hash(password, 10);
     // Create a new user in the database
-    const newUser = new User({ email, password, username });
+    const newUser = new User({ email, password: hashedPassword, username });
     await newUser.save();
   
     return res.status(201).json({ message: 'Registration successful! You may now log in.' });
@@ -155,8 +156,9 @@ app.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'User does not exist.'});
     }
   
+    const passwordMatch = await bcrypt.compare(password, user.password);
     // Compare the provided password with the hashed password in the database
-    if (password === user.password) {
+    if (passwordMatch) {
       return res.status(200).json({ message: 'Login successful!' });
     } else {
       return res.status(401).json({ error: 'Password Incorrect.' });
