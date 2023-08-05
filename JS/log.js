@@ -1,5 +1,3 @@
-import { BASE_URL } from './api-config.js'
-
 new Vue({
   el: '#app',
   data: {
@@ -11,7 +9,7 @@ new Vue({
     submitForm: async function() {
       try {
         // Make a POST request to the server for user authentication
-        const response = await fetch(`${BASE_URL}/login`, {
+        const response = await fetch('http://localhost:3000/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -22,7 +20,7 @@ new Vue({
           })
         });
 
-        await fetch(`${BASE_URL}/saveLoggedInUser`, {
+        await fetch('http://localhost:3000/saveLoggedInUser', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
