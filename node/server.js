@@ -284,7 +284,7 @@ app.post('/deleteUser', async (req, res) => {
 
     const deletedUser = await User.findOneAndDelete({ username });
     const deletedProfile = await Profiles.findOneAndDelete({ username });
-    await Profiles.deleteMany({ username });
+    await Reservations.deleteMany({ username });
 
     if (!deletedUser || !deletedProfile) {
       return res.status(404).json({ error: 'User not found.' });

@@ -20,7 +20,8 @@ new Vue({
     user: null,
     editingDescription: false,
     dates: [],
-    profiles: []
+    profiles: [],
+    confirmed: null
   },
   created: async function() {
     try {
@@ -173,9 +174,9 @@ new Vue({
     },
     promptDeleteAccount: function() {
       // Show a prompt to confirm the account deletion
-      const confirmed = confirm('Are you sure you want to delete your account? This action cannot be undone.');
-
-      if (confirmed) {
+      this.confirmed = confirm('Are you sure you want to delete your account? This action cannot be undone.');
+      console.log(this.confirmed)
+      if (this.confirmed) {
         // Call the deleteAccount method to handle the account deletion
         this.deleteAccount();
       }
@@ -183,11 +184,10 @@ new Vue({
 
     deleteAccount: async function() {
       // Show a prompt to confirm the account deletion
-      const confirmed = confirm('Are you sure you want to delete your account? This action cannot be undone.');
 
-      if (confirmed) {
+      if (this.confirmed) {
         try {
-          const response = await fetch(`${BASE_URL}/deleteAccount`, {
+          const response = await fetch(`${BASE_URL}/deleteUser`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -216,28 +216,31 @@ new Vue({
       this.holdProfile = [];
       this.holdURL = [];
       this.holdDate = [];
-
+  
       if (!newVal || newVal.trim() === '') {
         this.myClass = 'invalid';
       } else {
-        for (let i = 0; i < this.profiles.length; i++) { // Fixed the loop to iterate only over existing profiles
-          if (this.profiles[i]?.username.includes(newVal) && !this.dates[i].includes(newVal)) {
+        for (let i = 0; i < this.profiles.length; i++) {
+          const profileUsername = this.profiles[i]?.username; // Check for undefined profile username
+          const profileDate = this.dates[i];
+  
+          if (profileUsername && profileUsername.includes(newVal) && (!profileDate || !profileDate.includes(newVal))) {
             this.myClass = 'valid';
-            this.holdProfile.push(this.profiles[i].username);
-            this.holdURL.push(this.profilePage + '?user=' + this.profiles[i].username);
+            this.holdProfile.push(profileUsername);
+            this.holdURL.push(this.profilePage + '?user=' + profileUsername);
             this.isDate = false;
-          } else if (this.dates[i].includes(newVal) && !this.reservations[i]?.username.includes(newVal)) {
+          } else if (profileDate && profileDate.includes(newVal) && (!this.reservations[i]?.username || !this.reservations[i]?.username.includes(newVal))) {
             this.myClass = 'valid';
             this.holdDate.push(
-              this.dates[i] +
-                '   Lab 1: ' +
-                (this.availableSeats(1)*this.availableTimeSlots(1, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 1", this.dates[i])) +
-                '   Lab 2: ' +
-                (this.availableSeats(2)*this.availableTimeSlots(2, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 2", this.dates[i])) +
-                '   Lab 3: ' +
-                (this.availableSeats(3)*this.availableTimeSlots(3, this.reservations[i].username) - this.reservedSlotsForProfile("Lab 3", this.dates[i]))
+              profileDate +
+              '   Lab 1: ' +
+              (this.availableSeats(1) * this.availableTimeSlots(1, profileUsername) - this.reservedSlotsForProfile("Lab 1", profileDate)) +
+              '   Lab 2: ' +
+              (this.availableSeats(2) * this.availableTimeSlots(2, profileUsername) - this.reservedSlotsForProfile("Lab 2", profileDate)) +
+              '   Lab 3: ' +
+              (this.availableSeats(3) * this.availableTimeSlots(3, profileUsername) - this.reservedSlotsForProfile("Lab 3", profileDate))
             );
-            this.holdURL.push('reserve.html?date=' + this.dates[i]);
+            this.holdURL.push('reserve.html?date=' + profileDate);
             this.isDate = true;
           } else {
             this.myClass = 'invalid';
