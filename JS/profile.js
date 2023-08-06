@@ -124,9 +124,12 @@ new Vue({
       const lab = reservation.lab;
       const date = reservation.date;
       const selectedSeat = reservation.seat; // Get the selected seat from the reservation data
-    
+      const selectedUser = reservation.username
       // Redirect to the reserve page with the selected parameters, including the seat
-      window.location.href = `reserve.html?lab=${encodeURIComponent(lab)}&date=${encodeURIComponent(date)}&selectedSeat=${encodeURIComponent(selectedSeat)}`;
+      if(!this.loggedInUser === 'admin')
+        window.location.href = `reserve.html?lab=${encodeURIComponent(lab)}&date=${encodeURIComponent(date)}&selectedSeat=${encodeURIComponent(selectedSeat)}`;
+      else
+        window.location.href = `reserve.html?lab=${encodeURIComponent(lab)}&date=${encodeURIComponent(date)}&selectedSeat=${encodeURIComponent(selectedSeat)}&selectedUser=${encodeURIComponent(selectedUser)}`;
     },    
     availableSeats: function (lab) {
       let count = 0;

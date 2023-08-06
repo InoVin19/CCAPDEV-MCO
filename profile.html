@@ -67,6 +67,7 @@
         <caption>Current Reservations</caption>
         <thead>
           <tr>
+            <th v-if="user.username === 'admin'">User</th>
             <th>Lab</th>
             <th>Date</th>
             <th>Seat</th>
@@ -75,7 +76,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="reservation in reservations" v-if="user.username === reservation.username">
+          <tr v-for="reservation in reservations" v-if="user.username === reservation.username || user.username === 'admin'">
+            <td v-if="user.username === 'admin'">{{reservation.username}}</td>
             <td>{{ reservation.lab }}</td>
             <td>{{ reservation.date }}</td>
             <td>{{ reservation.seat }}</td>
