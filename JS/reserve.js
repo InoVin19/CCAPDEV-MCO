@@ -330,6 +330,9 @@ new Vue({
       }
       return count - 1;
     },
+    redirectToProfile: function() {
+      window.location.href = "profile.html";
+    },
     reservedSlotsForProfile: function (lab, date) {
       let count = 0;
       for (const reservation of this.reservations) {
@@ -425,7 +428,12 @@ new Vue({
     const urlParams = new URLSearchParams(window.location.search);
     this.selectedLab = urlParams.get('lab');
     this.selectedDate = urlParams.get('date');
-    this.selectedSeat = urlParams.get('selectedSeat'); // Get the selectedSeat from the URL parameters
+    this.selectedSeat = urlParams.get('selectedSeat');
+
+    // Check if selectedUser exists in the URL parameters
+    if(urlParams.has('selectedUser')) {
+        this.selectedUser = urlParams.get('selectedUser');
+    }
 
     // If the selectedSeat exists, set it as the selectedGridItem
     if (this.selectedSeat && this.seats.includes(this.selectedSeat)) {

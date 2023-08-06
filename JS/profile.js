@@ -123,14 +123,17 @@ new Vue({
     editReservation: function (reservation) {
       const lab = reservation.lab;
       const date = reservation.date;
-      const selectedSeat = reservation.seat; // Get the selected seat from the reservation data
-      const selectedUser = reservation.username
-      // Redirect to the reserve page with the selected parameters, including the seat
-      if(!this.loggedInUser === 'admin')
-        window.location.href = `reserve.html?lab=${encodeURIComponent(lab)}&date=${encodeURIComponent(date)}&selectedSeat=${encodeURIComponent(selectedSeat)}`;
-      else
-        window.location.href = `reserve.html?lab=${encodeURIComponent(lab)}&date=${encodeURIComponent(date)}&selectedSeat=${encodeURIComponent(selectedSeat)}&selectedUser=${encodeURIComponent(selectedUser)}`;
-    },    
+      const selectedSeat = reservation.seat; 
+      const selectedUser = reservation.username; 
+
+      let redirectUrl = `reserve.html?lab=${encodeURIComponent(lab)}&date=${encodeURIComponent(date)}&selectedSeat=${encodeURIComponent(selectedSeat)}`;
+
+      if(this.loggedInUser === 'admin') {
+        redirectUrl += `&selectedUser=${encodeURIComponent(selectedUser)}`;
+      }
+
+      window.location.href = redirectUrl;
+    },
     availableSeats: function (lab) {
       let count = 0;
       for (let seat of this.seats) {
@@ -215,6 +218,38 @@ handlePictureChange: async function (event) {
         this.deleteAccount();
       }
     },
+
+    deleteReservation: async function(reservation) {
+      const isConfirmed = window.confirm("Are you sure you want to delete this reservation?");
+  
+      if (isConfirmed) {
+          try {
+              const response = await fetch(`${BASE_URL}/resetReservation`, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                      username: reservation.username,
+                      lab: reservation.lab,
+                      date: reservation.date,
+                      seat: reservation.seat
+                  })
+              });
+  
+              if (response.ok) {
+                  console.log('Reservation deleted successfully.');
+                  // Ideally, you should also update the local reservations list.
+                  this.reservations = this.reservations.filter(r => !(r.username === reservation.username && r.lab === reservation.lab && r.date === reservation.date && r.seat === reservation.seat));
+              } else {
+                  const data = await response.json();
+                  console.error(data.error);
+              }
+          } catch (error) {
+              console.error('Error while deleting reservation:', error);
+          }
+      }
+  },  
 
     deleteAccount: async function() {
       // Show a prompt to confirm the account deletion

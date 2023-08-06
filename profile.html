@@ -84,6 +84,7 @@
             <td v-html="formatReservationTime(reservation.timeSlot)"></td>
             <td>
               <button class="edit-this-reservation-button" @click="editReservation(reservation)">Edit</button>
+              <button v-if="user.username === 'admin'" class="edit-this-delete-button" @click="deleteReservation(reservation)">Delete</button>
             </td>
           </tr>
         </tbody>
