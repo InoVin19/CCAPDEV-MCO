@@ -32,6 +32,12 @@ new Vue({
         }
         
       },
+      checkUser: function(){
+        if(this.loggedInUser === '')
+          return false
+        else
+          return true
+      },
       isReserved: function (lab, seat) {
         for (let timeSlot of this.timeSlots) {
           if (this.reservations[lab]?.[this.selectedDate]?.[seat]?.[timeSlot]) {
@@ -88,6 +94,7 @@ new Vue({
       
     },
     created: async function() {
+      
       try {
         const response = await fetch(`${BASE_URL}/profiles`)
         const getUser = await fetch(`${BASE_URL}/getLoggedUser`)
@@ -98,7 +105,10 @@ new Vue({
           const log = await getUser.json();
           const reserve  = await getReservations.json()
 
-          this.loggedInUser = log[0].username;
+          console.log(log)
+          if(log.length != 0)
+          this.loggedInUser = log[0].username; 
+          console.log(this.checkUser())
           this.profiles = data; 
           this.reservations = reserve;
           console.log(this.profiles)
