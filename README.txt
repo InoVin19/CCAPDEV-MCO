@@ -1,6 +1,4 @@
-        LA RESERVA is a simple web application of a computer Laboratory Reservation System that's meant to handle multiple accounts and profiles that is used when reserving seats 
-for three laboratory rooms. Each laboratory ending up with the same layout from C1-C20. This was developed by three students (Audrey, Vinnie, and Anton) for the completion of their
-CCAPDEV class in their third term, SY 2022-2023. Steps should follow after this message on how to use it locally as well as how-to's when utilizing the web application. 
+        LA RESERVA is a simple web application of a computer Laboratory Reservation System that's meant to handle multiple accounts and profiles that is used when reserving seats for three laboratory rooms. Each laboratory ending up with the same layout from C1-C20. This was developed by three students (Audrey, Vinnie, and Anton) for the completion of their CCAPDEV class in their third term, SY 2022-2023. Steps should follow after this message on how to use it locally as well as how-to's when utilizing the web application. 
 
 How to use the COMPUTER LABORATORY RESERVATION SYSTEM locally
 
