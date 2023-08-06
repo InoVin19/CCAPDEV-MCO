@@ -1,17 +1,22 @@
-How to use the COMPUTER LABORATORY RESERVATION SYSTEM 
+How to use the COMPUTER LABORATORY RESERVATION SYSTEM locally
 
-1. Open login.html
-Use any of these accounts to login:
+1. Make sure link under api-config.js shows "http://localhost:3000"
+2. Using Visual Studio Code, Download the extension called Live Server
+3. Once finished, go to the node folder before running the npm commands by typing in "CD node"
+4. Type in "npm install" to ensure that you installed all dependencies
+5. Start the server by typing in "npm start" 
+6. Right click "login.html" and you should see the command "Open with Live Server", press that to start the web application
+7. Upon opening starting the web application, you can use the registration button or to see the populated database, Use any of these accounts to login: 
         admin: '12345',
         yasmin_datario: '12345',
         vinnie_inocencio: '12345',
         anton_mendoza: '12345',
         charles_leclerc: '12345',
         john_doe: '12345'
-
-2. Once logged in, you will be redirected to index.html or the website dashboard
-3. Press the username on the navbar to see profile, see availability, reserve, or login
-4. Freely explore the web application
+7. Once logged in, you will be redirected to index.html or the website dashboard
+8. Press the username on the navbar to see profile, see availability, reserve, or login
+9. The left side of the navbar includes quick links to the pertinent pages
+10. Freely explore the web application
 
 HOW TO RESERVE 
 1. Go to reserve from index.html, see availability, searching for date, and directly pressing "Reserve" from the username dropdown in the navigation bar
@@ -21,9 +26,20 @@ HOW TO RESERVE
 4. Choose your seat and time slots (increments of 30 minutes)
 5. Press "Confirm Reservation" 
 
-HOW TO CANCEL RESERVATION
+HOW TO CANCEL RESERVATION PER TIME SLOT
 1. Hover over the reserved slot
 2. If reservation is yours, a "Cancel" button will appear and pressing that will immediately cancel that reservation for the specific seat and time slot
+
+HOW TO CANCEL RESERVATION (ENTIRE SEAT)
+1. Input the reservation date, lab number, and seat number
+2. Press "Cancel Entire Seat Reservation"
+3. The entire seat's timeslots should be deleted
+
+HOW TO EDIT RESERVATION (Add Seats)
+1. Go to your "Profile"
+2. Beside your specific reservation, click "Edit", this should automatically fill-up the date, lab number, and seat number
+3. To add, you can just press another timeslot and hit "Confirm Reservation"
+4. To remove/cancel a timeslot, hover and press "Cancel"
 
 HOW TO VIEW PROFILE OF RESERVATION OWNER 
 1. Hover over the reserved slot
@@ -45,3 +61,11 @@ SEARCHING PROFILES AND AVAILABLE SLOTS
 1. Utilize search bar on Navigation Bar 
 2. Perform your search by inputting the username and click the result to be directed to their public profile 
 3. Perform your available slot seach by inputting the date (7 days including the current date) and pressing that will take you to reservation proper with date field filled in 
+
+DELETING PROFILE
+1. Go to your "Profile"
+2. Press "Delete Account" which should prompt a confirmation message
+
+ADMIN PROFILE
+1. Over at the admin's profile, all reservations can be seen
+2. The admin can edit or delete reservations easily
