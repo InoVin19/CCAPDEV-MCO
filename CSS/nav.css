@@ -17,6 +17,16 @@ body {
   background-color: #F8F7F5;
 }
 
+.miniLogo{
+  height: 50px;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.mainLogo {
+  margin-left: 70px;
+}
+
 .webName {
   flex: 1;
   display: flex;
@@ -25,6 +35,7 @@ body {
   padding: 14px 16px;
   text-decoration: none;
   background: none;
+  align-items: center;
 }
 
 .title{

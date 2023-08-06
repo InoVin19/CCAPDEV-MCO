@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="icon" type="image/png" href="Pictures/logo2.png">
   <title>Lab Reservation System</title>
   <link rel="stylesheet" type="text/css" href="CSS/nav.css">
   <link rel="stylesheet" type="text/css" href="CSS/index.css">
@@ -11,7 +12,8 @@
   <div id="app">
     <nav class="navBar">
       <div class="webName">
-        <span><a class="title" href="index.html">Laboratory Reservation</a></span>
+        <span><a href="index.html"><img class = "miniLogo" src="Pictures/logo2.png"></a></span>
+        <span><a class="title" href="index.html">La Reserva</a></span>
         <span><a class="title" v-if="!loggedInUser" href="login.html">Login</a></span>
         <span><a class="title" v-if="checkUser()" href="reserve.html" >Reserve</a></span>
         <span><a class="title" v-if="loggedInUser" href="availability.html">View Availability</a></span>
@@ -46,6 +48,7 @@
   <header>
     <h1>Welcome to the Computer Laboratory Reservation System!</h1>
     <p class="description">Our platform provides a convenient and efficient way for users to reserve computer labs for various purposes. Whether you're a student looking to work on projects, a researcher needing access to specialized software, or a faculty member planning a class session, our system is designed to meet your needs. With our user-friendly interface, you can easily search for available labs based on your preferred date, time, and specific requirements. The system provides comprehensive information about each lab, including equipment availability, seating capacity, and additional amenities. This ensures that you can find the perfect lab that suits your needs. Once you've identified the ideal lab, our reservation process is seamless and straightforward. Simply select your desired date and time slot and confirm your booking. Our system will instantly reserve the lab for you, ensuring a hassle-free experience.</p>
+    <img class = "mainLogo" src = "Pictures/logo.png">
     <p class="description">Please make sure to show up 10 minutes within your reservation or the admin has the rights to cancel your seat reservation right away.</p>
     <div class="button-container"  v-if="checkUser()">
       <button v-if="loggedInUser" class="make-reservation" onclick="window.location.href='reserve.html'">Make a Seat Reservation </button>
