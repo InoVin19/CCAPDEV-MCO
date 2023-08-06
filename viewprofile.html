@@ -48,6 +48,7 @@
       <div class="profile-description">
         <h1 class="profile-name">{{ user ? user.username : 'Loading...' }}</h1>
         <p class="profile-info" id="profile-info">{{ user ? user.description : 'Loading...' }}</p>
+        <button v-if="loggedInUser === 'admin'" class="delete-account-button" @click="promptDeleteAccount">Delete Account</button>
       </div>
       <div class="social-media-links">
         <a v-if="user && user.socialMedia && user.socialMedia.facebook" :href="user.socialMedia.facebook" target="_blank">Facebook</a>
@@ -64,6 +65,7 @@
             <th>Date</th>
             <th>Seat</th>
             <th>Time</th>
+            <th v-if="loggedInUser === 'admin'">Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -72,6 +74,10 @@
             <td>{{ reservation.date }}</td>
             <td>{{ reservation.seat }}</td>
             <td v-html="formatReservationTime(reservation.timeSlot)"></td>
+            <td v-if="loggedInUser === 'admin'">
+              <button class="edit-this-reservation-button" @click="editReservation(reservation)">Edit</button>
+              <button class="edit-this-delete-button" @click="deleteReservation(reservation)">Delete</button>
+            </td>
           </tr>
         </tbody>
       </table>

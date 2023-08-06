@@ -22,20 +22,19 @@ new Vue({
           })
         });
 
-        await fetch(`${BASE_URL}/saveLoggedInUser`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            username: this.username
-          })
-        })
-
         const data = await response.json();
 
         if (response.status === 200) {
           // Login successful
+          await fetch(`${BASE_URL}/saveLoggedInUser`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              username: this.username
+            })
+          })
           this.loginError = '';
           alert('Login successful!');
           window.location.href = 'index.html';
