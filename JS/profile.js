@@ -162,48 +162,51 @@ new Vue({
       }
       return count - 1;
     },
-    testHandlePictureChange: function () {
-      this.handlePictureChange({ target: { files: [new Blob()] } });
+    openPictureDialog: function () {
+      console.log('openPictureDialog called.');
+      document.getElementById('picture-input').click();
     },
-    testFunction: function(event) {
-      console.log('Test function triggered');
-   },
-   openPictureDialog: function () {
-    console.log('openPictureDialog called.');
-    document.getElementById('picture-input').click();
-},
 
-   
+    handlePictureChange: async function (event) {
+      const file = event.target.files[0];
+      const allowedTypes = ['image/jpeg', 'image/png'];
+    
+      // Check for valid file (JPEG or PNG)
+      if (!file || !allowedTypes.includes(file.type)) {
+        alert('Invalid file type. Only JPG and PNG files are allowed.');
+        return;
+      }
+    
+      console.log('File selected:', file); // Log the selected file to the console
+    
+      const formData = new FormData();
+      formData.append('profilePicture', file);
+    try {
+      // Make a POST request to upload the profile picture
+      
+      const response = await fetch(`${BASE_URL}/uploadProfilePicture?username=${this.loggedInUser}`, {
+        method: 'POST',
+        body: formData
+      
+      });
+      
+      // Add this to see the HTTP status code and response text
+      console.log(`HTTP status: ${response.status}, status text: ${response.statusText}`);
 
-handlePictureChange: async function (event) {
-  // your code above this is unchanged...
+      // response.ok is false for HTTP status codes 300-599
+      // so let's see what the error message is
+      if (response == 200) {
+        const data = await response.json();  // this throws an error if response body cannot be parsed as JSON
+        throw new Error(data.error);
+      }
 
-  try {
-    // Make a POST request to upload the profile picture
-    const response = await fetch(`${BASE_URL}/uploadProfilePicture?username=${this.loggedInUser}`, {
-      method: 'POST',
-      body: formData,
-    });
-
-    // Add this to see the HTTP status code and response text
-    console.log(`HTTP status: ${response.status}, status text: ${response.statusText}`);
-
-    // response.ok is false for HTTP status codes 300-599
-    // so let's see what the error message is
-    if (!response.ok) {
-      const data = await response.json();  // this throws an error if response body cannot be parsed as JSON
-      throw new Error(data.error);
+        const data = await response.json();
+        console.log(data.message); // Display a success message or perform any desired action
+        this.user.picture = data.picture;
+    } catch (error) {
+        
     }
-
-    const data = await response.json();
-    console.log(data.message); // Display a success message or perform any desired action
-    this.user.picture = data.picture;
-  } catch (error) {
-    console.error('Error while uploading profile picture:', error);
-    console.error('Error message:', error.message);
-    alert('Error uploading profile picture: ' + error.message);
-  }
-},
+    },
 
     
     formatReservationTime: function(timeArray) {

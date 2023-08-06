@@ -41,10 +41,10 @@
       </div>
     </nav>
     <div class="profile">
-      <form id="profile-form" enctype="multipart/form-data">
         <div class="profile-picture">
           <img v-if="user" :src="user.picture || 'images/placeholder.jpg'" :alt="user.username" id="profile-image">
-          <input type="file" id="picture-input" name="profilePicture" style="display: none;" @change="handlePictureChange">
+      <form id="profile-form" enctype="multipart/form-data">    
+          <input type="file" id="picture-input" name="profilePicture" style="display: none;" @change="handlePictureChange">   
       </form>
         </div>
         <div class="profile-description">

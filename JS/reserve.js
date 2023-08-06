@@ -154,16 +154,17 @@ new Vue({
           }
     
           const data = await this.response.json();
-    
-          if (this.response.status === 201) {
+          alert(data.message);
+          window.location.href = `reserve.html?lab=${encodeURIComponent(this.selectedLab)}&date=${encodeURIComponent(this.selectedDate)}&selectedSeat=${encodeURIComponent(this.selectedSeat)}`;
+          if (this.response.status === 200) {
             this.selectedSeats = [...this.selectedSeats, ...this.tempSelectedSeats]; // Update selectedSeats with the confirmed reservations
             this.tempSelectedSeats = []; // Clear the tempSelectedSeats array
-            alert(data.message);
+            
           } else {
             this.error = data.error;
           }
-          window.location.href = 'reserve.html';
         }
+        
       } catch (error) {
         alert('Please select a lab, date, and user (for admin) before confirming the reservation.');
       }
@@ -197,10 +198,12 @@ new Vue({
         } else {
           this.error = data.error;
         }
+        window.location.href = `reserve.html?lab=${encodeURIComponent(this.selectedLab)}&date=${encodeURIComponent(this.selectedDate)}&selectedSeat=${encodeURIComponent(this.selectedSeat)}`;
       } catch (error) {
         console.error(error);
         alert('Reservation reset not successful');
       }
+      
     },
     
     
@@ -237,6 +240,7 @@ new Vue({
       
           if (response.status === 200) {
             alert(data.message);
+            window.location.href = `reserve.html?lab=${encodeURIComponent(this.selectedLab)}&date=${encodeURIComponent(this.selectedDate)}&selectedSeat=${encodeURIComponent(seat)}`;
           } else {
             this.error = data.error;
           }

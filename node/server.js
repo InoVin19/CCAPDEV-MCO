@@ -91,7 +91,7 @@ const upload = multer({
       callback('Error: Images only!');
     }
   },
-}).single('profilePicture')
+});
   
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
@@ -332,9 +332,9 @@ app.post('/deleteUser', async (req, res) => {
   }
 });
 
-app.post('/uploadProfilePicture', upload, async (req, res) => {
+app.post('/uploadProfilePicture', upload.single('profilePicture'), async (req, res) => {
   const username = req.query.username;
-  
+
   try {
     // Find the user's profile in the database
     const profile = await Profiles.findOne({ username });
@@ -342,9 +342,14 @@ app.post('/uploadProfilePicture', upload, async (req, res) => {
       return res.status(404).json({ error: 'User not found.' });
     }
 
+    // The req.file object contains the file information
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image uploaded.' });
+    }
+
     // Update the user's profile picture with the new uploaded picture
     profile.picture = req.file.path; // Adjust this if needed based on your file path structure
-    
+
     await profile.save();
     return res.status(200).json({ message: 'Profile picture updated successfully.', picture: profile.picture });
 
